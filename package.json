@@ -15,6 +15,7 @@
     "@fontsource/geist": "^5.3.0",
     "@fontsource/geist-mono": "^5.3.0",
     "@gsap/react": "^2.1.2",
+    "@solar-icons/react": "^1.1.1",
     "gsap": "^3.15.0",
     "lucide-react": "^1.25.0",
     "next": "16.2.10",

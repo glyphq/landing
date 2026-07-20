@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Blocks, BookOpen, CandlestickChart, ChevronDown, Database, Download, Layers3, Search, Terminal, WalletCards, Waypoints, Wrench, type LucideIcon } from "lucide-react";
+import { Blocks, BookOpen, CandlestickChart, ChevronDown, Database, Layers3, Search, Terminal, WalletCards, Waypoints, Wrench, type LucideIcon } from "lucide-react";
+import { Download } from "@solar-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { products } from "@/content/products";

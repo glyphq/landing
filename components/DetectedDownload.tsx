@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { Download } from "lucide-react";
+import { Download } from "@solar-icons/react";
 
 type DownloadTarget = {
   platform: string;
