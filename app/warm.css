@@ -124,9 +124,9 @@ html{scroll-behavior:smooth}
 .mobile-menu nav{display:block}
 .mobile-menu-group{padding-block:1rem}
 .mobile-menu-group+.mobile-menu-group{border-top:1px solid var(--warm-line)}
-.mobile-menu-group>p{padding:.4rem .35rem .65rem;color:#777;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+.mobile-menu-group>p{padding:.4rem .35rem .65rem;color:var(--text-secondary);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
 .mobile-menu nav .mobile-menu-group>a{min-height:52px;padding:.75rem .35rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.mobile-menu nav .mobile-menu-group>a span{color:#777;font-size:.72rem;white-space:nowrap}
+.mobile-menu nav .mobile-menu-group>a span{color:var(--text-secondary);font-size:.72rem;white-space:nowrap}
 .mobile-menu nav .mobile-menu-featured{margin-bottom:.35rem;padding-inline:.8rem!important;border:0;border-radius:var(--radius-sm);background:var(--warm-surface-strong)}
 .menu-head>a,.menu-head>button{min-height:44px;display:flex;align-items:center}
 .menu-head>button{padding-inline:.75rem}
@@ -202,6 +202,7 @@ html{scroll-behavior:smooth}
 .architecture-stage li small{color:#999;font-size:.7rem}
 .architecture-stage .architecture-boundary{border:1px solid #303030;background:#080808}
 .architecture-connector{position:absolute;right:-14px;top:2rem;z-index:3;width:28px;height:28px;border:1px solid #333;border-radius:50%;background:#f4f4f4;color:#080808;display:grid;place-items:center;font-style:normal;font-size:.8rem}
+.architecture-connector svg,.approval-connector svg{width:14px;height:14px;stroke-width:2}
 .architecture figcaption,.approval-flow figcaption{color:var(--warm-muted);font-size:.82rem}
 
 /* Application intent to local user decision. */
@@ -238,3 +239,5 @@ html{scroll-behavior:smooth}
 }
 @media(max-width:340px){.architecture-stage ul{grid-template-columns:1fr}.architecture-stage li:last-child:nth-child(odd){grid-column:auto}}
 .footer-links h2,.footer-bottom{color:#8f8f8f}
+.menu-backdrop{position:fixed!important;inset:0!important;width:100dvw;height:100dvh;z-index:100;background:rgb(0 0 0/.72);overscroll-behavior:contain}
+.mobile-menu{height:100dvh;max-height:100dvh;position:relative;z-index:101;overscroll-behavior:contain}

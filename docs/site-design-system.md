@@ -26,11 +26,11 @@ GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short reso
 
 ## Navigation and visual masks
 
-The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations.
+The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations. Flow diagrams use the same icon language for directional connectors instead of typographic arrow characters.
 
 ## Responsive architecture
 
-The ecosystem overview uses a connected four-stage architecture sequence rather than a table. Each stage has one responsibility, a concise description, live product availability, and an explicit Qubic integration boundary. Desktop presents the stages as a continuous horizontal path, tablet uses a two-by-two sequence, and phones use a single ordered column. The application-to-approval diagram follows the same language as four numbered steps: application intent, Connect encoding, Wallet validation, and local user decision. The mobile navigation is grouped into Products and Organization sections, uses a sticky header, preserves 44px minimum targets, and remains independently scrollable.
+The ecosystem overview uses a connected four-stage architecture sequence rather than a table. Each stage has one responsibility, a concise description, live product availability, and an explicit Qubic integration boundary. Desktop presents the stages as a continuous horizontal path, tablet uses a two-by-two sequence, and phones use a single ordered column. The application-to-approval diagram follows the same language as four numbered steps: application intent, Connect encoding, Wallet validation, and local user decision. The mobile navigation is grouped into Products and Organization sections, preserves 44px minimum targets, and remains independently scrollable. Its dialog is rendered through a body-level fixed portal so the sticky header cannot clip it, while open-state scroll locking keeps the viewport stable.
 
 At small widths, page heroes use a reduced type ceiling, actions become full-width, section spacing contracts, flow diagrams become vertical, code remains horizontally scrollable, and major content modules use narrower internal padding without removing information.
 
@@ -40,4 +40,4 @@ The Download hero progressively detects Windows, macOS, or Linux and selects the
 
 ## Accessibility
 
-The system includes visible focus, a skip link, semantic landmarks, status text plus color, external-link announcements, keyboard-trapped mobile navigation, Escape close behavior, source-order-preserving responsive layouts, and textual figure captions.
+The system includes visible focus, a skip link, semantic landmarks, status text plus color, external-link announcements, keyboard-trapped mobile navigation, Escape close behavior, focus restoration to the menu trigger, source-order-preserving responsive layouts, and textual figure captions.
