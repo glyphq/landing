@@ -1,23 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Book2, Chart2, CodeSquare, Command, Database, Download, LinkRoundAngle, Magnifer, Programming, SettingsMinimalistic, Wallet2, Widget, type IconProps } from "@solar-icons/react";
-import type { ComponentType } from "react";
+import { Download, Widget } from "@solar-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { ProductIcon } from "@/components/products/ProductIcon";
 import { products } from "@/content/products";
-
-const productIcons: Record<string, ComponentType<IconProps>> = {
-  wallet: Wallet2,
-  connect: LinkRoundAngle,
-  explorer: Magnifer,
-  sdk: Programming,
-  cli: Command,
-  devkit: SettingsMinimalistic,
-  api: Database,
-  docs: Book2,
-  trade: Chart2,
-};
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -64,7 +52,7 @@ export function Header() {
   return <header ref={header} className="site-header"><div className="header-inner">
     <Link className="wordmark" href="/" aria-label="Glyph home"><span>glyph</span><b>.</b></Link>
     <nav className="desktop-nav" aria-label="Primary">
-      <div className="nav-dropdown"><button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} aria-controls="products-menu"><Widget aria-hidden="true" />Products</button>{productsOpen && <div id="products-menu" className="nav-popover"><Link className="nav-entry nav-entry-featured" href="/ecosystem" onClick={() => setProductsOpen(false)}><Widget className="nav-entry-icon" aria-hidden="true" /><span>Ecosystem overview</span><small>See how every Glyph product fits together</small></Link>{products.map((product) => { const Icon = productIcons[product.id] ?? CodeSquare; return <Link className="nav-entry" key={product.id} href={`/${product.id}`} onClick={() => setProductsOpen(false)}><Icon className="nav-entry-icon" aria-hidden="true" /><span>{product.name}</span><small>{product.status}</small></Link>; })}</div>}</div>
+      <div className="nav-dropdown"><button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} aria-controls="products-menu"><Widget aria-hidden="true" />Products</button>{productsOpen && <div id="products-menu" className="nav-popover"><Link className="nav-entry nav-entry-featured" href="/ecosystem" onClick={() => setProductsOpen(false)}><Widget className="nav-entry-icon" aria-hidden="true" /><span>Ecosystem overview</span><small>See how every Glyph product fits together</small></Link>{products.map((product) => <Link className="nav-entry" key={product.id} href={`/${product.id}`} onClick={() => setProductsOpen(false)}><ProductIcon productId={product.id} className="nav-entry-icon" aria-hidden="true" /><span>{product.name}</span><small>{product.status}</small></Link>)}</div>}</div>
       <Link href="/developers">Developers</Link><a href="https://docs.glyphq.org" target="_blank" rel="noreferrer">Docs<span className="sr-only"> (opens in a new tab)</span></a><Link href="/open-source">Open source</Link><Link href="/about">About</Link>
     </nav>
     <div className="header-actions"><a className="text-link desktop-only" href="https://github.com/glyphq" target="_blank" rel="noreferrer">GitHub<span className="sr-only"> (opens in a new tab)</span></a><Link className="button button-small desktop-only" href="/download"><Download aria-hidden="true" />Get Wallet</Link><button className="menu-button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="mobile-menu">Menu</button></div>

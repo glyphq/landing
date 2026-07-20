@@ -1,16 +1,5 @@
-import Link from "next/link";
-import { BranchingPathsUp, Code2, Download, Layers, Shield } from "@solar-icons/react";
-import { ConnectFlow, StackDiagram } from "@/components/Diagrams";
-import { IndependenceNotice, ProductRow } from "@/components/UI";
-import { products } from "@/content/products";
-export default function Home() { return <main id="main">
-  <section className="hero section-wide"><div className="hero-copy"><p className="kicker">Independent software built for Qubic.</p><h1>Build on Qubic without rebuilding the basics.</h1><p className="lead">Glyph creates dependable wallets, libraries, and infrastructure as one coherent system.</p><div className="actions"><Link className="button" href="/ecosystem"><Layers aria-hidden="true" />Explore the ecosystem</Link><Link className="button button-secondary" href="/developers"><Code2 aria-hidden="true" />Start building</Link><Link className="quiet-link quiet-link-icon" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></div></div></section>
-  <section className="statement section"><p>Mission</p><h2>Make Qubic easier to build on<br/>and safer to use.</h2></section>
-  <section className="section"><div className="section-heading"><h2>Available now</h2><p>Two current products establish the working path between Qubic applications and local user approval.</p></div><div className="current-products">{products.slice(0,2).map(Product => <article key={Product.id} className={`current-product accent-${Product.accent}`}><div><span>{Product.status}</span><h3>{Product.name}</h3><p>{Product.summary}</p></div><ul>{Product.capabilities.slice(0,3).map(x=><li key={x}>{x}</li>)}</ul><Link href={`/${Product.id}`}>Explore {Product.name}</Link></article>)}</div></section>
-  <section className="section section-dark"><div className="section-heading"><h2>One system. Clear boundaries.</h2><p>Products are organized by the role they play, not presented as an undifferentiated suite.</p></div><StackDiagram /></section>
-  <section className="section"><div className="section-heading"><h2>From application intent to user approval</h2><p>Connect creates a typed request. Wallet validates it, displays it, and returns an explicit result.</p></div><ConnectFlow /><div className="code-line"><code>bun add @glyph-oss/connect</code><a href="https://www.npmjs.com/package/@glyph-oss/connect" target="_blank" rel="noreferrer">Package<span className="sr-only"> (opens in a new tab)</span></a></div></section>
-  <section className="section split"><div><p className="kicker">Local control</p><h2>The signing boundary stays in the wallet.</h2></div><div><p>Vault data is encrypted before disk storage. Signing requests pass through the desktop application for review. Glyph Connect never receives private keys.</p><Link className="quiet-link quiet-link-icon" href="/security"><Shield aria-hidden="true" />Read the security model</Link></div></section>
-  <section className="section"><div className="section-heading"><h2>The planned system</h2><p>Future products are included to show direction. Their status is not hidden behind promotional language.</p></div><div className="product-list">{products.slice(2).map(p=><ProductRow key={p.id} product={p}/>)}</div></section>
-  <section className="section maintenance"><h2>Maintained in public,<br/>licensed product by product.</h2><div><p>Connect is open source under MIT. Wallet is source available. Planned products will publish a license when their implementation is released.</p><Link className="quiet-link quiet-link-icon" href="/open-source"><BranchingPathsUp aria-hidden="true" />Review repositories and licenses</Link></div></section>
-  <section className="section final-cta"><p>Clear interfaces. Local control. Predictable tools.</p><h2>Choose the path you need.</h2><div className="actions"><Link className="button" href="/developers"><Code2 aria-hidden="true" />Start building</Link><Link className="button button-secondary" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></div></section><IndependenceNotice />
-  </main> }
+import { HomePage } from "@/components/pages/HomePage";
+
+export default function Home() {
+  return <HomePage />;
+}

@@ -17,7 +17,7 @@ The homepage hero remains text-only, now centered with a broad two-line measure 
 
 ## Motion
 
-GSAP provides two restrained behaviors: section headings gain emphasis as they enter the reading zone, and architecture nodes resolve gently into place. Nothing is hidden before hydration. Reduced-motion mode skips all choreography.
+GSAP provides a route-aware reveal system for page content. Heroes use a short first-load sequence. Headings, statements, code surfaces, notices, and split sections resolve once as they enter the reading zone. Product lists, architecture stages, approval steps, prose modules, and download choices use small within-group staggers. Header and footer never participate. Markup stays fully visible before hydration, and reduced-motion mode skips all choreography.
 
 ## Warm system
 

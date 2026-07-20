@@ -22,7 +22,7 @@ The public site intentionally uses one monochrome OLED identity in both system p
 
 ## Motion
 
-GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Route changes are intentionally immediate and do not animate the page. Smooth scrolling is native CSS. Content remains visible by default, animations never block interaction, and reduced-motion mode disables spatial effects.
+GSAP ScrollTrigger runs a content-only, route-aware reveal system. Heroes receive a short first-load sequence. Section headings, statements, code surfaces, split sections, and notices resolve once at the reading threshold. Repeated product, prose, architecture, approval, and download items use restrained group staggers. The shell remains static, route changes do not add transition overlays, and native CSS provides smooth anchor scrolling. Content is visible before hydration, and reduced-motion mode leaves every element static.
 
 ## Navigation and visual masks
 

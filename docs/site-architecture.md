@@ -10,8 +10,11 @@ The Next.js App Router project is statically exported. Product and organization 
 
 ## Rendering model
 
-- `app/page.tsx` provides the organization homepage.
-- `app/[slug]/page.tsx` statically generates product, ecosystem, download, organizational, and legal routes.
+- `app/page.tsx` delegates the organization homepage to `components/pages/HomePage.tsx`.
+- `app/[slug]/page.tsx` is a typed route dispatcher. It statically generates routes and selects reusable page views without owning presentation markup.
+- `components/pages/` contains organization, ecosystem, download, and not-found page compositions.
+- `components/products/` owns the shared product-page framework and centralized product icon mapping.
+- `components/layout/` contains small page-level layout primitives such as heroes, section headings, and action groups.
 - `content/products.ts` is the product source of truth, including status and license fields.
 - `content/pages.ts` contains non-product page content.
 - `app/sitemap.ts` and `app/robots.ts` generate static crawler files.
@@ -19,5 +22,5 @@ The Next.js App Router project is statically exported. Product and organization 
 
 ## Component model
 
-Global shell components provide accessible navigation and disclosures. Shared UI components render status, licensing links, external-link semantics, product rows, diagrams, and independence notices. Product pages share one framework while Wallet and Connect receive current-product evidence sections.
+Global shell components provide accessible navigation and disclosures. Page routes delegate to typed compositions rather than duplicating markup. Shared layout primitives render heroes, section headings, and action groups. Product components own status, evidence, ecosystem-role, related-product, and product-icon behavior. Data attributes define motion intent without coupling content components to GSAP.
 
