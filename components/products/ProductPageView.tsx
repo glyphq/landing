@@ -63,8 +63,8 @@ function WalletProof({ product }: { product: Product }) {
         </div>
       </div>
       <div>
-        <h2>Desktop software, not a browser extension.</h2>
-        <p>Glyph Wallet runs as a Tauri desktop application. The official repository describes encrypted local vaults, native signing, replay protection, and a constrained renderer-to-Rust boundary.</p>
+        <h2>Vaults and signing stay on your device.</h2>
+        <p>Glyph Wallet encrypts vault data before storing it locally. Signing runs inside the native desktop application, with replay protection and a constrained boundary between the interface and its Rust core.</p>
         <ul className="check-list">{product.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul>
       </div>
     </section>
