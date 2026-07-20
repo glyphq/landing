@@ -28,6 +28,12 @@ GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short reso
 
 The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations.
 
+## Responsive architecture
+
+The ecosystem overview uses a data-driven four-layer diagram with layer responsibilities, product availability, directional connectors, and a separate Qubic integration boundary. It changes from a split layer layout on desktop to two-column product cells on phones, then one-column cells at 360px and below. The mobile navigation is grouped into Products and Organization sections, uses a sticky header, preserves 44px minimum targets, and remains independently scrollable.
+
+At small widths, page heroes use a reduced type ceiling, actions become full-width, section spacing contracts, flow diagrams become vertical, code remains horizontally scrollable, and major content modules use narrower internal padding without removing information.
+
 ## Download experience
 
 The Download hero progressively detects Windows, macOS, or Linux and selects the matching verified v0.14.3 asset. Manual platform cards remain visible. Their OS symbols are low-contrast SVG masks embedded into each surface rather than separate decorative icons.
