@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0d0d0d"/>
+  <text x="64" y="82" fill="#929292" font-family="monospace" font-size="20">GLYPH / QUBIC SOFTWARE</text>
+  <path d="M64 120H1136" stroke="#444"/>
+  <text x="64" y="280" fill="#f4f4f4" font-family="Arial,sans-serif" font-size="76" font-weight="600">Build on Qubic without</text>
+  <text x="64" y="370" fill="#f4f4f4" font-family="Arial,sans-serif" font-size="76" font-weight="600">rebuilding the basics.</text>
+  <text x="64" y="548" fill="#aaa" font-family="Arial,sans-serif" font-size="30">Independent software built for Qubic.</text>
+  <circle cx="1090" cy="540" r="11" fill="#9b2730"/>
+</svg>
