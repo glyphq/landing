@@ -22,7 +22,11 @@ Light mode uses a near-white neutral with a very small oxblood tint, warm charco
 
 ## Motion
 
-GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses the motion layer.
+GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Internal navigation uses three warm color panels to cover the outgoing route and reveal the incoming route. GSAP is loaded only when motion is needed, preserving initial performance. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses both systems.
+
+## Download experience
+
+The Download hero progressively detects Windows, macOS, or Linux and selects the matching verified v0.14.3 asset. Manual platform cards remain visible. Their OS symbols are low-contrast SVG masks embedded into each surface rather than separate decorative icons.
 
 ## Accessibility
 

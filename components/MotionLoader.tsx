@@ -10,10 +10,8 @@ export function MotionLoader() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const schedule = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 1200));
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout;
-    const id = schedule(() => setReady(true));
-    return () => cancel(id);
+    const id = window.setTimeout(() => setReady(true), 2400);
+    return () => window.clearTimeout(id);
   }, []);
 
   return ready ? <WarmMotion /> : null;
