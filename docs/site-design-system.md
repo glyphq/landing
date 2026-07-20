@@ -26,7 +26,7 @@ GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short reso
 
 ## Navigation and visual masks
 
-The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Documentation is exposed as a clearly external primary-navigation link to docs.glyphq.org. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations. Flow diagrams use the same icon language for directional connectors instead of typographic arrow characters. Primary and secondary CTA buttons use exactly one semantic Solar icon on the left with a consistent icon-label gap. Buttons do not use arrows as their action icon or add a second visible external-link glyph.
+The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Documentation is exposed as a clearly external primary-navigation link to docs.glyphq.org. Solar icons are the single icon system across navigation, diagrams, product masks, links, and calls to action. Primary and secondary CTA buttons use exactly one semantic icon on the left with a consistent icon-label gap. Interactive controls do not use directional arrows or visible external-link glyphs; external destinations retain screen-reader announcements.
 
 ## Responsive architecture
 
