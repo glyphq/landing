@@ -38,6 +38,8 @@ At small widths, page heroes use a reduced type ceiling, actions become full-wid
 
 The Download hero progressively detects Windows, macOS, or Linux and selects the matching verified v0.14.3 asset. Manual platform cards remain visible. Their OS symbols are low-contrast SVG masks embedded into each surface rather than separate decorative icons.
 
+The detected download action uses a three-second single-flight state. Activation replaces the download icon with a Solar loading indicator, announces that the verified download is starting, and blocks duplicate activation until the action resets. Reduced-motion mode keeps the loading icon static.
+
 ## Accessibility
 
 The system includes visible focus, a skip link, semantic landmarks, status text plus color, external-link announcements, keyboard-trapped mobile navigation, Escape close behavior, focus restoration to the menu trigger, source-order-preserving responsive layouts, and textual figure captions.

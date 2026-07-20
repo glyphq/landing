@@ -241,3 +241,7 @@ html{scroll-behavior:smooth}
 .footer-links h2,.footer-bottom{color:#8f8f8f}
 .menu-backdrop{position:fixed!important;inset:0!important;width:100dvw;height:100dvh;z-index:100;background:rgb(0 0 0/.72);overscroll-behavior:contain}
 .mobile-menu{height:100dvh;max-height:100dvh;position:relative;z-index:101;overscroll-behavior:contain}
+.detected-download-button[aria-disabled="true"]{cursor:wait;pointer-events:none;opacity:.72}
+.download-loader{animation:download-spin .8s linear infinite}
+@keyframes download-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.download-loader{animation:none}}

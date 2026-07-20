@@ -1,7 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-import { Download } from "@solar-icons/react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Download, RefreshCircle } from "@solar-icons/react";
 
 type DownloadTarget = {
   platform: string;
@@ -32,6 +32,10 @@ export function detectDownloadTarget(platformText: string): DownloadTarget {
 }
 
 export function DetectedDownload() {
+  const [isLoading, setIsLoading] = useState(false);
+  const loadingRef = useRef(false);
+  const startTimer = useRef<number | null>(null);
+  const resetTimer = useRef<number | null>(null);
   const platformText = useSyncExternalStore(
     () => () => undefined,
     () => `${navigator.platform} ${navigator.userAgent}`,
@@ -39,14 +43,47 @@ export function DetectedDownload() {
   );
   const target = detectDownloadTarget(platformText);
 
+  useEffect(() => () => {
+    if (startTimer.current !== null) window.clearTimeout(startTimer.current);
+    if (resetTimer.current !== null) window.clearTimeout(resetTimer.current);
+  }, []);
+
+  const startDownload = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (loadingRef.current) return;
+
+    loadingRef.current = true;
+    setIsLoading(true);
+
+    startTimer.current = window.setTimeout(() => {
+      const link = document.createElement("a");
+      link.href = target.href;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }, 120);
+
+    resetTimer.current = window.setTimeout(() => {
+      loadingRef.current = false;
+      setIsLoading(false);
+    }, 3000);
+  };
+
   return (
     <div className="detected-download">
-      <a className="button detected-download-button" href={target.href}>
-        <Download aria-hidden="true" />
-        <span>{target.label}</span>
+      <a
+        className="button detected-download-button"
+        href={target.href}
+        onClick={startDownload}
+        aria-disabled={isLoading}
+        aria-busy={isLoading}
+      >
+        {isLoading ? <RefreshCircle className="download-loader" aria-hidden="true" /> : <Download aria-hidden="true" />}
+        <span>{isLoading ? "Preparing download" : target.label}</span>
       </a>
       <span className="detected-download-detail" aria-live="polite">
-        {target.detail}
+        {isLoading ? "Your verified download is starting." : target.detail}
       </span>
     </div>
   );
