@@ -30,7 +30,7 @@ The desktop header combines the ecosystem overview and full product family in on
 
 ## Responsive architecture
 
-The ecosystem overview uses a data-driven four-layer diagram with layer responsibilities, product availability, directional connectors, and a separate Qubic integration boundary. It changes from a split layer layout on desktop to two-column product cells on phones, then one-column cells at 360px and below. The mobile navigation is grouped into Products and Organization sections, uses a sticky header, preserves 44px minimum targets, and remains independently scrollable.
+The ecosystem overview uses a connected four-stage architecture sequence rather than a table. Each stage has one responsibility, a concise description, live product availability, and an explicit Qubic integration boundary. Desktop presents the stages as a continuous horizontal path, tablet uses a two-by-two sequence, and phones use a single ordered column. The application-to-approval diagram follows the same language as four numbered steps: application intent, Connect encoding, Wallet validation, and local user decision. The mobile navigation is grouped into Products and Organization sections, uses a sticky header, preserves 44px minimum targets, and remains independently scrollable.
 
 At small widths, page heroes use a reduced type ceiling, actions become full-width, section spacing contracts, flow diagrams become vertical, code remains horizontally scrollable, and major content modules use narrower internal padding without removing information.
 
