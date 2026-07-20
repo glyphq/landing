@@ -48,20 +48,7 @@ function ProductActions({ product }: { product: Product }) {
 
 function WalletProof({ product }: { product: Product }) {
   return (
-    <section className="section wallet-proof" data-reveal="split">
-      <div className="wallet-window" role="img" aria-label="Abstracted composition showing the portrait proportions and navigation structure of the Glyph Wallet desktop application">
-        <div className="wallet-chrome"><span /><span /><span /></div>
-        <div className="wallet-ui">
-          <aside>G.<i /><i /><i /><i /></aside>
-          <div>
-            <small>PRIMARY VAULT</small>
-            <h3>Local control</h3>
-            <p>Review every request before signing.</p>
-            <div className="wallet-actions"><span>Send</span><span>Receive</span><span>Stake</span></div>
-            <div className="wallet-rows"><span /><span /><span /></div>
-          </div>
-        </div>
-      </div>
+    <section className="section wallet-proof" data-reveal="fade-up">
       <div>
         <h2>Vaults and signing stay on your device.</h2>
         <p>Glyph Wallet encrypts vault data before storing it locally. Signing runs inside the native desktop application, with replay protection and a constrained boundary between the interface and its Rust core.</p>
