@@ -2,7 +2,7 @@
 
 ## Tokens
 
-`app/globals.css` defines semantic OKLCH tokens for canvas, three surfaces, primary/secondary/tertiary text, borders, focus, semantic status colors, nine product accents, spacing, layout width, gutters, header height, and motion easing.
+`app/globals.css` defines the base semantic system. `app/warm.css` applies the production Glyph palette: true OLED black, three neutral near-black surfaces, white-to-gray text hierarchy, monochrome product tones, spacing, layout widths, radii, and motion easing.
 
 ## Typography
 
@@ -10,7 +10,7 @@ Geist and Geist Mono are installed packages and bundled locally. Display type is
 
 ## Themes
 
-Light mode uses a near-white neutral with a very small oxblood tint, warm charcoal text, and softly differentiated surfaces. Dark mode uses warm near-black and chocolate neutrals rather than pure black. `prefers-color-scheme` selects the default without a client-side flash.
+The public site intentionally uses one monochrome OLED identity in both system preference modes. True black provides the canvas, neutral near-black surfaces establish depth, and white plus calibrated grays carry hierarchy. This avoids a theme flash and keeps the Glyph identity consistent across screenshots, documentation, and product pages.
 
 ## Surfaces and shape
 
@@ -22,7 +22,11 @@ Light mode uses a near-white neutral with a very small oxblood tint, warm charco
 
 ## Motion
 
-GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Internal navigation uses three warm color panels to cover the outgoing route and reveal the incoming route. GSAP is loaded only when motion is needed, preserving initial performance. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses both systems.
+GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Internal navigation fades and lightly blurs only the main content while the header and footer remain stable. Smooth scrolling is native CSS. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses every transition.
+
+## Navigation and visual masks
+
+The desktop header provides separate Products and Ecosystem disclosure menus. Both are button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations.
 
 ## Download experience
 

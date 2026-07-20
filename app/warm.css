@@ -19,3 +19,86 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 
 .downloads a{position:relative;isolation:isolate;overflow:hidden}.downloads a>*{position:relative;z-index:1}.downloads a:after{content:"";position:absolute;right:-6%;bottom:-13%;width:58%;aspect-ratio:1;background:var(--warm-ink);opacity:.055;mask-repeat:no-repeat;mask-position:center;mask-size:contain;transition:opacity 180ms,transform 280ms var(--ease)}.downloads a:hover:after{background:white;opacity:.13;transform:scale(1.04) rotate(-3deg)}.download-windows:after{mask-image:url('/icons/windows.svg')}.download-macos:after{mask-image:url('/icons/apple.svg')}.download-linux:after{mask-image:url('/icons/linux.svg')}
 .page-transition{position:fixed;inset:0;z-index:90;pointer-events:none;overflow:hidden}.page-transition span{position:absolute;inset:-12%;transform:translateX(-112%);border-radius:0 52% 52% 0}.page-transition span:nth-child(1){background:var(--product-connect)}.page-transition span:nth-child(2){background:var(--warm-accent-soft);inset:-8%}.page-transition span:nth-child(3){background:var(--warm-accent);inset:-4%}@media(prefers-reduced-motion:reduce){.page-transition{display:none}}
+
+/* Glyph monochrome OLED palette. Contrast and tone replace product color. */
+:root{
+  color-scheme:dark;
+  --canvas:#000;
+  --surface-1:#070707;
+  --surface-2:#0e0e0e;
+  --surface-3:#181818;
+  --text-primary:#f7f7f7;
+  --text-secondary:#b9b9b9;
+  --text-tertiary:#8c8c8c;
+  --text-inverse:#050505;
+  --border-subtle:#171717;
+  --border-default:#343434;
+  --border-strong:#f2f2f2;
+  --focus:#fff;
+  --information:#d7d7d7;
+  --product-wallet:#fff;
+  --product-connect:#e8e8e8;
+  --product-explorer:#d8d8d8;
+  --product-sdk:#c8c8c8;
+  --product-cli:#ededed;
+  --product-devkit:#bdbdbd;
+  --product-api:#dedede;
+  --product-docs:#f4f4f4;
+  --product-trade:#b3b3b3;
+  --warm-canvas:#000;
+  --warm-surface:#070707;
+  --warm-surface-strong:#121212;
+  --warm-ink:#f7f7f7;
+  --warm-muted:#adadad;
+  --warm-line:#252525;
+  --warm-accent:#fff;
+  --warm-accent-soft:#161616;
+  --warm-chocolate:#030303;
+  --warm-shadow:0 12px 32px rgb(0 0 0/.42);
+}
+@media(prefers-color-scheme:light){:root{color-scheme:dark}}
+
+.button{background:var(--warm-accent);color:#050505}
+.button:hover{background:#fafafa;color:#050505}
+.button-secondary{background:var(--warm-surface-strong);color:var(--warm-ink)}
+.button-secondary:hover{background:#162525;color:var(--warm-ink)}
+.statement{background:var(--warm-accent-soft)}
+.current-product.accent-wallet{background:#0b0b0b;color:var(--warm-ink)}
+.current-product.accent-wallet p,.current-product.accent-wallet li{color:var(--warm-muted);border-color:var(--warm-line)}
+.current-product.accent-wallet li:before{color:var(--warm-accent)}
+.current-product.accent-connect{background:color-mix(in oklch,var(--product-connect) 8%,var(--warm-surface))}
+.section-dark .section-heading{border-color:var(--warm-line)}
+.stack-diagram>div{background:#111}
+.stack-diagram b{color:#999}
+.stack-diagram span{color:var(--warm-ink)!important}
+.final-cta{background:var(--warm-accent);color:#050505}
+.final-cta>p{color:#333}
+.final-cta .button{background:#050505;color:var(--warm-accent)}
+.final-cta .button:hover{background:#151515;color:var(--warm-accent)}
+.final-cta .button-secondary{background:color-mix(in oklch,#050505 9%,transparent);color:#050505}
+.footer-links a{color:#aaa}
+.downloads a:hover{background:#141414;color:var(--warm-ink)}
+.downloads a:hover:after{background:var(--warm-accent)}
+.page-transition{inset:0;background:color-mix(in oklch,var(--warm-accent) 16%,#000);opacity:0;transform:scaleY(.985);transform-origin:center;transition:opacity 220ms var(--ease),transform 220ms var(--ease)}
+.page-transition.is-visible{opacity:1;transform:scaleY(1)}
+body{font-family:"Geist",sans-serif}
+code,kbd,samp,pre,.code-block,.code-line{font-family:"Geist Mono",monospace}
+@media(prefers-reduced-motion:reduce){.page-transition{display:none}}
+
+html{scroll-behavior:smooth}
+.nav-dropdown{position:relative}
+.nav-dropdown>button{min-height:44px;color:var(--warm-muted);background:transparent;font:inherit;cursor:pointer;display:flex;align-items:center;gap:.4rem}
+.nav-dropdown>button:hover,.nav-dropdown>button[aria-expanded="true"]{color:var(--warm-ink)}
+.nav-dropdown>button svg{width:14px;height:14px;transition:transform 160ms var(--ease)}
+.nav-dropdown>button[aria-expanded="true"] svg{transform:rotate(180deg)}
+.nav-popover{position:absolute;top:calc(100% + .75rem);left:-1.25rem;width:min(440px,calc(100vw - 2rem));padding:.75rem;border:1px solid var(--warm-line);border-radius:var(--radius-lg);background:#080808;box-shadow:0 24px 70px rgb(0 0 0/.5);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem}
+.nav-popover a{display:flex;flex-direction:column;gap:.15rem;padding:.8rem;border-radius:var(--radius-sm);color:var(--warm-ink)}
+.nav-popover a:hover,.nav-popover a:focus-visible{background:var(--warm-surface-strong)}
+.nav-popover small{color:var(--warm-muted);font-size:.76rem}
+.product-row{position:relative;overflow:hidden;isolation:isolate}
+.product-row>*:not(.product-mask){position:relative;z-index:1}
+.product-mask{position:absolute;right:-1rem;bottom:-1.25rem;width:8.5rem;height:8.5rem;opacity:.055;stroke-width:.7;z-index:0;pointer-events:none;transform:rotate(-7deg)}
+main{transition:opacity 180ms var(--ease),transform 220ms var(--ease),filter 220ms var(--ease)}
+main.route-leaving{opacity:.12;transform:translateY(8px);filter:blur(3px)}
+main.route-entering{opacity:0;transform:translateY(-6px)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}main{transition:none}.product-mask{transform:none}.nav-dropdown>button svg{transition:none}}
