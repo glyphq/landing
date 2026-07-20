@@ -10,11 +10,19 @@ Geist and Geist Mono are installed packages and bundled locally. Display type is
 
 ## Themes
 
-Light uses pure white and neutral grays. Dark uses true neutral near-black surfaces. `prefers-color-scheme` selects the default without client-side theme flash.
+Light mode uses a near-white neutral with a very small oxblood tint, warm charcoal text, and softly differentiated surfaces. Dark mode uses warm near-black and chocolate neutrals rather than pure black. `prefers-color-scheme` selects the default without a client-side flash.
+
+## Surfaces and shape
+
+- Controls: 8px radius
+- Content modules and diagrams: 12px radius
+- Major chapters and product compositions: 16px radius
+- Shadows: reserved for the Wallet application frame
+- Borders: used inside technical data only, not as the primary layout language
 
 ## Motion
 
-The site uses restrained hover transitions and static system diagrams. Hover motion is limited to 2px translation or subtle inset changes. `prefers-reduced-motion` collapses durations and preserves every diagram statically.
+GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses the motion layer.
 
 ## Accessibility
 
