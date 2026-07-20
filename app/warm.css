@@ -18,7 +18,6 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 .detected-download{display:flex;align-items:center;gap:1rem;margin-top:2.25rem;flex-wrap:wrap}.detected-download-button{min-width:250px;justify-content:space-between;gap:2rem}.detected-download-detail{color:var(--warm-muted);font-size:.88rem}.download-hero .lead{max-width:650px}@media(max-width:560px){.detected-download{align-items:stretch;flex-direction:column}.detected-download-button{width:100%;min-width:0}.detected-download-detail{padding-left:.15rem}}
 
 .downloads a{position:relative;isolation:isolate;overflow:hidden}.downloads a>*{position:relative;z-index:1}.downloads a:after{content:"";position:absolute;right:-6%;bottom:-13%;width:58%;aspect-ratio:1;background:var(--warm-ink);opacity:.055;mask-repeat:no-repeat;mask-position:center;mask-size:contain;transition:opacity 180ms,transform 280ms var(--ease)}.downloads a:hover:after{background:white;opacity:.13;transform:scale(1.04) rotate(-3deg)}.download-windows:after{mask-image:url('/icons/windows.svg')}.download-macos:after{mask-image:url('/icons/apple.svg')}.download-linux:after{mask-image:url('/icons/linux.svg')}
-.page-transition{position:fixed;inset:0;z-index:90;pointer-events:none;overflow:hidden}.page-transition span{position:absolute;inset:-12%;transform:translateX(-112%);border-radius:0 52% 52% 0}.page-transition span:nth-child(1){background:var(--product-connect)}.page-transition span:nth-child(2){background:var(--warm-accent-soft);inset:-8%}.page-transition span:nth-child(3){background:var(--warm-accent);inset:-4%}@media(prefers-reduced-motion:reduce){.page-transition{display:none}}
 
 /* Glyph monochrome OLED palette. Contrast and tone replace product color. */
 :root{
@@ -79,26 +78,25 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 .footer-links a{color:#aaa}
 .downloads a:hover{background:#141414;color:var(--warm-ink)}
 .downloads a:hover:after{background:var(--warm-accent)}
-.page-transition{inset:0;background:color-mix(in oklch,var(--warm-accent) 16%,#000);opacity:0;transform:scaleY(.985);transform-origin:center;transition:opacity 220ms var(--ease),transform 220ms var(--ease)}
-.page-transition.is-visible{opacity:1;transform:scaleY(1)}
 body{font-family:"Geist",sans-serif}
 code,kbd,samp,pre,.code-block,.code-line{font-family:"Geist Mono",monospace}
-@media(prefers-reduced-motion:reduce){.page-transition{display:none}}
 
 html{scroll-behavior:smooth}
+.desktop-nav{align-items:center}
+.desktop-nav>a,.nav-dropdown{display:flex;align-items:center;min-height:44px}
+.desktop-nav>a{padding-block:.5rem}
 .nav-dropdown{position:relative}
 .nav-dropdown>button{min-height:44px;color:var(--warm-muted);background:transparent;font:inherit;cursor:pointer;display:flex;align-items:center;gap:.4rem}
 .nav-dropdown>button:hover,.nav-dropdown>button[aria-expanded="true"]{color:var(--warm-ink)}
 .nav-dropdown>button svg{width:14px;height:14px;transition:transform 160ms var(--ease)}
 .nav-dropdown>button[aria-expanded="true"] svg{transform:rotate(180deg)}
 .nav-popover{position:absolute;top:calc(100% + .75rem);left:-1.25rem;width:min(440px,calc(100vw - 2rem));padding:.75rem;border:1px solid var(--warm-line);border-radius:var(--radius-lg);background:#080808;box-shadow:0 24px 70px rgb(0 0 0/.5);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem}
-.nav-popover a{display:flex;flex-direction:column;gap:.15rem;padding:.8rem;border-radius:var(--radius-sm);color:var(--warm-ink)}
+.nav-popover a{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:.15rem;min-height:76px;padding:.8rem 3.4rem .8rem .8rem;border-radius:var(--radius-sm);color:var(--warm-ink)}
 .nav-popover a:hover,.nav-popover a:focus-visible{background:var(--warm-surface-strong)}
 .nav-popover small{color:var(--warm-muted);font-size:.76rem}
+.nav-entry-featured{grid-column:1/-1}
+.nav-entry-icon{position:absolute;right:.6rem;bottom:-.55rem;width:3.8rem;height:3.8rem;opacity:.09;stroke-width:.8;z-index:-1;transform:rotate(-8deg);pointer-events:none}
 .product-row{position:relative;overflow:hidden;isolation:isolate}
 .product-row>*:not(.product-mask){position:relative;z-index:1}
 .product-mask{position:absolute;right:-1rem;bottom:-1.25rem;width:8.5rem;height:8.5rem;opacity:.055;stroke-width:.7;z-index:0;pointer-events:none;transform:rotate(-7deg)}
-main{transition:opacity 180ms var(--ease),transform 220ms var(--ease),filter 220ms var(--ease)}
-main.route-leaving{opacity:.12;transform:translateY(8px);filter:blur(3px)}
-main.route-entering{opacity:0;transform:translateY(-6px)}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}main{transition:none}.product-mask{transform:none}.nav-dropdown>button svg{transition:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.product-mask,.nav-entry-icon{transform:none}.nav-dropdown>button svg{transition:none}}

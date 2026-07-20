@@ -22,11 +22,11 @@ The public site intentionally uses one monochrome OLED identity in both system p
 
 ## Motion
 
-GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Internal navigation fades and lightly blurs only the main content while the header and footer remain stable. Smooth scrolling is native CSS. Content remains visible by default, animations never block interaction, and reduced-motion mode bypasses every transition.
+GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short resolving motion to architecture nodes. Route changes are intentionally immediate and do not animate the page. Smooth scrolling is native CSS. Content remains visible by default, animations never block interaction, and reduced-motion mode disables spatial effects.
 
 ## Navigation and visual masks
 
-The desktop header provides separate Products and Ecosystem disclosure menus. Both are button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations.
+The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations.
 
 ## Download experience
 
