@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { Download } from "lucide-react";
 
 type DownloadTarget = {
   platform: string;
@@ -41,8 +42,8 @@ export function DetectedDownload() {
   return (
     <div className="detected-download">
       <a className="button detected-download-button" href={target.href}>
+        <Download aria-hidden="true" />
         <span>{target.label}</span>
-        <span aria-hidden="true">↓</span>
       </a>
       <span className="detected-download-detail" aria-live="polite">
         {target.detail}

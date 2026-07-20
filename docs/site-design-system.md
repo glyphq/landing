@@ -26,7 +26,7 @@ GSAP ScrollTrigger adds a scrubbed emphasis to section headings and a short reso
 
 ## Navigation and visual masks
 
-The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations. Flow diagrams use the same icon language for directional connectors instead of typographic arrow characters.
+The desktop header combines the ecosystem overview and full product family in one Products disclosure menu. It is button-operated, keyboard reachable, Escape-dismissible, and mirrored as direct links in the focus-trapped mobile menu. Documentation is exposed as a clearly external primary-navigation link to docs.glyphq.org. Dropdown entries and selected product cards use low-opacity Lucide SVG line icons as structural watermarks rather than colorful illustrations. Flow diagrams use the same icon language for directional connectors instead of typographic arrow characters. Primary and secondary CTA buttons use compact leading icons to clarify their action without animating or changing button geometry.
 
 ## Responsive architecture
 
