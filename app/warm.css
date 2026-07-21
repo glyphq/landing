@@ -187,7 +187,11 @@ html{scroll-behavior:smooth}
 .architecture-header>h2{font-size:clamp(2.2rem,4vw,4rem);line-height:.98;letter-spacing:-.04em}
 .architecture-header>span{grid-column:2;max-width:600px;color:var(--warm-muted)}
 .architecture-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;padding:1px;border-radius:var(--radius-lg);background:#2a2a2a;overflow:visible}
-.architecture-stage{position:relative;display:flex;min-height:390px;flex-direction:column;padding:1.5rem;background:#0d0d0d}
+.architecture-stage{position:relative;isolation:isolate;display:flex;min-height:390px;flex-direction:column;padding:1.5rem;background:#0d0d0d}
+.architecture-stage:nth-child(1){z-index:4}
+.architecture-stage:nth-child(2){z-index:3}
+.architecture-stage:nth-child(3){z-index:2}
+.architecture-stage:nth-child(4){z-index:1}
 .architecture-stage:first-child{border-radius:calc(var(--radius-lg) - 1px) 0 0 calc(var(--radius-lg) - 1px)}
 .architecture-stage:last-child{border-radius:0 calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0}
 .architecture-stage-top{display:flex;align-items:center;justify-content:space-between;color:#999;font-family:"Geist Mono",monospace;font-size:.76rem}
@@ -207,7 +211,11 @@ html{scroll-behavior:smooth}
 /* Application intent to local user decision. */
 .approval-flow{display:grid;gap:1.25rem}
 .approval-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;border-radius:var(--radius-lg);background:var(--warm-line);overflow:visible}
-.approval-step{position:relative;display:flex;min-height:310px;flex-direction:column;justify-content:space-between;padding:1.5rem;background:var(--warm-surface)}
+.approval-step{position:relative;isolation:isolate;display:flex;min-height:310px;flex-direction:column;justify-content:space-between;padding:1.5rem;background:var(--warm-surface)}
+.approval-step:nth-child(1){z-index:4}
+.approval-step:nth-child(2){z-index:3}
+.approval-step:nth-child(3){z-index:2}
+.approval-step:nth-child(4){z-index:1}
 .approval-step:first-child{border-radius:var(--radius-lg) 0 0 var(--radius-lg)}
 .approval-step:last-child{border-radius:0 var(--radius-lg) var(--radius-lg) 0}
 .approval-step-top{display:flex;align-items:center;justify-content:space-between;color:#999;font-family:"Geist Mono",monospace;font-size:.76rem}
