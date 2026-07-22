@@ -21,6 +21,7 @@
     "@qubic.org/types": "1.0.0",
     "@solar-icons/react": "^1.1.1",
     "@walletconnect/sign-client": "^2.23.10",
+    "boring-avatars": "^2.0.4",
     "gsap": "^3.15.0",
     "next": "16.2.10",
     "qrcode.react": "^4.2.0",

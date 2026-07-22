@@ -7,6 +7,7 @@ import { getSupporters, supportConfig } from "@/content/supporters";
 
 export async function SupportPage() {
   const supporters = await getSupporters();
+  const previewing = supporters.some((supporter) => supporter.preview);
   return (
     <main id="main" className="support-page">
       <PageHero className="support-hero">
@@ -19,7 +20,7 @@ export async function SupportPage() {
         </ActionGroup>
       </PageHero>
 
-      <div id="transfer"><SupportTransfer identity={supportConfig.identity} presets={supportConfig.presets} /></div>
+      <div id="transfer"><SupportTransfer identity={supportConfig.identity} /></div>
 
       <section className="section support-principles">
         <SectionHeading title="Support with clear boundaries.">
@@ -32,7 +33,7 @@ export async function SupportPage() {
         </div>
       </section>
 
-      <div id="supporters"><SupporterField supporters={supporters} /></div>
+      <div id="supporters">{previewing && <p className="support-preview-notice">Visualization preview · sample nodes are marked and are not real transfers.</p>}<SupporterField supporters={supporters} /></div>
 
       <section className="section split support-transparency" data-reveal="split">
         <div><p className="kicker">Recognition</p><h2>Public only when a supporter asks.</h2></div>

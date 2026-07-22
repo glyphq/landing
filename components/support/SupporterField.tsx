@@ -1,17 +1,31 @@
+import type { CSSProperties } from "react";
 import type { Supporter } from "@/content/supporters";
+import { IdentityAvatar } from "@/components/support/IdentityAvatar";
 
-const positions = [
-  [16, 31], [28, 17], [47, 12], [68, 18], [84, 34], [87, 58],
-  [73, 78], [51, 86], [29, 79], [13, 61], [34, 42], [67, 44],
-];
-
-const nodeSize = { supporter: 10, builder: 14, sustainer: 18 } as const;
+const amountFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 function shortIdentity(identity: string) {
   return `${identity.slice(0, 8)}…${identity.slice(-8)}`;
 }
 
+function amountLabel(amount: string) {
+  return `${amountFormatter.format(BigInt(amount))} QUBIC`;
+}
+
 export function SupporterField({ supporters }: { supporters: Supporter[] }) {
+  const previewing = supporters.some((supporter) => supporter.preview);
+  const onChainCount = supporters.filter((supporter) => !supporter.preview).length;
+  const sortedSupporters = [...supporters].sort((a, b) => {
+    const left = BigInt(a.amount);
+    const right = BigInt(b.amount);
+    return right > left ? 1 : right < left ? -1 : a.identity.localeCompare(b.identity);
+  });
+  const largestAmount = sortedSupporters.reduce((largest, supporter) => {
+    const amount = BigInt(supporter.amount);
+    return amount > largest ? amount : largest;
+  }, BigInt(1));
+  const listedSupporters = previewing ? supporters.filter((supporter) => !supporter.preview) : supporters;
+
   return (
     <section className="supporter-section section-dark" aria-labelledby="supporters-title">
       <div className="supporter-heading">
@@ -19,48 +33,41 @@ export function SupporterField({ supporters }: { supporters: Supporter[] }) {
           <p className="kicker">Public recognition</p>
           <h2 id="supporters-title">The people keeping the work moving.</h2>
         </div>
-        <p>Confirmed incoming transfers are grouped by source identity. Names remain anonymous unless a supporter opts in.</p>
+        <p>Each square represents one source identity. Its footprint reflects the total QUBIC received from that identity.</p>
       </div>
 
-      <div className="supporter-field" data-reveal="diagram">
-        <div className="supporter-orbit supporter-orbit-outer" aria-hidden="true" />
-        <div className="supporter-orbit supporter-orbit-inner" aria-hidden="true" />
-        <div className="supporter-core" aria-hidden="true"><span>glyph</span><b>.</b><small>supported in public</small></div>
-        {positions.map(([left, top], index) => {
-          const supporter = supporters[index];
-          if (!supporter) return <i key={`${left}-${top}`} className="supporter-node supporter-node-open" style={{ left: `${left}%`, top: `${top}%` }} aria-hidden="true" />;
-          const contents = (
-            <span><strong>{supporter.name}</strong><small>{shortIdentity(supporter.identity)} · since {supporter.since}</small></span>
-          );
-          const style = { left: `${left}%`, top: `${top}%`, width: nodeSize[supporter.amountBand], height: nodeSize[supporter.amountBand] };
-          const label = `${supporter.name}, ${supporter.amountBand} tier since ${supporter.since}, identity ${supporter.identity}`;
-
-          return supporter.url ? (
-            <a
-              key={`${supporter.name}-${supporter.since}`}
-              className={`supporter-node supporter-node-${supporter.amountBand}`}
-              style={style}
-              href={supporter.url}
-              aria-label={label}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {contents}
-            </a>
-          ) : (
-            <button key={`${supporter.name}-${supporter.since}`} className={`supporter-node supporter-node-${supporter.amountBand}`} style={style} type="button" aria-label={label}>
-              {contents}
-            </button>
-          );
-        })}
-        <div className="supporter-count"><strong>{supporters.length}</strong><span>on-chain supporter{supporters.length === 1 ? "" : "s"}</span></div>
+      <div className="supporter-volume-head">
+        <div><strong>{previewing ? supporters.length : onChainCount}</strong><span>{previewing ? "identities in preview" : `on-chain supporter${onChainCount === 1 ? "" : "s"}`}</span></div>
+        <p>Square area is proportional to QUBIC received.</p>
       </div>
 
-      {supporters.length === 0 ? (
+      {sortedSupporters.length === 0 ? (
         <p className="supporter-empty">No confirmed incoming support transfers were found in the indexed Qubic archive.</p>
       ) : (
+        <div className="supporter-volume-grid" data-reveal="diagram">
+          {sortedSupporters.map((supporter) => {
+            const areaRatio = Number((BigInt(supporter.amount) * BigInt(1_000_000)) / largestAmount) / 1_000_000;
+            const tileSpan = Math.max(1, Math.round(Math.sqrt(areaRatio) * 12));
+            const tileStyle = { "--tile-span": tileSpan } as CSSProperties;
+            const contents = <span className="supporter-tooltip"><strong>{supporter.preview ? "Preview identity" : supporter.name}</strong><em>{amountLabel(supporter.amount)}</em><small>{shortIdentity(supporter.identity)}</small></span>;
+            const label = `${supporter.preview ? "Preview identity" : supporter.name}, ${amountLabel(supporter.amount)}, identity ${supporter.identity}`;
+            const className = `supporter-volume-tile${supporter.preview ? " supporter-volume-preview" : ""}`;
+            return supporter.url ? (
+              <a className={className} style={tileStyle} href={supporter.url} aria-label={label} target="_blank" rel="noreferrer" key={supporter.identity}>
+                <IdentityAvatar identity={supporter.identity} size={256} square />{contents}
+              </a>
+            ) : (
+              <button className={className} style={tileStyle} type="button" aria-label={label} key={supporter.identity}>
+                <IdentityAvatar identity={supporter.identity} size={256} square />{contents}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {listedSupporters.length > 0 && (
         <ul className="supporter-list">
-          {supporters.map((supporter) => <li key={supporter.identity}><strong>{supporter.name}</strong><span>{shortIdentity(supporter.identity)} · since {supporter.since}</span></li>)}
+          {listedSupporters.map((supporter) => <li key={supporter.identity}><div><IdentityAvatar identity={supporter.identity} size={32} /><strong>{supporter.name}</strong></div><span>{amountLabel(supporter.amount)} · {shortIdentity(supporter.identity)} · since {supporter.since}</span></li>)}
         </ul>
       )}
     </section>

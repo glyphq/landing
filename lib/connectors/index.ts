@@ -6,6 +6,7 @@ import {
 import { glyphConnector } from "./glyph";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? "95b68d7bcc2f7307785f3869d0ec4733";
+const appOrigin = process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || "https://glyphq.org";
 
 const walletConnectConnector = createWalletConnectConnector({
   createClient: async () => {
@@ -15,11 +16,12 @@ const walletConnectConnector = createWalletConnectConnector({
     const { default: SignClient } = await import("@walletconnect/sign-client");
     return SignClient.init({
       projectId: walletConnectProjectId,
+      telemetryEnabled: false,
       metadata: {
         name: "Glyph Support",
         description: "Support independent software built for Qubic.",
-        url: process.env.NEXT_PUBLIC_APP_ORIGIN ?? "https://glyphq.org",
-        icons: ["https://glyphq.org/favicon.ico"],
+        url: appOrigin,
+        icons: [`${appOrigin}/favicon/icon.png`],
       },
     });
   },
