@@ -7,6 +7,10 @@ const positions = [
 
 const nodeSize = { supporter: 10, builder: 14, sustainer: 18 } as const;
 
+function shortIdentity(identity: string) {
+  return `${identity.slice(0, 8)}…${identity.slice(-8)}`;
+}
+
 export function SupporterField({ supporters }: { supporters: Supporter[] }) {
   return (
     <section className="supporter-section section-dark" aria-labelledby="supporters-title">
@@ -15,7 +19,7 @@ export function SupporterField({ supporters }: { supporters: Supporter[] }) {
           <p className="kicker">Public recognition</p>
           <h2 id="supporters-title">The people keeping the work moving.</h2>
         </div>
-        <p>Recognition is optional and records broad support bands, never exact transfer amounts.</p>
+        <p>Confirmed incoming transfers are grouped by source identity. Names remain anonymous unless a supporter opts in.</p>
       </div>
 
       <div className="supporter-field" data-reveal="diagram">
@@ -26,10 +30,10 @@ export function SupporterField({ supporters }: { supporters: Supporter[] }) {
           const supporter = supporters[index];
           if (!supporter) return <i key={`${left}-${top}`} className="supporter-node supporter-node-open" style={{ left: `${left}%`, top: `${top}%` }} aria-hidden="true" />;
           const contents = (
-            <span><strong>{supporter.name}</strong><small>{supporter.amountBand} · since {supporter.since}</small></span>
+            <span><strong>{supporter.name}</strong><small>{shortIdentity(supporter.identity)} · since {supporter.since}</small></span>
           );
           const style = { left: `${left}%`, top: `${top}%`, width: nodeSize[supporter.amountBand], height: nodeSize[supporter.amountBand] };
-          const label = `${supporter.name}, ${supporter.amountBand} supporter since ${supporter.since}`;
+          const label = `${supporter.name}, ${supporter.amountBand} tier since ${supporter.since}, identity ${supporter.identity}`;
 
           return supporter.url ? (
             <a
@@ -49,14 +53,14 @@ export function SupporterField({ supporters }: { supporters: Supporter[] }) {
             </button>
           );
         })}
-        <div className="supporter-count"><strong>{supporters.length}</strong><span>recognized supporter{supporters.length === 1 ? "" : "s"}</span></div>
+        <div className="supporter-count"><strong>{supporters.length}</strong><span>on-chain supporter{supporters.length === 1 ? "" : "s"}</span></div>
       </div>
 
       {supporters.length === 0 ? (
-        <p className="supporter-empty">The recognition field is ready for the first verified, opt-in supporter.</p>
+        <p className="supporter-empty">No confirmed incoming support transfers were found in the indexed Qubic archive.</p>
       ) : (
         <ul className="supporter-list">
-          {supporters.map((supporter) => <li key={`${supporter.name}-${supporter.since}`}><strong>{supporter.name}</strong><span>{supporter.amountBand} · since {supporter.since}</span></li>)}
+          {supporters.map((supporter) => <li key={supporter.identity}><strong>{supporter.name}</strong><span>{shortIdentity(supporter.identity)} · since {supporter.since}</span></li>)}
         </ul>
       )}
     </section>

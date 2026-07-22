@@ -127,6 +127,19 @@ bun run build
 
 The published Qubic support identity and opt-in supporter records are maintained in `content/supporters.ts`. Any identity change must be independently verified before deployment.
 
+### Wallet connectors
+
+The support flow offers Glyph Wallet, an injected Qubic browser extension, and WalletConnect. Copy `.env.example` to `.env.local` and add a public WalletConnect Cloud project ID to enable QR pairing:
+
+```sh
+NEXT_PUBLIC_APP_ORIGIN=https://glyphq.org
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_PUBLIC_PROJECT_ID
+```
+
+Glyph Wallet and the browser-extension connector work without a WalletConnect project ID. Every transfer remains wallet-approved and uses the fixed support identity from `content/supporters.ts`.
+
+During `next build`, the support route queries the official Qubic archive through `@qubic.org/rpc`, keeps confirmed incoming transfers, and groups them by source identity for the supporter visualization. Rebuild the static export to refresh on-chain supporters. Optional public names can be attached to verified identities in `recognizedSupporters`.
+
 ### Browser QA
 
 Install Playwright's Chromium browser once:

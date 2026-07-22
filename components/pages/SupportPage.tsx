@@ -3,9 +3,10 @@ import { ActionGroup, PageHero, SectionHeading } from "@/components/layout/PageE
 import { IndependenceNotice } from "@/components/UI";
 import { SupporterField } from "@/components/support/SupporterField";
 import { SupportTransfer } from "@/components/support/SupportTransfer";
-import { supportConfig, supporters } from "@/content/supporters";
+import { getSupporters, supportConfig } from "@/content/supporters";
 
-export function SupportPage() {
+export async function SupportPage() {
+  const supporters = await getSupporters();
   return (
     <main id="main" className="support-page">
       <PageHero className="support-hero">

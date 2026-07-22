@@ -2,15 +2,17 @@
 
 import { CheckCircle, Copy, Wallet } from "@solar-icons/react";
 import { useState } from "react";
+import { SupportWalletProvider } from "@/components/support/SupportWalletProvider";
+import { WalletDonation } from "@/components/support/WalletDonation";
 
 const amountFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 export function SupportTransfer({ identity, presets }: { identity: string; presets: number[] }) {
   const [amount, setAmount] = useState(String(presets[0] ?? ""));
-  const [copied, setCopied] = useState<"identity" | "details" | null>(null);
+  const [copied, setCopied] = useState<"identity" | null>(null);
   const configured = identity.length > 0;
 
-  const copy = async (value: string, type: "identity" | "details") => {
+  const copy = async (value: string, type: "identity") => {
     if (!value || !navigator.clipboard) return;
     try {
       await navigator.clipboard.writeText(value);
@@ -86,11 +88,12 @@ export function SupportTransfer({ identity, presets }: { identity: string; prese
           <span>03</span>
           <div>
             <p className="transfer-label">Review in your wallet</p>
-            <p>Open your wallet, start a transfer, and compare the recipient and amount before signing locally.</p>
-            <button className="button" type="button" disabled={!configured || !cleanAmount} onClick={() => copy(transferDetails, "details")}>
-              {copied === "details" ? <CheckCircle aria-hidden="true" /> : <Wallet aria-hidden="true" />}
-              {copied === "details" ? "Transfer details copied" : "Copy transfer details"}
-            </button>
+            <p>Connect a supported wallet, then compare the recipient and amount before signing locally.</p>
+            {configured && cleanAmount ? (
+              <SupportWalletProvider><WalletDonation identity={identity} amount={cleanAmount} transferDetails={transferDetails} /></SupportWalletProvider>
+            ) : (
+              <button className="button" type="button" disabled><Wallet aria-hidden="true" />Choose a wallet</button>
+            )}
           </div>
         </div>
       </div>
