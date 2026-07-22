@@ -21,5 +21,5 @@ export const metadata: Metadata = {
 const organization = { "@context": "https://schema.org", "@type": "Organization", name: "Glyph", url: "https://glyphq.org", sameAs: ["https://github.com/glyphq"], description: "An independent community project building software for the Qubic network." };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><a className="skip-link" href="#main">Skip to content</a><Header /><MotionLoader />{children}<Footer /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} /></body></html>;
+  return <html lang="en" suppressHydrationWarning><body suppressHydrationWarning><a className="skip-link" href="#main">Skip to content</a><Header /><MotionLoader />{children}<Footer /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} /></body></html>;
 }

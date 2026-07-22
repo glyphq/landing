@@ -59,6 +59,7 @@ Glyph is an independent community project building software for the Qubic networ
 - Reduced-motion support and calm GSAP scroll reveals
 - Per-route metadata, canonical URLs, Open Graph data, sitemap, and robots output
 - Automated desktop and mobile screenshots, overflow checks, metadata checks, and accessibility audits
+- Direct Qubic support-transfer flow with opt-in supporter recognition
 
 ## Architecture
 
@@ -94,7 +95,7 @@ See [`docs/site-architecture.md`](./docs/site-architecture.md) for the current c
 | --- | --- |
 | Core | `/`, `/ecosystem`, `/developers`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
 | Products | `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade` |
-| Supporting | `/download`, `/brand`, `/privacy`, `/terms`, `/trademark`, `/404` |
+| Supporting | `/download`, `/support`, `/brand`, `/privacy`, `/terms`, `/trademark`, `/404` |
 
 Every public route includes a unique title, description, canonical URL, social metadata, one primary heading, responsive layout, and static output.
 
@@ -121,6 +122,23 @@ bun run build
 ```
 
 `bun run test` runs the TypeScript and ESLint checks. `bun run build` generates the static site under `out/`.
+
+### Support identity
+
+The published Qubic support identity and opt-in supporter records are maintained in `content/supporters.ts`. Any identity change must be independently verified before deployment.
+
+### Wallet connectors
+
+The support flow offers Glyph Wallet, an injected Qubic browser extension, and WalletConnect. Copy `.env.example` to `.env.local` and add a public WalletConnect Cloud project ID to enable QR pairing:
+
+```sh
+NEXT_PUBLIC_APP_ORIGIN=https://glyphq.org
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_PUBLIC_PROJECT_ID
+```
+
+Glyph Wallet and the browser-extension connector work without a WalletConnect project ID. Every transfer remains wallet-approved and uses the fixed support identity from `content/supporters.ts`.
+
+During `next build`, the support route queries the official Qubic archive through `@qubic.org/rpc`, keeps confirmed incoming transfers, and groups them by source identity for the supporter visualization. Rebuild the static export to refresh on-chain supporters. Optional public names can be attached to verified identities in `recognizedSupporters`.
 
 ### Browser QA
 

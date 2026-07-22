@@ -4,11 +4,12 @@ import { DownloadPage } from "@/components/pages/DownloadPage";
 import { EcosystemPage } from "@/components/pages/EcosystemPage";
 import { InfoPage } from "@/components/pages/InfoPage";
 import { NotFoundView } from "@/components/pages/NotFoundView";
+import { SupportPage } from "@/components/pages/SupportPage";
 import { ProductPageView } from "@/components/products/ProductPageView";
 import { infoPages, pageBySlug } from "@/content/pages";
 import { productById, products } from "@/content/products";
 
-const specialRoutes = ["ecosystem", "download", "404"];
+const specialRoutes = ["ecosystem", "download", "support", "404"];
 
 export function generateStaticParams() {
   return [
@@ -22,8 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = productById[slug];
   const page = pageBySlug[slug];
-  const title = product?.name ?? (slug === "ecosystem" ? "Glyph ecosystem" : slug === "download" ? "Download Glyph Wallet" : slug === "404" ? "Page not found" : page?.title);
-  const description = product?.summary ?? page?.description ?? (slug === "ecosystem" ? "How Glyph products fit together across user, application, developer, and infrastructure layers." : slug === "404" ? "The requested Glyph page could not be found." : "Verified Glyph Wallet downloads for Windows, macOS, and Linux.");
+  const title = product?.name ?? (slug === "ecosystem" ? "Glyph ecosystem" : slug === "download" ? "Download Glyph Wallet" : slug === "support" ? "Support Glyph" : slug === "404" ? "Page not found" : page?.title);
+  const description = product?.summary ?? page?.description ?? (slug === "ecosystem" ? "How Glyph products fit together across user, application, developer, and infrastructure layers." : slug === "support" ? "Support independent Qubic software with a direct Qubic transfer and opt-in public recognition." : slug === "404" ? "The requested Glyph page could not be found." : "Verified Glyph Wallet downloads for Windows, macOS, and Linux.");
 
   if (!title) return {};
 
@@ -45,6 +46,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (product) return <ProductPageView product={product} />;
   if (slug === "ecosystem") return <EcosystemPage />;
   if (slug === "download") return <DownloadPage />;
+  if (slug === "support") return <SupportPage />;
   if (slug === "404") return <NotFoundView />;
   if (page) return <InfoPage slug={slug} page={page} />;
 
