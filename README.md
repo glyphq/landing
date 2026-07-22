@@ -59,6 +59,7 @@ Glyph is an independent community project building software for the Qubic networ
 - Reduced-motion support and calm GSAP scroll reveals
 - Per-route metadata, canonical URLs, Open Graph data, sitemap, and robots output
 - Automated desktop and mobile screenshots, overflow checks, metadata checks, and accessibility audits
+- Direct Qubic support-transfer flow with opt-in supporter recognition
 
 ## Architecture
 
@@ -94,7 +95,7 @@ See [`docs/site-architecture.md`](./docs/site-architecture.md) for the current c
 | --- | --- |
 | Core | `/`, `/ecosystem`, `/developers`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
 | Products | `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade` |
-| Supporting | `/download`, `/brand`, `/privacy`, `/terms`, `/trademark`, `/404` |
+| Supporting | `/download`, `/support`, `/brand`, `/privacy`, `/terms`, `/trademark`, `/404` |
 
 Every public route includes a unique title, description, canonical URL, social metadata, one primary heading, responsive layout, and static output.
 
@@ -121,6 +122,16 @@ bun run build
 ```
 
 `bun run test` runs the TypeScript and ESLint checks. `bun run build` generates the static site under `out/`.
+
+### Support identity
+
+The support page stays non-transactional until a verified recipient is configured. Copy `.env.example` to `.env.local` and set:
+
+```sh
+NEXT_PUBLIC_QUBIC_SUPPORT_IDENTITY=YOUR_VERIFIED_QUBIC_IDENTITY
+```
+
+Supporter recognition is maintained in `content/supporters.ts` and must remain opt-in and transfer-verified.
 
 ### Browser QA
 

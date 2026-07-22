@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs/promises';
 
-const routes = ['','ecosystem','developers','community','open-source','roadmap','security','about','wallet','connect','explorer','sdk','cli','devkit','api','docs','trade','download','brand','privacy','terms','trademark','404'];
+const routes = ['','ecosystem','developers','community','open-source','roadmap','security','about','wallet','connect','explorer','sdk','cli','devkit','api','docs','trade','download','support','brand','privacy','terms','trademark','404'];
 const viewports = [{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}];
 const browser = await chromium.launch({headless:true});
 const report = { routes: {}, violations: [] };
