@@ -12,6 +12,6 @@ export type Supporter = {
 export const supporters: Supporter[] = [];
 
 export const supportConfig = {
-  identity: process.env.NEXT_PUBLIC_QUBIC_SUPPORT_IDENTITY?.trim() ?? "",
+  identity: "GLYPHZNLNDWPQDQOAXNPXSEHAWTCHUVRBKJTUKIIXGGVBAYFMKDYZXBHEQBA",
   presets: [1_000_000, 10_000_000, 100_000_000],
 };

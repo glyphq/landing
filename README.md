@@ -125,13 +125,7 @@ bun run build
 
 ### Support identity
 
-The support page stays non-transactional until a verified recipient is configured. Copy `.env.example` to `.env.local` and set:
-
-```sh
-NEXT_PUBLIC_QUBIC_SUPPORT_IDENTITY=YOUR_VERIFIED_QUBIC_IDENTITY
-```
-
-Supporter recognition is maintained in `content/supporters.ts` and must remain opt-in and transfer-verified.
+The published Qubic support identity and opt-in supporter records are maintained in `content/supporters.ts`. Any identity change must be independently verified before deployment.
 
 ### Browser QA
 
