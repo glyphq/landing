@@ -5,7 +5,7 @@ Audit date: 2026-08-10. Only Glyph-owned repositories, releases, package metadat
 | Product | Status on site | Repository | Package / download | License status |
 |---|---|---|---|---|
 | Glyph Wallet | Available | https://github.com/glyphq/wallet | Stable v0.14.3 GitHub release | Source available. The repository does not expose an OSI-approved license through GitHub. |
-| Glyph Connect | Available | https://github.com/glyphq/connect | `@glyph-oss/connect` v4.0.0 on npm | MIT, open source |
+| Glyph Connect | Available | https://github.com/glyphq/connect | `@glyph-oss/connect` v4.0.1 on npm | MIT, open source |
 | Glyph Explorer | In development | None verified | None verified | Not published |
 | Glyph SDK | In development | None verified | None verified | Not published |
 | Glyph CLI | Planned | None verified | None verified | Not published |
@@ -24,7 +24,7 @@ Audit date: 2026-08-10. Only Glyph-owned repositories, releases, package metadat
 
 ## Verified Connect facts
 
-- npm package `@glyph-oss/connect`, version 4.0.0 at audit time. Its breaking request contract uses `glyph://v2/request`, `glyph-connect-request/2` envelopes, typed network binding, and a SHA-256 request hash.
+- npm package `@glyph-oss/connect`, version 4.0.1 at audit time. Its breaking request contract uses `glyph://v2/request`, `glyph-connect-request/2` envelopes, typed network binding, and a SHA-256 request hash.
 - MIT license, framework-agnostic, fully typed, zero runtime dependencies.
 - Current builders: transfer, smart-contract call, sign message, verify message, and connect.
 - Results support callback POST, redirect, browser promise, and official relay flows. Signed callback envelopes bind the request hash, network, dApp origin, expiry, callback URL, and result before Qubic SchnorrQ verification.
