@@ -68,7 +68,7 @@ function ConnectProof() {
     <>
       <section className="section">
         <SectionHeading title="A request you can inspect">
-          <p>The example follows the published v4.0.0 API, creates a hash-bound <code>glyph://v2/request</code> envelope, and binds it explicitly to Qubic mainnet.</p>
+          <p>The example follows the published v4.0.1 API, creates a hash-bound <code>glyph://v2/request</code> envelope, and binds it explicitly to Qubic mainnet.</p>
         </SectionHeading>
         <pre className="code-block" data-reveal="code"><code>{connectExample}</code></pre>
       </section>
