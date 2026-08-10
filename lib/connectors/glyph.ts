@@ -1,8 +1,10 @@
 import {
   k12,
+  publicKeyToIdentity,
   verify as verifySchnorrQ,
 } from "@qubic.org/crypto";
 import {
+  GLYPH_MAINNET,
   createConnectRequest,
   createEnvelope,
   createTransferRequest,
@@ -10,6 +12,8 @@ import {
   prepareRelaySession,
   subscribeViaRelayV2,
   type GlyphCallbackResponse,
+  type GlyphSignedCallbackEnvelope,
+  type GlyphNetworkBinding,
   type GlyphPermission,
   type GlyphPreparedRelaySession,
   type GlyphRequest,
@@ -84,24 +88,36 @@ function assertSubmittedTransfer(txHash: string, targetTick: number) {
   }
 }
 
-export function verifyGlyphCallbackSignature({ payload, signature, publicKey }: {
+export function verifyGlyphCallbackSignature({ payload, signature, publicKey, envelope }: {
   payload: Uint8Array;
   signature: Uint8Array;
   publicKey: Uint8Array;
+  envelope: GlyphSignedCallbackEnvelope;
 }) {
+  if (publicKeyToIdentity(publicKey) !== envelope.proof.identity) return false;
+  if ("identity" in envelope.result && envelope.result.identity !== envelope.proof.identity) return false;
   return verifySchnorrQ(k12(payload, 32), signature, publicKey);
 }
 
-export function createGlyphRelayEnvelope(request: GlyphRequest, prepared: GlyphPreparedRelaySession) {
-  return createEnvelope(request, { callback: prepared.callbackUrl });
+export function createGlyphRelayEnvelope(
+  request: GlyphRequest,
+  prepared: GlyphPreparedRelaySession,
+  network: GlyphNetworkBinding,
+) {
+  return createEnvelope(request, { callback: prepared.callbackUrl, network });
 }
 
-async function requestFromGlyph(request: GlyphRequest): Promise<GlyphCallbackResponse> {
+async function requestFromGlyph(
+  request: GlyphRequest,
+  network: GlyphNetworkBinding,
+): Promise<GlyphCallbackResponse> {
   const prepared = await prepareRelaySession();
-  const envelope = createGlyphRelayEnvelope(request, prepared);
+  const envelope = createGlyphRelayEnvelope(request, prepared, network);
   const result = subscribeViaRelayV2(request, prepared, {
     verification: {
       expected: { nonce: request.nonce, type: request.type },
+      expectedRequestHash: envelope.request_hash,
+      expectedNetwork: envelope.network,
       expectedDappOrigin: request.dapp.origin,
       expectedExp: request.exp ?? null,
       expectedCallbackUrl: prepared.callbackUrl,
@@ -160,7 +176,7 @@ export async function requestGlyphTransfer(destination: string, amount: string) 
     to: destination,
     amount,
     from: account.identity,
-  }));
+  }), GLYPH_MAINNET);
 
   if (result.status === "rejected") throw new Error("Transfer request was rejected.");
   if (result.status !== "signed" || result.type !== "transfer") {
@@ -178,7 +194,10 @@ export const glyphConnector: WalletConnector = {
   id: "glyph-wallet",
   isAvailable: () => typeof window !== "undefined",
   async connect() {
-    const result = await requestFromGlyph(createConnectRequest({ type: "connect", dapp: dapp(), permissions }));
+    const result = await requestFromGlyph(
+      createConnectRequest({ type: "connect", dapp: dapp(), permissions }),
+      GLYPH_MAINNET,
+    );
     if (result.status === "rejected") throw new Error("Connection request was rejected.");
     if (result.status !== "connected" || result.type !== "connect") throw new Error("Glyph Wallet returned an unexpected response.");
     assertQubicIdentity(result.identity, "Connected Glyph identity");
