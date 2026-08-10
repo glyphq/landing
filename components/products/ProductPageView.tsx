@@ -65,7 +65,7 @@ function ConnectProof() {
     <>
       <section className="section">
         <SectionHeading title="A request you can inspect">
-          <p>The example follows the published v2.2.1 API, validates the returned result, and includes a rejection path.</p>
+          <p>The example follows the published v3.0.0 API, validates the returned result, and includes a rejection path.</p>
         </SectionHeading>
         <pre className="code-block" data-reveal="code"><code>{connectExample}</code></pre>
       </section>
