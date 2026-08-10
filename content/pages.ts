@@ -2,8 +2,8 @@ export type InfoPage = { slug: string; title: string; description: string; intro
 
 export const infoPages: InfoPage[] = [
   { slug: "developers", title: "Build with a maintained path", description: "Use Glyph Connect today and follow the broader Glyph developer stack as it develops.", intro: "The current integration path is direct: create a typed request, open Glyph Wallet, handle approval or rejection, then continue your application flow.", sections: [
-    { title: "Start with Connect", body: "Install the current MIT-licensed package from npm. It is framework-agnostic, fully typed, and has no runtime dependencies.", items: ["bun add @glyph-oss/connect", "Create a request and envelope", "Launch the glyph:// URL", "Handle signed, connected, or rejected results"] },
-    { title: "Failures are part of the contract", body: "Applications should treat rejection, expiry, invalid callbacks, and unavailable desktop handling as expected outcomes, not exceptional UI states." },
+    { title: "Start with Connect", body: "Install the current MIT-licensed package from npm. It is framework-agnostic, fully typed, and has no runtime dependencies.", items: ["bun add @glyph-oss/connect", "Create a request with a generated nonce", "Bind callback or relay delivery to that nonce", "Validate signed, connected, verified, or rejected results"] },
+    { title: "Failures are part of the contract", body: "Applications should treat rejection, expiry, invalid callbacks, mismatched result types, and unavailable desktop handling as expected outcomes, not exceptional UI states." },
     { title: "The wider stack", body: "SDK, CLI, Devkit, API, and shared Docs are in development or planned. They are not required to use Connect today." },
   ]},
   { slug: "community", title: "Contribute where the work is visible", description: "How Glyph is maintained, discussed, and improved.", intro: "Glyph is maintainer-led software that accepts focused contributions through its public repositories.", sections: [
@@ -54,4 +54,3 @@ export const infoPages: InfoPage[] = [
 ];
 
 export const pageBySlug = Object.fromEntries(infoPages.map((page) => [page.slug, page]));
-

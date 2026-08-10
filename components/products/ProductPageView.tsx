@@ -16,6 +16,8 @@ try {
 
   if (result.status === "rejected") {
     console.info(result.reason);
+  } else if (!result.permissions.includes("transfer")) {
+    throw new Error("Glyph Wallet returned an unexpected response");
   }
 } catch (error) {
   console.error("Glyph Wallet could not be opened", error);
@@ -63,7 +65,7 @@ function ConnectProof() {
     <>
       <section className="section">
         <SectionHeading title="A request you can inspect">
-          <p>The example follows the published v2.0.0 API and includes a rejection path.</p>
+          <p>The example follows the published v2.2.1 API, validates the returned result, and includes a rejection path.</p>
         </SectionHeading>
         <pre className="code-block" data-reveal="code"><code>{connectExample}</code></pre>
       </section>

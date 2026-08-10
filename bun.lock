@@ -7,7 +7,7 @@
       "dependencies": {
         "@fontsource/geist": "^5.3.0",
         "@fontsource/geist-mono": "^5.3.0",
-        "@glyph-oss/connect": "^2.2.0",
+        "@glyph-oss/connect": "2.2.1",
         "@gsap/react": "^2.1.2",
         "@qubic.org/react": "1.0.0",
         "@qubic.org/rpc": "1.0.0",
@@ -106,7 +106,7 @@
 
     "@fontsource/geist-mono": ["@fontsource/geist-mono@5.3.0", "", {}, "sha512-UtJ1BBBCVpMYdIcW7nEB45UAoAw5M53ZXs2t0ciPW+IokuAAIc56M8+kW5tXbRJCTpDw4XTtU7proT6NdQAHTg=="],
 
-    "@glyph-oss/connect": ["@glyph-oss/connect@2.2.0", "", {}, "sha512-3+vGCkqAjlAF19tyoWHbXA7f9RtYP0i92jTRSSlgVsWO5bMbcOaaZc/YE0GhnBxs1nRpqkDqS8TBX7gcZOCCUQ=="],
+    "@glyph-oss/connect": ["@glyph-oss/connect@2.2.1", "", {}, "sha512-UTWjhwoD0+X/NSE0C/IiKpY1YMeoO1x/PfxVM4lw2rftu9IGR33V2+WQGXlmoDpwrUOjq4qc2scymEBn1rYJLg=="],
 
     "@gsap/react": ["@gsap/react@2.1.2", "", { "peerDependencies": { "gsap": "^3.12.5", "react": ">=17" } }, "sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw=="],
 

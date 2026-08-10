@@ -28,7 +28,7 @@ export function InfoPage({ slug, page }: { slug: string; page: InfoPageContent }
           </article>
         ))}
       </section>
-      {slug === "developers" && <section className="section"><ConnectFlow /><pre className="code-block" data-reveal="code"><code>npm install @glyph-oss/connect</code></pre></section>}
+      {slug === "developers" && <section className="section"><ConnectFlow /><pre className="code-block" data-reveal="code"><code>bun add @glyph-oss/connect</code></pre></section>}
       {slug === "roadmap" && <section className="section"><div className="product-list" data-reveal-group="products">{products.map((product) => <ProductRow key={product.id} product={product} />)}</div></section>}
       <IndependenceNotice />
     </main>
