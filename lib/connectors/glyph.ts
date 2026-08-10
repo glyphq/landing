@@ -1,7 +1,6 @@
 import {
   createConnectRequest,
   createEnvelope,
-  createNonce,
   createTransferRequest,
   launchGlyphRequest,
   relayCallbackUrl,
@@ -21,6 +20,7 @@ import type { Identity } from "@qubic.org/types";
 
 const STORAGE_KEY = "glyph-support-account";
 export const GLYPH_REQUEST_STATUS_EVENT = "glyph:support-request-status";
+const QUBIC_IDENTITY_PATTERN = /^[A-Z]{60}$/;
 
 export type GlyphRequestFeedback =
   | { state: "opening" }
@@ -34,12 +34,8 @@ const listeners = new Map<WalletConnectorEvent, Set<(...args: unknown[]) => void
 function dapp() {
   return {
     name: "Glyph Support",
-    origin: process.env.NEXT_PUBLIC_APP_ORIGIN ?? "https://glyphq.org",
+    origin: process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || "https://glyphq.org",
   };
-}
-
-function glyphRelayUrl() {
-  return process.env.NEXT_PUBLIC_GLYPH_RELAY_URL ?? "https://relay.glyphq.org";
 }
 
 function emit(event: WalletConnectorEvent, ...args: unknown[]) {
@@ -61,20 +57,49 @@ function emitFeedback(detail: GlyphRequestFeedback) {
   }
 }
 
+function isQubicIdentity(value: unknown): value is Identity {
+  return typeof value === "string" && QUBIC_IDENTITY_PATTERN.test(value);
+}
+
+function assertQubicIdentity(value: unknown, label: string): asserts value is Identity {
+  if (!isQubicIdentity(value)) throw new Error(`${label} is not a valid Qubic identity.`);
+}
+
+function assertGrantedPermissions(granted: GlyphPermission[], required: GlyphPermission[]) {
+  const missing = required.filter((permission) => !granted.includes(permission));
+  if (missing.length > 0) {
+    throw new Error(`Glyph Wallet did not grant required permission: ${missing.join(", ")}.`);
+  }
+}
+
+function assertSubmittedTransfer(txHash: string, targetTick: number) {
+  if (!txHash.trim()) throw new Error("Glyph Wallet returned an empty transaction hash.");
+  if (!Number.isSafeInteger(targetTick) || targetTick <= 0) {
+    throw new Error("Glyph Wallet returned an invalid target tick.");
+  }
+}
+
+export function createGlyphRelayEnvelope(request: GlyphRequest) {
+  return createEnvelope(request, { callback: relayCallbackUrl(request.nonce) });
+}
+
 async function requestFromGlyph(request: GlyphRequest): Promise<GlyphCallbackResponse> {
-  const nonce = createNonce();
-  const relayUrl = glyphRelayUrl();
-  const envelope = createEnvelope(request, { callback: relayCallbackUrl(nonce, relayUrl) });
-  const result = subscribeViaRelay(nonce, {
-    relayUrl,
+  const envelope = createGlyphRelayEnvelope(request);
+  const result = subscribeViaRelay(request, {
     onStatus(status) {
       emitFeedback(feedbackFromStatus(status));
     },
   });
 
-  launchGlyphRequest(envelope);
+  try {
+    launchGlyphRequest(envelope);
+  } catch (launchError) {
+    void result.catch(() => undefined);
+    emitFeedback({ state: "failed" });
+    throw launchError;
+  }
   const response = await result;
-  window.focus();
+  if (typeof window !== "undefined") window.focus();
   return response;
 }
 
@@ -89,7 +114,9 @@ function readAccount(): WalletAccount | null {
   const value = localStorage.getItem(STORAGE_KEY);
   if (!value) return null;
   try {
-    return JSON.parse(value) as WalletAccount;
+    const account = JSON.parse(value) as Partial<WalletAccount>;
+    if (!isQubicIdentity(account.identity)) throw new Error("Invalid stored Glyph account");
+    return { identity: account.identity, name: typeof account.name === "string" ? account.name : "Glyph Wallet" };
   } catch {
     localStorage.removeItem(STORAGE_KEY);
     return null;
@@ -101,8 +128,10 @@ function unsupported(): never {
 }
 
 export async function requestGlyphTransfer(destination: string, amount: string) {
+  assertQubicIdentity(destination, "Transfer destination");
   const account = readAccount();
   if (!account) throw new Error("Connect Glyph Wallet before requesting a transfer.");
+  assertQubicIdentity(account.identity, "Connected Glyph account");
   const result = await requestFromGlyph(createTransferRequest({
     type: "transfer",
     dapp: dapp(),
@@ -115,6 +144,11 @@ export async function requestGlyphTransfer(destination: string, amount: string) 
   if (result.status !== "signed" || result.type !== "transfer") {
     throw new Error("Glyph Wallet returned an unexpected response.");
   }
+  assertQubicIdentity(result.identity, "Glyph Wallet signing identity");
+  if (result.identity !== account.identity) {
+    throw new Error("Glyph Wallet signed with a different identity than the connected account.");
+  }
+  assertSubmittedTransfer(result.tx_hash, result.target_tick);
   return { txId: result.tx_hash, targetTick: result.target_tick };
 }
 
@@ -124,8 +158,10 @@ export const glyphConnector: WalletConnector = {
   async connect() {
     const result = await requestFromGlyph(createConnectRequest({ type: "connect", dapp: dapp(), permissions }));
     if (result.status === "rejected") throw new Error("Connection request was rejected.");
-    if (result.status !== "connected") throw new Error("Glyph Wallet returned an unexpected response.");
-    const account: WalletAccount = { identity: result.identity as Identity, name: "Glyph Wallet" };
+    if (result.status !== "connected" || result.type !== "connect") throw new Error("Glyph Wallet returned an unexpected response.");
+    assertQubicIdentity(result.identity, "Connected Glyph identity");
+    assertGrantedPermissions(result.permissions, permissions);
+    const account: WalletAccount = { identity: result.identity, name: "Glyph Wallet" };
     saveAccount(account);
     emit("accountChanged", account);
     return account;

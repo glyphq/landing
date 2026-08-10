@@ -116,6 +116,9 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
       const result = wallet.activeConnector.id === "glyph-wallet"
         ? await requestGlyphTransfer(identity, amount)
         : await wallet.sendTransaction({ destination: identity, amount });
+      if (!result || typeof result.txId !== "string" || !result.txId.trim()) {
+        throw new Error("Wallet returned an invalid transaction result.");
+      }
       setTxId(result.txId);
     } catch (transferError) {
       setError(transferError instanceof Error ? transferError.message : "Transfer request failed.");
