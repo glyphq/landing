@@ -1,0 +1,36 @@
+{
+  "version": "glyph-connect-callback-envelope/2",
+  "result": {
+    "status": "connected",
+    "type": "connect",
+    "nonce": "fixtureNonce1234567890",
+    "identity": "BZBQFLLBNCXEMGLOBHUVFTLUPLVCPQUASSILFABOFFBCADQSSUPNWLZBQEXK",
+    "permissions": ["transfer"]
+  },
+  "payload": {
+    "version": "glyph-connect-callback-envelope/2",
+    "request_hash": "sha256:x5BI5vGdwfuZ422EaLwVysYESrtypPANF2-P0Ys6oe0",
+    "network": { "id": "qubic:mainnet" },
+    "nonce": "fixtureNonce1234567890",
+    "dapp_origin": "https://glyphq.org",
+    "request_type": "connect",
+    "exp": 1786368460,
+    "issued_at": 1799999900,
+    "result_hash": "sha256:ESIJpt-FkbAsEserpZy5mH1LATPVaPj6ujRrEHXpgrU",
+    "relay": {
+      "callback_url": "https://relay.glyphq.org/v2/callback/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/c_BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "official_relay": true,
+      "route": "v2_session_callback",
+      "v1_nonce": null,
+      "session_id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "callback_capability_fingerprint": null
+    }
+  },
+  "proof": {
+    "algorithm": "qubic-schnorrq-sha256",
+    "identity": "BZBQFLLBNCXEMGLOBHUVFTLUPLVCPQUASSILFABOFFBCADQSSUPNWLZBQEXK",
+    "public_key": "H1kNA+YTvd7Ti0wIIKxEYV+RrxJDWYCz7ePAjDFaJUQ=",
+    "signature": "dJp+eTjj5/mIpd9+5GH9AQrOyvKOupepLDcqRdiqpc92CqyPzIxgH456sS5gg+sCEkhbYREzokLZXuasL0QPAA==",
+    "signed_payload": "{\"dapp_origin\":\"https://glyphq.org\",\"exp\":1786368460,\"issued_at\":1799999900,\"network\":{\"id\":\"qubic:mainnet\"},\"nonce\":\"fixtureNonce1234567890\",\"relay\":{\"callback_capability_fingerprint\":null,\"callback_url\":\"https://relay.glyphq.org/v2/callback/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/c_BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\",\"official_relay\":true,\"route\":\"v2_session_callback\",\"session_id\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"v1_nonce\":null},\"request_hash\":\"sha256:x5BI5vGdwfuZ422EaLwVysYESrtypPANF2-P0Ys6oe0\",\"request_type\":\"connect\",\"result_hash\":\"sha256:ESIJpt-FkbAsEserpZy5mH1LATPVaPj6ujRrEHXpgrU\",\"version\":\"glyph-connect-callback-envelope/2\"}"
+  }
+}

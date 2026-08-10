@@ -5,23 +5,26 @@ import { ConnectFlow } from "@/components/Diagrams";
 import { ActionGroup, PageHero, SectionHeading } from "@/components/layout/PageElements";
 import { ExternalLink, IndependenceNotice, ProductRow, Status } from "@/components/UI";
 
-const connectExample = `import { createConnectRequest, glyphRequest } from "@glyph-oss/connect";
+const connectExample = `import {
+  GLYPH_MAINNET,
+  createConnectRequest,
+  createEnvelope,
+  launchGlyphRequest,
+} from "@glyph-oss/connect";
 
-try {
-  const result = await glyphRequest(createConnectRequest({
-    type: "connect",
-    dapp: { name: "My App", origin: "https://my.app" },
-    permissions: ["transfer", "sign_message"],
-  }));
+const request = createConnectRequest({
+  type: "connect",
+  dapp: { name: "My App", origin: "https://my.app" },
+  permissions: ["transfer", "sign_message"],
+});
 
-  if (result.status === "rejected") {
-    console.info(result.reason);
-  } else if (!result.permissions.includes("transfer")) {
-    throw new Error("Glyph Wallet returned an unexpected response");
-  }
-} catch (error) {
-  console.error("Glyph Wallet could not be opened", error);
-}`;
+const envelope = createEnvelope(request, {
+  redirect_uri: "https://my.app/__glyph__",
+  network: GLYPH_MAINNET,
+});
+
+console.info(envelope.request_hash);
+launchGlyphRequest(envelope);`;
 
 function ProductActions({ product }: { product: Product }) {
   return (
@@ -65,7 +68,7 @@ function ConnectProof() {
     <>
       <section className="section">
         <SectionHeading title="A request you can inspect">
-          <p>The example follows the published v3.0.0 API, validates the returned result, and includes a rejection path.</p>
+          <p>The example follows the published v4.0.0 API, creates a hash-bound <code>glyph://v2/request</code> envelope, and binds it explicitly to Qubic mainnet.</p>
         </SectionHeading>
         <pre className="code-block" data-reveal="code"><code>{connectExample}</code></pre>
       </section>
