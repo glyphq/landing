@@ -67,7 +67,7 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
   const [glyphRelayState, setGlyphRelayState] = useState<"idle" | "preparing" | "ready" | "failed">("idle");
 
   const warmGlyphRelay = useCallback((clearError = false) => {
-    setGlyphRelayState("preparing");
+    setGlyphRelayState((relayState) => relayState === "ready" ? relayState : "preparing");
     if (clearError) setError(null);
     void prewarmGlyphRelaySession()
       .then(() => setGlyphRelayState("ready"))
@@ -82,12 +82,6 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
     window.addEventListener(GLYPH_REQUEST_STATUS_EVENT, receiveFeedback);
     return () => window.removeEventListener(GLYPH_REQUEST_STATUS_EVENT, receiveFeedback);
   }, []);
-
-  useEffect(() => {
-    if (wallet.activeConnector?.id !== "glyph-wallet") return;
-    const timer = window.setTimeout(warmGlyphRelay, 0);
-    return () => window.clearTimeout(timer);
-  }, [wallet.activeConnector?.id, warmGlyphRelay]);
 
   const openConnectors = () => {
     setError(null);
@@ -176,13 +170,13 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
             <div><activeDetail.Icon aria-hidden="true" /><span><strong>{activeDetail.label}</strong><small>{shortIdentity(wallet.account.identity)}</small></span></div>
             <button type="button" onClick={disconnect}><Logout aria-hidden="true" />Disconnect</button>
           </div>
-          <button className="button wallet-transfer-button" type="button" disabled={!amountValid || isTransferring || (activeConnectorId === "glyph-wallet" && glyphRelayState !== "ready" && glyphRelayState !== "failed")} onClick={activeConnectorId === "glyph-wallet" && glyphRelayState === "failed" ? () => warmGlyphRelay(true) : sendTransfer}>
+          <button className="button wallet-transfer-button" type="button" disabled={!amountValid || isTransferring || (activeConnectorId === "glyph-wallet" && glyphRelayState === "preparing")} onPointerEnter={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={activeConnectorId === "glyph-wallet" && glyphRelayState !== "ready" ? () => warmGlyphRelay(glyphRelayState === "failed") : sendTransfer}>
             <Wallet aria-hidden="true" />{isTransferring ? "Waiting for wallet" : activeConnectorId === "glyph-wallet" && glyphRelayState === "preparing" ? "Preparing secure transfer" : activeConnectorId === "glyph-wallet" && glyphRelayState === "failed" ? "Retry secure transfer setup" : `Review ${BigInt(amount).toLocaleString("en-US")} QUBIC transfer`}
           </button>
           {feedbackCopy(glyphFeedback) && <p className={`wallet-status wallet-status-${glyphFeedback?.state}`} role="status">{feedbackCopy(glyphFeedback)}</p>}
         </div>
       ) : (
-        <button ref={connectButton} className="button wallet-transfer-button" type="button" disabled={!mounted || !amountValid} onClick={openConnectors}>
+        <button ref={connectButton} className="button wallet-transfer-button" type="button" disabled={!mounted || !amountValid} onPointerEnter={() => warmGlyphRelay()} onFocus={() => warmGlyphRelay()} onClick={openConnectors}>
           <Wallet aria-hidden="true" />Choose a wallet
         </button>
       )}
@@ -209,7 +203,7 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
               : unavailable ? (connector.id === "walletconnect" ? "Requires project configuration" : "Not detected in this browser")
               : detail.description;
             return (
-              <button key={connector.id} type="button" disabled={disabled} onClick={glyphRelayFailed ? () => warmGlyphRelay(true) : () => connect(connector.id)}>
+              <button key={connector.id} type="button" disabled={disabled} onPointerEnter={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={glyphRelayFailed ? () => warmGlyphRelay(true) : () => connect(connector.id)}>
                 <detail.Icon aria-hidden="true" />
                 <span><strong>{detail.label}</strong><small>{status}</small></span>
                 <b>{pendingConnector === connector.id ? "Connecting…" : glyphRelayPreparing ? "Preparing…" : glyphRelayFailed ? "Retry" : unavailable ? "Unavailable" : "Connect"}</b>
