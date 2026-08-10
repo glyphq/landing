@@ -40,6 +40,41 @@ export type GlyphRequestFeedback =
 const permissions: GlyphPermission[] = ["transfer"];
 const listeners = new Map<WalletConnectorEvent, Set<(...args: unknown[]) => void>>();
 
+type GlyphRelaySessionPreparer = () => Promise<GlyphPreparedRelaySession>;
+
+export function createGlyphRelaySessionStore(prepare: GlyphRelaySessionPreparer = prepareRelaySession) {
+  let prepared: GlyphPreparedRelaySession | null = null;
+  let warming: Promise<void> | null = null;
+
+  return {
+    isReady: () => prepared !== null,
+    prewarm: () => {
+      if (prepared) return Promise.resolve();
+      if (!warming) {
+        warming = prepare()
+          .then((session) => { prepared = session; })
+          .finally(() => { warming = null; });
+      }
+      return warming;
+    },
+    consume: () => {
+      const session = prepared;
+      prepared = null;
+      if (!session) {
+        throw new Error("Glyph Wallet is still preparing a secure relay session. Please wait, then try again.");
+      }
+      return session;
+    },
+  };
+}
+
+const glyphRelaySession = createGlyphRelaySessionStore();
+
+/** Register a one-time, capability-safe Relay v2 session before the user launches Glyph. */
+export function prewarmGlyphRelaySession() {
+  return glyphRelaySession.prewarm();
+}
+
 function dapp() {
   return {
     name: "Glyph Support",
@@ -111,7 +146,9 @@ async function requestFromGlyph(
   request: GlyphRequest,
   network: GlyphNetworkBinding,
 ): Promise<GlyphCallbackResponse> {
-  const prepared = await prepareRelaySession();
+  // This must stay synchronous. Awaiting relay registration in a click handler loses
+  // Chromium's user activation before launchGlyphRequest() opens the glyph:// URL.
+  const prepared = glyphRelaySession.consume();
   const envelope = createGlyphRelayEnvelope(request, prepared, network);
   const result = subscribeViaRelayV2(request, prepared, {
     verification: {
