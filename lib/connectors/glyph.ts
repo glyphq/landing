@@ -1,4 +1,8 @@
 import {
+  k12,
+  verify as verifySchnorrQ,
+} from "@qubic.org/crypto";
+import {
   createConnectRequest,
   createEnvelope,
   createTransferRequest,
@@ -80,6 +84,14 @@ function assertSubmittedTransfer(txHash: string, targetTick: number) {
   }
 }
 
+export function verifyGlyphCallbackSignature({ payload, signature, publicKey }: {
+  payload: Uint8Array;
+  signature: Uint8Array;
+  publicKey: Uint8Array;
+}) {
+  return verifySchnorrQ(k12(payload, 32), signature, publicKey);
+}
+
 export function createGlyphRelayEnvelope(request: GlyphRequest, prepared: GlyphPreparedRelaySession) {
   return createEnvelope(request, { callback: prepared.callbackUrl });
 }
@@ -93,6 +105,8 @@ async function requestFromGlyph(request: GlyphRequest): Promise<GlyphCallbackRes
       expectedDappOrigin: request.dapp.origin,
       expectedExp: request.exp ?? null,
       expectedCallbackUrl: prepared.callbackUrl,
+      requireSigned: true,
+      verifySignature: verifyGlyphCallbackSignature,
     },
     onStatus(status) {
       emitFeedback(feedbackFromStatus(status));
