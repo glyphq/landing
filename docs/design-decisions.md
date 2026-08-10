@@ -25,5 +25,5 @@ The final system uses 8px controls, 12px modules, and 16px chapter surfaces. Bor
 
 ## Current-product evidence
 
-Wallet uses an abstracted UI composition, explicitly not a fake screenshot, because no repository screenshot or safely runnable test vault was available during implementation. Connect code follows its published v2.2.1 API and hardened result-delivery policy. Future products use architecture, stated principles, and unavailable-now language instead of invented interfaces.
+Wallet uses an abstracted UI composition, explicitly not a fake screenshot, because no repository screenshot or safely runnable test vault was available during implementation. Connect code follows its published v3.0.0 API and hardened result-delivery policy. Future products use architecture, stated principles, and unavailable-now language instead of invented interfaces.
 

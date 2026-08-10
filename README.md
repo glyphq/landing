@@ -138,7 +138,7 @@ NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_PUBLIC_PROJECT_ID
 
 Glyph Wallet and the browser-extension connector work without a WalletConnect project ID. Every transfer remains wallet-approved and uses the fixed support identity from `content/supporters.ts`.
 
-Glyph Wallet support uses `@glyph-oss/connect` v2.2.1 with the official relay. Keep `NEXT_PUBLIC_APP_ORIGIN` set to the public HTTPS origin because the hardened SDK rejects localhost, private-address origins, custom relay callbacks, mismatched nonces, and mismatched result types.
+Glyph Wallet support uses `@glyph-oss/connect` v3.0.0 with the official relay. Keep `NEXT_PUBLIC_APP_ORIGIN` set to the public HTTPS origin because the hardened SDK rejects localhost, private-address origins, custom relay callbacks or overrides, mismatched nonces, and mismatched result types.
 
 During `next build`, the support route queries the official Qubic archive through `@qubic.org/rpc`, keeps confirmed incoming transfers, and groups them by source identity for the supporter visualization. Rebuild the static export to refresh on-chain supporters. Optional public names can be attached to verified identities in `recognizedSupporters`.
 

@@ -3,10 +3,11 @@ import {
   createEnvelope,
   createTransferRequest,
   launchGlyphRequest,
-  relayCallbackUrl,
-  subscribeViaRelay,
+  prepareRelaySession,
+  subscribeViaRelayV2,
   type GlyphCallbackResponse,
   type GlyphPermission,
+  type GlyphPreparedRelaySession,
   type GlyphRequest,
   type GlyphRequestStatus,
 } from "@glyph-oss/connect";
@@ -79,13 +80,20 @@ function assertSubmittedTransfer(txHash: string, targetTick: number) {
   }
 }
 
-export function createGlyphRelayEnvelope(request: GlyphRequest) {
-  return createEnvelope(request, { callback: relayCallbackUrl(request.nonce) });
+export function createGlyphRelayEnvelope(request: GlyphRequest, prepared: GlyphPreparedRelaySession) {
+  return createEnvelope(request, { callback: prepared.callbackUrl });
 }
 
 async function requestFromGlyph(request: GlyphRequest): Promise<GlyphCallbackResponse> {
-  const envelope = createGlyphRelayEnvelope(request);
-  const result = subscribeViaRelay(request, {
+  const prepared = await prepareRelaySession();
+  const envelope = createGlyphRelayEnvelope(request, prepared);
+  const result = subscribeViaRelayV2(request, prepared, {
+    verification: {
+      expected: { nonce: request.nonce, type: request.type },
+      expectedDappOrigin: request.dapp.origin,
+      expectedExp: request.exp ?? null,
+      expectedCallbackUrl: prepared.callbackUrl,
+    },
     onStatus(status) {
       emitFeedback(feedbackFromStatus(status));
     },
