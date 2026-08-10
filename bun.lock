@@ -9,6 +9,7 @@
         "@fontsource/geist-mono": "^5.3.0",
         "@glyph-oss/connect": "3.0.0",
         "@gsap/react": "^2.1.2",
+        "@qubic.org/crypto": "1.0.0",
         "@qubic.org/react": "1.0.0",
         "@qubic.org/rpc": "1.0.0",
         "@qubic.org/types": "1.0.0",
