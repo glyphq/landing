@@ -93,7 +93,7 @@ See [`docs/site-architecture.md`](./docs/site-architecture.md) for the current c
 
 | Group | Routes |
 | --- | --- |
-| Core | `/`, `/ecosystem`, `/developers`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
+| Core | `/`, `/ecosystem`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
 | Products | `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade` |
 | Supporting | `/download`, `/support`, `/brand`, `/license`, `/privacy`, `/terms`, `/trademark`, `/404` |
 

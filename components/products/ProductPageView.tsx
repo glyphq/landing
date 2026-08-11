@@ -1,4 +1,5 @@
-import { Box, BranchingPathsUp, Download } from "@solar-icons/react";
+import Link from "next/link";
+import { Book2, Box, BranchingPathsUp, Download } from "@solar-icons/react";
 import type { Product } from "@/content/products";
 import { productById } from "@/content/products";
 import { ConnectFlow } from "@/components/Diagrams";
@@ -27,18 +28,38 @@ console.info(envelope.request_hash);
 launchGlyphRequest(envelope);`;
 
 function ProductActions({ product }: { product: Product }) {
+  const isWallet = product.id === "wallet";
+  const documentationClass = product.downloadUrl || product.packageUrl ? "button button-secondary" : "button";
+
   return (
     <ActionGroup>
-      {product.downloadUrl && (
+      {isWallet ? (
+        <Link className="button" href="/download">
+          <Download aria-hidden="true" />
+          Download v0.14.3
+        </Link>
+      ) : product.downloadUrl && (
         <ExternalLink className="button" href={product.downloadUrl}>
           <Download aria-hidden="true" />
           Download v0.14.3
+        </ExternalLink>
+      )}
+      {product.documentationUrl && (
+        <ExternalLink className={documentationClass} href={product.documentationUrl}>
+          <Book2 aria-hidden="true" />
+          Documentation
         </ExternalLink>
       )}
       {product.packageUrl && (
         <ExternalLink className="button" href={product.packageUrl}>
           <Box aria-hidden="true" />
           View package
+        </ExternalLink>
+      )}
+      {isWallet && product.downloadUrl && (
+        <ExternalLink className="button button-secondary" href={product.downloadUrl}>
+          <Download aria-hidden="true" />
+          View release
         </ExternalLink>
       )}
       {product.repositoryUrl && (

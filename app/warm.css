@@ -57,10 +57,14 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 }
 @media(prefers-color-scheme:light){:root{color-scheme:dark}}
 
-.button{background:var(--warm-accent);color:#050505}
-.button:hover{background:#fafafa;color:#050505}
-.button-secondary{background:var(--warm-surface-strong);color:var(--warm-ink)}
-.button-secondary:hover{background:#162525;color:var(--warm-ink)}
+.button{background:var(--warm-accent);color:#050505;border:1px solid color-mix(in oklch,var(--warm-ink) 72%,transparent);box-shadow:0 3px 0 color-mix(in oklch,var(--warm-ink) 24%,transparent);transform:translateY(0);transition:background 160ms var(--ease),color 160ms var(--ease),box-shadow 120ms var(--ease),transform 120ms var(--ease)}
+.button:hover{background:#fafafa;color:#050505;box-shadow:0 4px 0 color-mix(in oklch,var(--warm-ink) 28%,transparent);transform:translateY(-1px)}
+.button:active{box-shadow:0 1px 0 color-mix(in oklch,var(--warm-ink) 24%,transparent);transform:translateY(2px)}
+.button:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
+.button-secondary{background:var(--warm-surface-strong);color:var(--warm-ink);border-color:var(--warm-line);box-shadow:0 3px 0 color-mix(in oklch,var(--warm-ink) 16%,transparent)}
+.button-secondary:hover{background:#162525;color:var(--warm-ink);box-shadow:0 4px 0 color-mix(in oklch,var(--warm-ink) 20%,transparent)}
+.button-secondary:active{box-shadow:0 1px 0 color-mix(in oklch,var(--warm-ink) 16%,transparent)}
+@media(prefers-reduced-motion:reduce){.button{transition:none}.button:hover,.button:active{transform:none}}
 .statement{background:var(--warm-accent-soft)}
 .current-product.accent-wallet{background:#0b0b0b;color:var(--warm-ink)}
 .current-product.accent-wallet p,.current-product.accent-wallet li{color:var(--warm-muted);border-color:var(--warm-line)}
@@ -201,6 +205,9 @@ html{scroll-behavior:smooth}
 .architecture-stage-copy p{margin-top:.7rem;color:var(--warm-muted);font-size:.9rem;line-height:1.5}
 .architecture-stage ul{display:grid;gap:.45rem;margin-top:auto;list-style:none}
 .architecture-stage li{display:flex;min-height:56px;flex-direction:column;justify-content:center;gap:.18rem;padding:.75rem;border-radius:var(--radius-sm);background:#171717}
+.architecture-stage li.architecture-product{padding:0}
+.architecture-product-link{display:flex;min-height:56px;flex-direction:column;justify-content:center;gap:.18rem;padding:.75rem;border-radius:var(--radius-sm)}
+.architecture-product-link:hover{background:#242424}
 .architecture-stage li span{color:var(--warm-ink)}
 .architecture-stage li small{color:#999;font-size:.7rem}
 .architecture-stage .architecture-boundary{border:1px solid #303030;background:#080808}
@@ -282,6 +289,7 @@ html{scroll-behavior:smooth}
 @media(max-width:900px){.supporter-volume-grid{--grid-columns:36;--grid-gap:4px;grid-auto-rows:calc(2.777778cqw - 3.888889px)}}
 @media(max-width:700px){.supporter-volume-head{align-items:flex-start;flex-direction:column;gap:.75rem}.supporter-volume-head>p{text-align:left}.supporter-volume-grid{--grid-columns:30;--grid-gap:3px;grid-auto-rows:calc(3.333333cqw - 2.9px)}.supporter-volume-tile .supporter-tooltip{display:none}}
 @media(max-width:420px){.supporter-volume-grid{--grid-columns:24;--grid-gap:3px;grid-auto-rows:calc(4.166667cqw - 2.875px)}.supporter-volume-head span{font-size:.75rem}}
+
 /* User-selectable light mode. System mode keeps the existing OLED palette when the OS is dark. */
 :root[data-theme="light"]{
   color-scheme:light;

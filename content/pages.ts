@@ -1,11 +1,6 @@
 export type InfoPage = { slug: string; title: string; description: string; intro: string; sections: { title: string; body: string; items?: string[] }[] };
 
 export const infoPages: InfoPage[] = [
-  { slug: "developers", title: "Build with a maintained path", description: "Use Glyph Connect today and follow the broader Glyph developer stack as it develops.", intro: "The current integration path is direct: create a typed request, open Glyph Wallet, handle approval or rejection, then continue your application flow.", sections: [
-    { title: "Start with Connect", body: "Install the current MIT-licensed package from npm. It is framework-agnostic, fully typed, and has no runtime dependencies.", items: ["bun add @glyph-oss/connect", "Create a request with a generated nonce", "Bind callback or relay delivery to that nonce", "Validate signed, connected, verified, or rejected results"] },
-    { title: "Failures are part of the contract", body: "Applications should treat rejection, expiry, invalid callbacks, mismatched result types, and unavailable desktop handling as expected outcomes, not exceptional UI states." },
-    { title: "The wider stack", body: "SDK, CLI, Devkit, API, and shared Docs are in development or planned. They are not required to use Connect today." },
-  ]},
   { slug: "community", title: "Contribute where the work is visible", description: "How Glyph is maintained, discussed, and improved.", intro: "Glyph is maintainer-led software that accepts focused contributions through its public repositories.", sections: [
     { title: "Ways to contribute", body: "Start with repository issues and documentation. For behavior changes, open an issue before investing in a large implementation.", items: ["Report reproducible defects", "Improve documentation and examples", "Review open issues", "Test releases on supported platforms"] },
     { title: "Maintainer-led today", body: "Public input informs the work, but not every architectural decision is put to a vote. Maintainers remain responsible for coherence, releases, and security boundaries." },

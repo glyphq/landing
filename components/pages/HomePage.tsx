@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { BranchingPathsUp, Code2, Download, Layers, Shield } from "@solar-icons/react";
+import { BranchingPathsUp, Code2, Download, Shield } from "@solar-icons/react";
 import { ConnectFlow, StackDiagram } from "@/components/Diagrams";
 import { ActionGroup, SectionHeading } from "@/components/layout/PageElements";
-import { IndependenceNotice, ProductRow } from "@/components/UI";
+import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
 import { products } from "@/content/products";
 
 function HomeHero() {
@@ -13,9 +13,8 @@ function HomeHero() {
         <h1>Build on Qubic without rebuilding the basics.</h1>
         <p className="lead">Glyph creates dependable wallets, libraries, and infrastructure as one coherent system.</p>
         <ActionGroup>
-          <Link className="button" href="/ecosystem"><Layers aria-hidden="true" />Explore the ecosystem</Link>
-          <Link className="button button-secondary" href="/developers"><Code2 aria-hidden="true" />Start building</Link>
-          <Link className="quiet-link quiet-link-icon" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link>
+          <Link className="button" href="/download"><Download aria-hidden="true" />Download Glyph Wallet</Link>
+          <ExternalLink className="button button-secondary" href="https://docs.glyphq.org"><Code2 aria-hidden="true" />Start building</ExternalLink>
         </ActionGroup>
       </div>
     </section>
@@ -71,7 +70,7 @@ export function HomePage() {
       <section className="section final-cta" data-reveal="cta">
         <p>Clear interfaces. Local control. Predictable tools.</p>
         <h2>Choose the path you need.</h2>
-        <ActionGroup><Link className="button" href="/developers"><Code2 aria-hidden="true" />Start building</Link><Link className="button button-secondary" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></ActionGroup>
+        <ActionGroup><ExternalLink className="button" href="https://docs.glyphq.org"><Code2 aria-hidden="true" />Start building</ExternalLink><Link className="button button-secondary" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></ActionGroup>
       </section>
       <IndependenceNotice />
     </main>

@@ -4,7 +4,7 @@ The Next.js App Router project is statically exported. Product and organization 
 
 ## Routes
 
-- Core: `/`, `/ecosystem`, `/developers`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about`
+- Core: `/`, `/ecosystem`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about`
 - Products: `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade`
 - Supporting: `/download`, `/support`, `/brand`, `/privacy`, `/terms`, `/trademark`, and designed not-found output
 

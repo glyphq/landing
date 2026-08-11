@@ -1,7 +1,6 @@
 import { ShieldWarning } from "@solar-icons/react";
 import type { InfoPage as InfoPageContent } from "@/content/pages";
 import { products } from "@/content/products";
-import { ConnectFlow } from "@/components/Diagrams";
 import { PageHero } from "@/components/layout/PageElements";
 import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
 
@@ -19,15 +18,14 @@ export function InfoPage({ slug, page }: { slug: string; page: InfoPageContent }
         <p className="lead">{page.intro}</p>
         <InfoAction slug={slug} />
       </PageHero>
-      <section className="section prose-sections" data-reveal-group="prose">
+      {page.sections.length > 0 && <section className="section prose-sections" data-reveal-group="prose">
         {page.sections.map((section, index) => (
           <article key={section.title}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <div><h2>{section.title}</h2><p>{section.body}</p>{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</div>
           </article>
         ))}
-      </section>
-      {slug === "developers" && <section className="section"><ConnectFlow /><pre className="code-block" data-reveal="code"><code>bun add @glyph-oss/connect</code></pre></section>}
+      </section>}
       {slug === "roadmap" && <section className="section"><div className="product-list" data-reveal-group="products">{products.map((product) => <ProductRow key={product.id} product={product} />)}</div></section>}
       <IndependenceNotice />
     </main>
