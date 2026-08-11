@@ -1,90 +1,139 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Download, RefreshCircle } from "@solar-icons/react";
+import { useEffect, useRef, useState, useSyncExternalStore, type MouseEvent } from "react";
+import {
+  detectDownloadPlatform,
+  releasePage,
+  targetForPlatform,
+  type DownloadPlatform,
+} from "@/components/downloads";
+import styles from "./pages/DownloadPage.module.css";
 
-type DownloadTarget = {
-  platform: string;
-  label: string;
-  detail: string;
-  href: string;
+type DetectionState = "checking" | "detected" | "unknown" | "failed";
+type DownloadState = "idle" | "starting" | "timed-out";
+
+type NavigatorWithUserAgentData = Navigator & {
+  userAgentData?: {
+    platform?: string;
+    architecture?: string;
+  };
 };
 
-const releaseBase = "https://github.com/glyphq/wallet/releases/download/v0.14.3";
-const releasePage = "https://github.com/glyphq/wallet/releases/tag/v0.14.3";
+function browserSignals() {
+  const browserNavigator = navigator as NavigatorWithUserAgentData;
 
-export function detectDownloadTarget(platformText: string): DownloadTarget {
-  const platform = platformText.toLowerCase();
+  return {
+    userAgent: browserNavigator.userAgent,
+    platform: browserNavigator.platform,
+    userAgentDataPlatform: browserNavigator.userAgentData?.platform,
+    architecture: browserNavigator.userAgentData?.architecture,
+    maxTouchPoints: browserNavigator.maxTouchPoints,
+  };
+}
 
-  if (platform.includes("win")) {
-    return { platform: "Windows", label: "Download for Windows", detail: "64-bit installer · .exe", href: `${releaseBase}/Glyph_0.14.3_x64-setup.exe` };
-  }
-
-  if (platform.includes("mac") || platform.includes("iphone") || platform.includes("ipad")) {
-    return { platform: "macOS", label: "Download for macOS", detail: "Universal · .dmg", href: `${releaseBase}/Glyph_0.14.3_universal.dmg` };
-  }
-
-  if (platform.includes("linux") || platform.includes("x11")) {
-    return { platform: "Linux", label: "Download for Linux", detail: "64-bit · AppImage", href: `${releaseBase}/Glyph_0.14.3_amd64.AppImage` };
-  }
-
-  return { platform: "your platform", label: "View all downloads", detail: "Windows · macOS · Linux", href: releasePage };
+function platformName(platform: DownloadPlatform): string {
+  if (platform === "windows") return "Windows";
+  if (platform === "macos") return "macOS";
+  if (platform === "linux") return "Linux";
+  return "your platform";
 }
 
 export function DetectedDownload() {
-  const [isLoading, setIsLoading] = useState(false);
-  const loadingRef = useRef(false);
-  const startTimer = useRef<number | null>(null);
-  const resetTimer = useRef<number | null>(null);
-  const platformText = useSyncExternalStore(
+  const detectedPlatform = useSyncExternalStore(
     () => () => undefined,
-    () => `${navigator.platform} ${navigator.userAgent}`,
-    () => "",
+    () => {
+      try {
+        return detectDownloadPlatform(browserSignals());
+      } catch {
+        return "failed" as const;
+      }
+    },
+    () => "checking" as const,
   );
-  const target = detectDownloadTarget(platformText);
+  const platform: DownloadPlatform = detectedPlatform === "checking" || detectedPlatform === "failed" ? "unknown" : detectedPlatform;
+  const detectionState: DetectionState = detectedPlatform === "checking"
+    ? "checking"
+    : detectedPlatform === "failed"
+      ? "failed"
+      : detectedPlatform === "unknown"
+        ? "unknown"
+        : "detected";
+  const [downloadState, setDownloadState] = useState<DownloadState>("idle");
+  const resetTimer = useRef<number | null>(null);
+  const target = targetForPlatform(platform);
+  const isStarting = downloadState === "starting";
+  const isExternalFallback = !target;
 
   useEffect(() => () => {
-    if (startTimer.current !== null) window.clearTimeout(startTimer.current);
     if (resetTimer.current !== null) window.clearTimeout(resetTimer.current);
   }, []);
 
-  const startDownload = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    if (loadingRef.current) return;
+  const startDownload = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (isExternalFallback) return;
 
-    loadingRef.current = true;
-    setIsLoading(true);
+    if (isStarting) {
+      event.preventDefault();
+      return;
+    }
 
-    startTimer.current = window.setTimeout(() => {
-      const link = document.createElement("a");
-      link.href = target.href;
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    }, 120);
-
-    resetTimer.current = window.setTimeout(() => {
-      loadingRef.current = false;
-      setIsLoading(false);
-    }, 3000);
+    setDownloadState("starting");
+    if (resetTimer.current !== null) window.clearTimeout(resetTimer.current);
+    resetTimer.current = window.setTimeout(() => setDownloadState("timed-out"), 4000);
   };
 
+  const actionHref = target?.href ?? releasePage;
+  const actionLabel = isStarting
+    ? "Starting download"
+    : downloadState === "timed-out"
+      ? `Try ${target?.platform ?? "the download"} again`
+      : target?.label ?? "View verified release assets";
+  const platformLabel = detectionState === "checking" ? "Checking your platform" : target ? platformName(platform) : "Choose a package";
+  const detail = target?.detail ?? "Windows · macOS · Linux packages";
+  const statusMessage = isStarting
+    ? "The v0.14.3 release asset is opening."
+    : detectionState === "checking"
+      ? "You can still choose a package below while we check this device."
+      : detectionState === "failed"
+        ? "Automatic detection failed. Choose a package below instead."
+        : detectionState === "unknown"
+          ? "We do not have a verified automatic choice for this device. Choose a package below."
+          : `Detected ${platformName(platform)}. This link goes directly to the stable v0.14.3 release asset.`;
+
   return (
-    <div className="detected-download">
-      <a
-        className="button detected-download-button"
-        href={target.href}
-        onClick={startDownload}
-        aria-disabled={isLoading}
-        aria-busy={isLoading}
-      >
-        {isLoading ? <RefreshCircle className="download-loader" aria-hidden="true" /> : <Download aria-hidden="true" />}
-        <span>{isLoading ? "Preparing download" : target.label}</span>
-      </a>
-      <span className="detected-download-detail" aria-live="polite">
-        {isLoading ? "Your verified download is starting." : target.detail}
-      </span>
+    <div className={styles.detectedDownload} aria-labelledby="recommended-download-title">
+      <div className={styles.detectedHeader}>
+        <div>
+          <span className={styles.detectedEyebrow}>Recommended download</span>
+          <h2 id="recommended-download-title">{platformLabel}</h2>
+        </div>
+        <span className={styles.detectedDetail}>{detail}</span>
+      </div>
+      <div className={styles.detectedActions}>
+        <a
+          className={`button ${styles.detectedButton}`}
+          href={actionHref}
+          onClick={startDownload}
+          target={isExternalFallback ? "_blank" : undefined}
+          rel={isExternalFallback ? "noreferrer" : undefined}
+          aria-disabled={isStarting || undefined}
+          aria-busy={isStarting || undefined}
+        >
+          {isStarting ? <RefreshCircle className={styles.downloadLoader} aria-hidden="true" /> : <Download aria-hidden="true" />}
+          <span>{actionLabel}</span>
+        </a>
+        <a className={styles.releaseLink} href={releasePage} target="_blank" rel="noreferrer">
+          Browse all release assets<span className="sr-only"> (opens in a new tab)</span>
+        </a>
+      </div>
+      <p className={styles.detectedStatus} role={isStarting ? "status" : undefined} aria-live="polite">
+        {statusMessage}
+      </p>
+      {downloadState === "timed-out" && target ? (
+        <p className={styles.downloadFallback} role="alert">
+          If nothing appeared, use the release page to choose the package yourself. <a href={releasePage} target="_blank" rel="noreferrer">Open verified release page<span className="sr-only"> (opens in a new tab)</span></a>.
+        </p>
+      ) : null}
     </div>
   );
 }
