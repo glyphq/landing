@@ -88,8 +88,6 @@ export function DetectedDownload() {
     : downloadState === "timed-out"
       ? `Try ${target?.platform ?? "the download"} again`
       : target?.label ?? "View verified release assets";
-  const platformLabel = detectionState === "checking" ? "Checking your platform" : target ? platformName(platform) : "Choose a package";
-  const detail = target?.detail ?? "Windows · macOS · Linux packages";
   const statusMessage = isStarting
     ? "The v0.14.3 release asset is opening."
     : detectionState === "checking"
@@ -101,34 +99,21 @@ export function DetectedDownload() {
           : `Detected ${platformName(platform)}. This link goes directly to the stable v0.14.3 release asset.`;
 
   return (
-    <div className={styles.detectedDownload} aria-labelledby="recommended-download-title">
-      <div className={styles.detectedHeader}>
-        <div>
-          <span className={styles.detectedEyebrow}>Recommended download</span>
-          <h2 id="recommended-download-title">{platformLabel}</h2>
-        </div>
-        <span className={styles.detectedDetail}>{detail}</span>
-      </div>
-      <div className={styles.detectedActions}>
-        <a
-          className={`button ${styles.detectedButton}`}
-          href={actionHref}
-          onClick={startDownload}
-          target={isExternalFallback ? "_blank" : undefined}
-          rel={isExternalFallback ? "noreferrer" : undefined}
-          aria-disabled={isStarting || undefined}
-          aria-busy={isStarting || undefined}
-        >
-          {isStarting ? <RefreshCircle className={styles.downloadLoader} aria-hidden="true" /> : <Download aria-hidden="true" />}
-          <span>{actionLabel}</span>
-        </a>
-        <a className={styles.releaseLink} href={releasePage} target="_blank" rel="noreferrer">
-          Browse all release assets<span className="sr-only"> (opens in a new tab)</span>
-        </a>
-      </div>
-      <p className={styles.detectedStatus} role={isStarting ? "status" : undefined} aria-live="polite">
-        {statusMessage}
-      </p>
+    <div className={styles.detectedDownload}>
+      <a
+        className={`button ${styles.detectedButton}`}
+        href={actionHref}
+        onClick={startDownload}
+        target={isExternalFallback ? "_blank" : undefined}
+        rel={isExternalFallback ? "noreferrer" : undefined}
+        aria-disabled={isStarting || undefined}
+        aria-busy={isStarting || undefined}
+        aria-describedby="download-status"
+      >
+        {isStarting ? <RefreshCircle className={styles.downloadLoader} aria-hidden="true" /> : <Download aria-hidden="true" />}
+        <span>{actionLabel}</span>
+      </a>
+      <span id="download-status" className="sr-only" role="status" aria-live="polite">{statusMessage}</span>
       {downloadState === "timed-out" && target ? (
         <p className={styles.downloadFallback} role="alert">
           If nothing appeared, use the release page to choose the package yourself. <a href={releasePage} target="_blank" rel="noreferrer">Open verified release page<span className="sr-only"> (opens in a new tab)</span></a>.
