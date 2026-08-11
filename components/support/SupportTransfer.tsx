@@ -1,31 +1,60 @@
 "use client";
 
 import { CheckCircle, Copy, Wallet } from "@solar-icons/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SupportWalletProvider } from "@/components/support/SupportWalletProvider";
+import { amountValidationMessage, formatUsdAmount, formatUsdPrice, normalizeQubicAmount } from "@/components/support/SupportTransferLogic";
 import { WalletDonation } from "@/components/support/WalletDonation";
+
+const PRICE_FETCH_TIMEOUT_MS = 8_000;
+
+type PriceStatus = "loading" | "ready" | "unavailable";
 
 export function SupportTransfer({ identity }: { identity: string }) {
   const [amount, setAmount] = useState("");
   const [usdAmount, setUsdAmount] = useState("");
   const [usdPrice, setUsdPrice] = useState<number | null>(null);
+  const [priceStatus, setPriceStatus] = useState<PriceStatus>("loading");
   const [priceUpdatedAt, setPriceUpdatedAt] = useState<string | null>(null);
+  const [priceAttempt, setPriceAttempt] = useState(0);
+  const [amountTouched, setAmountTouched] = useState(false);
   const [copied, setCopied] = useState<"identity" | null>(null);
+  const amountRef = useRef("");
   const configured = identity.length > 0;
+  const normalizedAmount = normalizeQubicAmount(amount);
+  const amountError = amountValidationMessage(amount, amountTouched || amount.length > 0);
 
   useEffect(() => {
     const controller = new AbortController();
+    let active = true;
+    const timeoutId = window.setTimeout(() => controller.abort(), PRICE_FETCH_TIMEOUT_MS);
+
     fetch("https://api.coingecko.com/api/v3/simple/price?ids=qubic-network&vs_currencies=usd", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Price unavailable")))
       .then((data: { "qubic-network"?: { usd?: number } }) => {
         const price = data["qubic-network"]?.usd;
-        if (typeof price !== "number" || !Number.isFinite(price) || price <= 0) return;
+        if (typeof price !== "number" || !Number.isFinite(price) || price <= 0) throw new Error("Price unavailable");
         setUsdPrice(price);
+        setPriceStatus("ready");
         setPriceUpdatedAt(new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(new Date()));
+        const currentAmount = normalizeQubicAmount(amountRef.current);
+        setUsdAmount(currentAmount ? formatUsdAmount(Number(currentAmount) * price) : "");
       })
-      .catch(() => undefined);
-    return () => controller.abort();
-  }, []);
+      .catch(() => {
+        if (!active) return;
+        setUsdPrice(null);
+        setUsdAmount("");
+        setPriceUpdatedAt(null);
+        setPriceStatus("unavailable");
+      })
+      .finally(() => window.clearTimeout(timeoutId));
+
+    return () => {
+      active = false;
+      window.clearTimeout(timeoutId);
+      controller.abort();
+    };
+  }, [priceAttempt]);
 
   const copy = async (value: string, type: "identity") => {
     if (!value || !navigator.clipboard) return;
@@ -38,21 +67,54 @@ export function SupportTransfer({ identity }: { identity: string }) {
     }
   };
 
-  const cleanAmount = amount.replace(/\D/g, "");
   const updateQubic = (value: string) => {
-    const clean = value.replace(/\D/g, "");
-    setAmount(clean);
-    setUsdAmount(usdPrice && clean ? (Number(clean) * usdPrice).toFixed(2) : "");
+    amountRef.current = value;
+    setAmount(value);
+    const nextAmount = normalizeQubicAmount(value);
+    setUsdAmount(usdPrice && nextAmount ? formatUsdAmount(Number(nextAmount) * usdPrice) : "");
   };
+
   const updateUsd = (value: string) => {
     const clean = value.replace(/[^\d.]/g, "").replace(/(\..*)\./g, "$1");
     setUsdAmount(clean);
+    if (!clean) {
+      amountRef.current = "";
+      setAmount("");
+      return;
+    }
     const dollars = Number(clean);
-    setAmount(usdPrice && Number.isFinite(dollars) && dollars > 0 ? String(Math.max(1, Math.round(dollars / usdPrice))) : "");
+    if (!usdPrice || !Number.isFinite(dollars)) {
+      amountRef.current = "";
+      setAmount("");
+      return;
+    }
+    if (dollars === 0) {
+      amountRef.current = "0";
+      setAmount("0");
+      setAmountTouched(true);
+      return;
+    }
+    const nextAmount = String(Math.max(1, Math.round(dollars / usdPrice)));
+    amountRef.current = nextAmount;
+    setAmount(nextAmount);
   };
+
+  const retryPrice = () => {
+    setPriceStatus("loading");
+    setUsdPrice(null);
+    setPriceUpdatedAt(null);
+    setUsdAmount("");
+    setPriceAttempt((attempt) => attempt + 1);
+  };
+
   const transferDetails = configured
-    ? `Recipient: ${identity}\nAmount: ${cleanAmount || "Choose an amount"} QUBIC\nNetwork: Qubic mainnet`
+    ? `Recipient: ${identity}\nAmount: ${normalizedAmount || "Choose an amount"} QUBIC\nNetwork: Qubic mainnet`
     : "";
+  const priceHelp = priceStatus === "loading"
+    ? "Loading an indicative QUBIC/USD market price."
+    : priceStatus === "unavailable"
+      ? "Indicative QUBIC/USD price is unavailable. QUBIC entry, identity copy, and transfer details still work."
+      : `Indicative market price: ≈${formatUsdPrice(usdPrice ?? 0)} per QUBIC${priceUpdatedAt ? ` · updated ${priceUpdatedAt}` : ""}.`;
 
   return (
     <section className="support-transfer" aria-labelledby="support-transfer-title" data-reveal="fade-up">
@@ -67,12 +129,39 @@ export function SupportTransfer({ identity }: { identity: string }) {
           <span>01</span>
           <div>
             <div className="amount-converter">
-              <div><label htmlFor="support-amount">Amount in QUBIC</label><div className="amount-input-wrap"><input id="support-amount" inputMode="numeric" pattern="[0-9]*" value={amount} onChange={(event) => updateQubic(event.target.value)} aria-describedby="amount-help" /><b>QUBIC</b></div></div>
+              <div>
+                <label htmlFor="support-amount">Amount in QUBIC</label>
+                <div className="amount-input-wrap">
+                  <input
+                    id="support-amount"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    required
+                    value={amount}
+                    onBlur={() => setAmountTouched(true)}
+                    onChange={(event) => updateQubic(event.target.value)}
+                    aria-describedby={amountError ? "amount-help amount-error" : "amount-help"}
+                    aria-invalid={Boolean(amountError)}
+                  />
+                  <b>QUBIC</b>
+                </div>
+              </div>
               <span aria-hidden="true">≈</span>
-              <div><label htmlFor="support-usd">Approximate value</label><div className="amount-input-wrap amount-input-usd"><b>$</b><input id="support-usd" inputMode="decimal" value={usdAmount} onChange={(event) => updateUsd(event.target.value)} disabled={!usdPrice} aria-describedby="price-help" /><b>USD</b></div></div>
+              <div>
+                <label htmlFor="support-usd">Approximate value</label>
+                <div className="amount-input-wrap amount-input-usd">
+                  <b>$</b>
+                  <input id="support-usd" inputMode="decimal" value={usdAmount} onChange={(event) => updateUsd(event.target.value)} disabled={!usdPrice} aria-describedby="price-help" />
+                  <b>USD</b>
+                </div>
+              </div>
             </div>
-            <p id="amount-help">Transfers use a whole-number QUBIC amount and are final.</p>
-            <p id="price-help" className="price-help">{usdPrice ? `Indicative market price: $${usdPrice.toPrecision(4)} per QUBIC${priceUpdatedAt ? ` · updated ${priceUpdatedAt}` : ""}.` : "Loading an indicative QUBIC/USD market price…"} USD values are estimates and may change before signing.</p>
+            <p id="amount-help">Use a whole-number QUBIC amount greater than zero. Transfers are final.</p>
+            {amountError && <p id="amount-error" role="alert">{amountError}</p>}
+            <p id="price-help" className="price-help" aria-live="polite">
+              {priceHelp} USD values are estimates and may change before signing.
+              {priceStatus === "unavailable" && <>{" "}<button className="quiet-link" type="button" onClick={retryPrice}>Retry price</button></>}
+            </p>
           </div>
         </div>
 
@@ -103,8 +192,8 @@ export function SupportTransfer({ identity }: { identity: string }) {
           <div>
             <p className="transfer-label">Optional wallet shortcut</p>
             <p>Use a connector to prefill the recipient and amount, or send directly from your wallet using the identity above. Always compare the details before signing.</p>
-            {configured && cleanAmount ? (
-              <SupportWalletProvider><WalletDonation identity={identity} amount={cleanAmount} transferDetails={transferDetails} /></SupportWalletProvider>
+            {configured ? (
+              <SupportWalletProvider><WalletDonation identity={identity} amount={normalizedAmount ?? ""} transferDetails={transferDetails} /></SupportWalletProvider>
             ) : (
               <button className="button" type="button" disabled><Wallet aria-hidden="true" />Choose a wallet</button>
             )}

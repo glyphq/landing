@@ -161,6 +161,11 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
   const activeDetail = wallet.activeConnector ? connectorDetails[wallet.activeConnector.id] : null;
   const activeConnectorId = wallet.activeConnector?.id;
   const amountValid = /^\d+$/.test(amount) && BigInt(amount) > BigInt(0);
+  const walletDisabledReason = !mounted
+    ? "Wallet shortcuts are loading."
+    : !amountValid
+      ? "Enter a whole-number QUBIC amount greater than 0 to enable wallet shortcuts."
+      : null;
 
   return (
     <div className="wallet-donation">
@@ -170,16 +175,18 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
             <div><activeDetail.Icon aria-hidden="true" /><span><strong>{activeDetail.label}</strong><small>{shortIdentity(wallet.account.identity)}</small></span></div>
             <button type="button" onClick={disconnect}><Logout aria-hidden="true" />Disconnect</button>
           </div>
-          <button className="button wallet-transfer-button" type="button" disabled={!amountValid || isTransferring || (activeConnectorId === "glyph-wallet" && glyphRelayState === "preparing")} onPointerEnter={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={activeConnectorId === "glyph-wallet" && glyphRelayState !== "ready" ? () => warmGlyphRelay(glyphRelayState === "failed") : sendTransfer}>
+          <button className="button wallet-transfer-button" type="button" disabled={!amountValid || isTransferring || (activeConnectorId === "glyph-wallet" && glyphRelayState === "preparing")} aria-describedby={walletDisabledReason ? "wallet-shortcut-help" : undefined} onPointerEnter={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={activeConnectorId === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={activeConnectorId === "glyph-wallet" && glyphRelayState !== "ready" ? () => warmGlyphRelay(glyphRelayState === "failed") : sendTransfer}>
             <Wallet aria-hidden="true" />{isTransferring ? "Waiting for wallet" : activeConnectorId === "glyph-wallet" && glyphRelayState === "preparing" ? "Preparing secure transfer" : activeConnectorId === "glyph-wallet" && glyphRelayState === "failed" ? "Retry secure transfer setup" : `Review ${BigInt(amount).toLocaleString("en-US")} QUBIC transfer`}
           </button>
           {feedbackCopy(glyphFeedback) && <p className={`wallet-status wallet-status-${glyphFeedback?.state}`} role="status">{feedbackCopy(glyphFeedback)}</p>}
         </div>
       ) : (
-        <button ref={connectButton} className="button wallet-transfer-button" type="button" disabled={!mounted || !amountValid} onPointerEnter={() => warmGlyphRelay()} onFocus={() => warmGlyphRelay()} onClick={openConnectors}>
+        <button ref={connectButton} className="button wallet-transfer-button" type="button" disabled={!mounted || !amountValid} aria-describedby={walletDisabledReason ? "wallet-shortcut-help" : undefined} onPointerEnter={() => warmGlyphRelay()} onFocus={() => warmGlyphRelay()} onClick={openConnectors}>
           <Wallet aria-hidden="true" />Choose a wallet
         </button>
       )}
+
+      {walletDisabledReason && <p id="wallet-shortcut-help" className="price-help">{walletDisabledReason}</p>}
 
       <button className="copy-transfer-details" type="button" onClick={copyDetails}>
         {copied ? <CheckCircle aria-hidden="true" /> : <Copy aria-hidden="true" />}{copied ? "Transfer details copied" : "Copy details instead"}
@@ -198,14 +205,14 @@ export function WalletDonation({ identity, amount, transferDetails }: { identity
             const glyphRelayPreparing = connector.id === "glyph-wallet" && glyphRelayState !== "ready" && !glyphRelayFailed;
             const unavailable = connector.id === "walletconnect" ? !hasWalletConnectProjectId : mounted && !connector.isAvailable();
             const disabled = unavailable || Boolean(pendingConnector) || glyphRelayPreparing;
-            const status = glyphRelayFailed ? "Could not prepare secure session"
+            const status = glyphRelayFailed ? "Could not prepare secure session. Retry."
               : glyphRelayPreparing ? "Preparing secure session…"
-              : unavailable ? (connector.id === "walletconnect" ? "Requires project configuration" : "Not detected in this browser")
+              : unavailable ? (connector.id === "walletconnect" ? "Unavailable: requires project configuration." : "Unavailable: wallet not detected in this browser.")
               : detail.description;
             return (
-              <button key={connector.id} type="button" disabled={disabled} onPointerEnter={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={glyphRelayFailed ? () => warmGlyphRelay(true) : () => connect(connector.id)}>
+              <button key={connector.id} type="button" disabled={disabled} aria-describedby={`${connector.id}-availability`} onPointerEnter={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onFocus={connector.id === "glyph-wallet" ? () => warmGlyphRelay() : undefined} onClick={glyphRelayFailed ? () => warmGlyphRelay(true) : () => connect(connector.id)}>
                 <detail.Icon aria-hidden="true" />
-                <span><strong>{detail.label}</strong><small>{status}</small></span>
+                <span><strong>{detail.label}</strong><small id={`${connector.id}-availability`}>{status}</small></span>
                 <b>{pendingConnector === connector.id ? "Connecting…" : glyphRelayPreparing ? "Preparing…" : glyphRelayFailed ? "Retry" : unavailable ? "Unavailable" : "Connect"}</b>
               </button>
             );
