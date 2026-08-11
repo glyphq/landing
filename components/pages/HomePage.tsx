@@ -9,7 +9,6 @@ function HomeHero() {
   return (
     <section className="hero section-wide" data-reveal="hero">
       <div className="hero-copy">
-        <p className="kicker">Independent software built for Qubic.</p>
         <h1>Build on Qubic without rebuilding the basics.</h1>
         <p className="lead">Glyph creates dependable wallets, libraries, and infrastructure as one coherent system.</p>
         <ActionGroup>
@@ -44,7 +43,7 @@ export function HomePage() {
   return (
     <main id="main">
       <HomeHero />
-      <section className="statement section" data-reveal="statement"><p>Mission</p><h2>Make Qubic easier to build on<br />and safer to use.</h2></section>
+      <section className="statement section" data-reveal="statement"><h2>Make Qubic easier to build on<br />and safer to use.</h2></section>
       <CurrentProducts />
       <section className="section section-dark">
         <SectionHeading title="One system. Clear boundaries."><p>Products are organized by the role they play, not presented as an undifferentiated suite.</p></SectionHeading>
@@ -56,7 +55,7 @@ export function HomePage() {
         <div className="code-line" data-reveal="code"><code>bun add @glyph-oss/connect</code><a href="https://www.npmjs.com/package/@glyph-oss/connect" target="_blank" rel="noreferrer">Package<span className="sr-only"> (opens in a new tab)</span></a></div>
       </section>
       <section className="section split" data-reveal="split">
-        <div><p className="kicker">Local control</p><h2>The signing boundary stays in the wallet.</h2></div>
+        <div><h2>The signing boundary stays in the wallet.</h2></div>
         <div><p>Vault data is encrypted before disk storage. Signing requests pass through the desktop application for review. Glyph Connect never receives private keys.</p><Link className="quiet-link quiet-link-icon" href="/security"><Shield aria-hidden="true" />Read the security model</Link></div>
       </section>
       <section className="section">
@@ -68,7 +67,6 @@ export function HomePage() {
         <div><p>Connect is open source under MIT. Wallet is source available. Planned products will publish a license when their implementation is released.</p><Link className="quiet-link quiet-link-icon" href="/open-source"><BranchingPathsUp aria-hidden="true" />Review repositories and licenses</Link></div>
       </section>
       <section className="section final-cta" data-reveal="cta">
-        <p>Clear interfaces. Local control. Predictable tools.</p>
         <h2>Choose the path you need.</h2>
         <ActionGroup><ExternalLink className="button" href="https://docs.glyphq.org"><Code2 aria-hidden="true" />Start building</ExternalLink><Link className="button button-secondary" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></ActionGroup>
       </section>

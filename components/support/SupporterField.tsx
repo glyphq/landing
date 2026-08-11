@@ -30,7 +30,6 @@ export function SupporterField({ supporters }: { supporters: Supporter[] }) {
     <section className="supporter-section section-dark" aria-labelledby="supporters-title">
       <div className="supporter-heading">
         <div>
-          <p className="kicker">Public recognition</p>
           <h2 id="supporters-title">The people keeping the work moving.</h2>
         </div>
         <p>Each square represents one source identity. Its footprint reflects the total QUBIC received from that identity.</p>

@@ -86,8 +86,8 @@
 
 .sectionHeader {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.75fr);
-  align-items: end;
+  grid-template-columns: 1fr;
+  align-items: start;
   gap: 2rem;
   margin-bottom: 2.5rem;
 }

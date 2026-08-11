@@ -11,7 +11,6 @@ export async function SupportPage() {
   return (
     <main id="main" className="support-page">
       <PageHero className="support-hero">
-        <p className="kicker">Support Glyph</p>
         <h1>Keep independent Qubic software moving.</h1>
         <p className="lead">A direct Qubic transfer helps maintain releases, security work, documentation, and the shared foundations behind Glyph products.</p>
         <ActionGroup>
@@ -36,7 +35,7 @@ export async function SupportPage() {
       <div id="supporters">{previewing && <p className="support-preview-notice">Visualization preview · sample nodes are marked and are not real transfers.</p>}<SupporterField supporters={supporters} /></div>
 
       <section className="section split support-transparency" data-reveal="split">
-        <div><p className="kicker">Recognition</p><h2>Public only when a supporter asks.</h2></div>
+        <div><h2>Public only when a supporter asks.</h2></div>
         <div><p>Blockchain transfers are public, but identity is not assumed. Supporters appear here only after asking to be recognized and verifying the relevant transfer. Anonymous transfers remain anonymous on this site.</p><p>Recognition uses broad bands so this page can acknowledge sustained support without publishing exact contribution amounts.</p></div>
       </section>
 

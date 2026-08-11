@@ -7,7 +7,6 @@ export function EcosystemPage() {
   return (
     <main id="main">
       <PageHero>
-        <p className="kicker">Glyph ecosystem</p>
         <h1>Software organized by responsibility.</h1>
         <p className="lead">The product family connects application intent, developer workflows, infrastructure, and user-controlled approval.</p>
       </PageHero>

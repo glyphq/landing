@@ -110,7 +110,7 @@ function Availability({ product }: { product: Product }) {
 function EcosystemRole({ product, current }: { product: Product; current: boolean }) {
   return (
     <section className="section split" data-reveal="split">
-      <div><p className="kicker">Ecosystem role</p><h2>{current ? "A working part of the system." : "A stated part of the future system."}</h2></div>
+      <div><h2>{current ? "A working part of the system." : "A stated part of the future system."}</h2></div>
       <div>
         <p>{product.principles.join(". ")}.</p>
         <dl className="metadata-list">
@@ -141,7 +141,6 @@ export function ProductPageView({ product }: { product: Product }) {
     <main id="main" className={`product-page accent-${product.accent}`}>
       <PageHero>
         <Status value={product.status} />
-        <p className="kicker">{product.descriptor}</p>
         <h1>{product.name}</h1>
         <p className="lead">{product.summary}</p>
         <ProductActions product={product} />

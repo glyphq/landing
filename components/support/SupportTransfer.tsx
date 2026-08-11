@@ -119,7 +119,6 @@ export function SupportTransfer({ identity }: { identity: string }) {
   return (
     <section className="support-transfer" aria-labelledby="support-transfer-title" data-reveal="fade-up">
       <div className="support-transfer-intro">
-        <p className="kicker">Direct Qubic transfer</p>
         <h2 id="support-transfer-title">Send support without an intermediary.</h2>
         <p>Send a standard Qubic transaction directly to the published identity from any Qubic wallet. The connectors below are optional shortcuts.</p>
       </div>

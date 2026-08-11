@@ -10,7 +10,6 @@ export function LicensePage() {
   return (
     <main id="main">
       <PageHero>
-        <p className="kicker">Glyph / licensing</p>
         <h1>Licenses, stated precisely</h1>
         <p className="lead">
           Glyph does not apply one license label to every product. Follow each repository for the terms that actually govern its software.

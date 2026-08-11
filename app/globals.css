@@ -33,6 +33,13 @@
 .final-cta .button{background:oklch(.96 0 0);color:oklch(.09 0 0);border-color:oklch(.96 0 0)}
 .final-cta .button:hover{background:oklch(.78 0 0);border-color:oklch(.78 0 0)}
 .final-cta .button-secondary{background:transparent;color:oklch(.96 0 0);border-color:oklch(.42 0 0)}
+
+/* Keep title and description pairs in a single vertical flow. */
+.section-heading,.split,.maintenance{grid-template-columns:1fr}
+figure.architecture .architecture-header{grid-template-columns:1fr}
+figure.architecture .architecture-header>span{grid-column:auto}
+.supporter-section .supporter-heading{grid-template-columns:1fr}
+.supporter-section .supporter-heading>p{justify-self:start}
 .page-hero{border-bottom:1px solid var(--border-strong)}
 .page-hero .status{margin-bottom:1.5rem}
 .page-hero .kicker{width:min(100%,38rem);padding-top:1rem;border-top:1px solid var(--border-strong)}
@@ -42,4 +49,3 @@
 .downloads a{transition:background 160ms,color 160ms}
 .downloads a:hover{background:var(--text-primary);color:var(--canvas)}
 @media(max-width:900px){.product-row{grid-template-columns:minmax(0,1fr) auto}.statement,.maintenance{padding-left:var(--gutter);padding-right:var(--gutter)}.prose-sections article:nth-child(even)>div{margin-left:0}}
-

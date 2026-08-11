@@ -13,7 +13,6 @@ export function InfoPage({ slug, page }: { slug: string; page: InfoPageContent }
   return (
     <main id="main">
       <PageHero>
-        <p className="kicker">Glyph / {slug.replace("-", " ")}</p>
         <h1>{page.title}</h1>
         <p className="lead">{page.intro}</p>
         <InfoAction slug={slug} />
