@@ -8,6 +8,7 @@ import { SupportPage } from "@/components/pages/SupportPage";
 import { ProductPageView } from "@/components/products/ProductPageView";
 import { infoPages, pageBySlug } from "@/content/pages";
 import { productById, products } from "@/content/products";
+import { siteOrigin, socialImageUrl } from "@/lib/site";
 
 const specialRoutes = ["ecosystem", "download", "support", "404"];
 
@@ -31,10 +32,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
-    alternates: { canonical: `/${slug}` },
+    alternates: { canonical: `${siteOrigin}/${slug}/` },
     robots: slug === "404" ? { index: false, follow: false } : undefined,
-    openGraph: { title, description, url: `/${slug}`, images: ["/social/default.svg"] },
-    twitter: { card: "summary_large_image", title, description, images: ["/social/default.svg"] },
+    openGraph: { title, description, url: `${siteOrigin}/${slug}/`, images: [{ url: socialImageUrl, width: 1200, height: 630, alt: "Glyph independent software built for Qubic" }] },
+    twitter: { card: "summary_large_image", title, description, images: [socialImageUrl] },
   };
 }
 

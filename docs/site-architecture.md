@@ -22,6 +22,7 @@ The Next.js App Router project is statically exported. Product and organization 
 - `lib/connectors/` registers Glyph Wallet, the injected Qubic extension, and WalletConnect behind the shared `@qubic.org/react` wallet contract.
 - `app/sitemap.ts` and `app/robots.ts` generate static crawler files.
 - Netlify-style `_redirects` supplies static-host 404 behavior. Each route also emits a physical directory under `out/`.
+- Cache policy is explicit at deployment boundaries: fingerprinted `/_next/static/` assets are immutable for one year, while `/support/` and `/download/` pages are public but must revalidate on every request. The supporter visualization is a build-time snapshot from the official Qubic archive query API, and the verified Wallet release is build-time content, so both require a redeploy when their source data changes.
 
 ## Component model
 

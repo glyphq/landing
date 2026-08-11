@@ -32,7 +32,7 @@ Audit date: 2026-08-10. Only Glyph-owned repositories, releases, package metadat
 
 ## Unresolved or intentionally omitted
 
-- `branding.glyphq.org` was not reachable from the audit environment. The site links to it because it is the destination specified by the organization brief.
+- The former external branding destination did not resolve. The public `/brand/` page now keeps the verified identity guidance and repository-supplied masters as the available source.
 - No public Explorer, SDK, CLI, Devkit, API, Docs, or Trade implementation was found in the `glyphq` GitHub organization.
 - No verified funding, sponsorship, CCF proposal, team roster, governance timetable, user count, performance claim, security audit, partnership, or Qubic affiliation exists in the audited sources.
 - The Wallet README contains older `glyph-ecosystem` links alongside the current `glyphq` repository location. Public site links use the current `glyphq` URLs.

@@ -16,7 +16,7 @@
 
 Static export · Responsive · WCAG 2.2 AA target
 
-[**Website**](https://glyphq.org) · [Documentation](https://docs.glyphq.org) · [GitHub](https://github.com/glyphq)
+[**Website**](https://www.glyphq.org) · [Documentation](https://docs.glyphq.org) · [GitHub](https://github.com/glyphq)
 
 </div>
 
@@ -95,7 +95,7 @@ See [`docs/site-architecture.md`](./docs/site-architecture.md) for the current c
 | --- | --- |
 | Core | `/`, `/ecosystem`, `/developers`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
 | Products | `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade` |
-| Supporting | `/download`, `/support`, `/brand`, `/privacy`, `/terms`, `/trademark`, `/404` |
+| Supporting | `/download`, `/support`, `/brand`, `/license`, `/privacy`, `/terms`, `/trademark`, `/404` |
 
 Every public route includes a unique title, description, canonical URL, social metadata, one primary heading, responsive layout, and static output.
 
@@ -132,7 +132,7 @@ The published Qubic support identity and opt-in supporter records are maintained
 The support flow offers Glyph Wallet, an injected Qubic browser extension, and WalletConnect. Copy `.env.example` to `.env.local` and add a public WalletConnect Cloud project ID to enable QR pairing:
 
 ```sh
-NEXT_PUBLIC_APP_ORIGIN=https://glyphq.org
+NEXT_PUBLIC_APP_ORIGIN=https://www.glyphq.org
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=YOUR_PUBLIC_PROJECT_ID
 ```
 
@@ -218,6 +218,8 @@ const nextConfig = {
 
 Deploy the generated `out/` directory to a static host. [`public/_redirects`](./public/_redirects) provides the current static-host fallback behavior. The deployment must preserve physical route directories, redirects, sitemap output, robots output, and social assets.
 
+Cache policy is intentionally route-specific. Fingerprinted Next assets under `/_next/static/` use `public, max-age=31536000, immutable`. The `/support/` supporter visualization and `/download/` release page use `public, max-age=0, must-revalidate` so a deployment or host revalidation is never hidden behind a long-lived page cache. Both are still static-export output: supporter transactions are fetched at build time and the verified Wallet release is typed into the release UI, so updated data or release links require a new deployment. Request-time freshness would require moving that data behind a runtime or client API, which this static export does not do.
+
 ## Contributing
 
 1. Create a focused branch.
@@ -227,14 +229,14 @@ Deploy the generated `out/` directory to a static host. [`public/_redirects`](./
 5. Run all checks and browser QA.
 6. Commit updated route screenshots when a visual change is intentional.
 
-Security issues should not be opened as public bug reports. Follow the reporting instructions on [glyphq.org/security](https://glyphq.org/security/).
+Security issues should not be opened as public bug reports. Follow the reporting instructions on [www.glyphq.org/security](https://www.glyphq.org/security/).
 
 ## Community
 
-- **Website:** [glyphq.org](https://glyphq.org)
+- **Website:** [www.glyphq.org](https://www.glyphq.org)
 - **GitHub:** [github.com/glyphq](https://github.com/glyphq)
 - **Documentation:** [docs.glyphq.org](https://docs.glyphq.org)
-- **Brand:** [branding.glyphq.org](https://branding.glyphq.org)
+- **Brand:** [www.glyphq.org/brand](https://www.glyphq.org/brand/)
 
 ## License
 

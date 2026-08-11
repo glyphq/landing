@@ -4,9 +4,10 @@ import {
   type WalletConnector,
 } from "@qubic.org/react";
 import { glyphConnector } from "./glyph";
+import { siteOrigin } from "@/lib/site";
 
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? "95b68d7bcc2f7307785f3869d0ec4733";
-const appOrigin = process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || "https://glyphq.org";
+const appOrigin = process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || siteOrigin;
 
 type WalletConnectTransaction = Parameters<WalletConnector["sendTransaction"]>[0] & {
   from: string;

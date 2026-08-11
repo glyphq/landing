@@ -1,4 +1,4 @@
-import { Palette, ShieldWarning } from "@solar-icons/react";
+import { ShieldWarning } from "@solar-icons/react";
 import type { InfoPage as InfoPageContent } from "@/content/pages";
 import { products } from "@/content/products";
 import { ConnectFlow } from "@/components/Diagrams";
@@ -7,7 +7,6 @@ import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
 
 function InfoAction({ slug }: { slug: string }) {
   if (slug === "security") return <ExternalLink className="button" href="https://github.com/glyphq/wallet/security/advisories/new"><ShieldWarning aria-hidden="true" />Report a vulnerability</ExternalLink>;
-  if (slug === "brand") return <ExternalLink className="button" href="https://branding.glyphq.org"><Palette aria-hidden="true" />Open brand resources</ExternalLink>;
   return null;
 }
 

@@ -33,14 +33,14 @@ export const infoPages: InfoPage[] = [
     { title: "Long-term view", body: "Developers should spend time building products instead of rebuilding basic infrastructure. Glyph favors clear interfaces, local control, and predictable tools." },
     { title: "Independent by design", body: "Glyph is an independent community project building software for the Qubic network. It is not an official Qubic organization." },
   ]},
-  { slug: "brand", title: "Use the Glyph identity carefully", description: "Brand resources and the canonical Glyph identity destination.", intro: "Canonical brand guidance belongs at branding.glyphq.org. Use supplied masters rather than reconstructing or modifying the mark.", sections: [
-    { title: "Wordmark", body: "The organization is written Glyph. The visual wordmark may appear as glyph. The period is graphical and is not part of the grammatical name." },
+  { slug: "brand", title: "Use the Glyph identity carefully", description: "Brand resources and Glyph identity guidance.", intro: "Approved Glyph masters are supplied with this site. Use them rather than reconstructing or modifying the mark.", sections: [
+    { title: "Wordmark", body: "The organization is written Glyph. The visual wordmark may appear as glyph. The period is graphical and is not part of the grammatical name. Approved raster masters are available in the repository under public/brand/." },
     { title: "Relationship language", body: "Use: “Glyph is an independent community project building software for the Qubic network.” Do not imply endorsement or formal affiliation." },
   ]},
   { slug: "privacy", title: "Privacy", description: "Privacy information for the Glyph public website.", intro: "This static public website is designed to work without accounts, analytics cookies, or behavioral advertising.", sections: [
     { title: "Website data", body: "The site does not intentionally collect personal information through forms. Hosting providers may process standard request logs according to their own infrastructure policies." },
     { title: "External services", body: "Links to GitHub, npm, Discord, and product downloads take you to services with their own privacy terms." },
-    { title: "Product privacy", body: "This notice covers glyphq.org only. Product repositories and applications document their own data and security boundaries." },
+    { title: "Product privacy", body: "This notice covers www.glyphq.org only. Product repositories and applications document their own data and security boundaries." },
   ]},
   { slug: "terms", title: "Terms", description: "Terms for using the Glyph public website.", intro: "The website provides project information and links to software distributed under product-specific terms.", sections: [
     { title: "No warranty", body: "Information and software are provided without a promise that they will be uninterrupted, error-free, or suitable for a particular purpose." },

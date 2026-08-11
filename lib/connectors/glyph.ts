@@ -26,6 +26,7 @@ import type {
   WalletConnectorEvent,
 } from "@qubic.org/react";
 import type { Identity } from "@qubic.org/types";
+import { siteOrigin } from "@/lib/site";
 
 const STORAGE_KEY = "glyph-support-account";
 export const GLYPH_REQUEST_STATUS_EVENT = "glyph:support-request-status";
@@ -78,7 +79,7 @@ export function prewarmGlyphRelaySession() {
 function dapp() {
   return {
     name: "Glyph Support",
-    origin: process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || "https://glyphq.org",
+    origin: process.env.NEXT_PUBLIC_APP_ORIGIN?.trim() || siteOrigin,
   };
 }
 

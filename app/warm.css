@@ -282,3 +282,37 @@ html{scroll-behavior:smooth}
 @media(max-width:900px){.supporter-volume-grid{--grid-columns:36;--grid-gap:4px;grid-auto-rows:calc(2.777778cqw - 3.888889px)}}
 @media(max-width:700px){.supporter-volume-head{align-items:flex-start;flex-direction:column;gap:.75rem}.supporter-volume-head>p{text-align:left}.supporter-volume-grid{--grid-columns:30;--grid-gap:3px;grid-auto-rows:calc(3.333333cqw - 2.9px)}.supporter-volume-tile .supporter-tooltip{display:none}}
 @media(max-width:420px){.supporter-volume-grid{--grid-columns:24;--grid-gap:3px;grid-auto-rows:calc(4.166667cqw - 2.875px)}.supporter-volume-head span{font-size:.75rem}}
+/* User-selectable light mode. System mode keeps the existing OLED palette when the OS is dark. */
+:root[data-theme="light"]{
+  color-scheme:light;
+  --canvas:#fbf8f5;--surface-1:#f3eeea;--surface-2:#e9e0da;--surface-3:#ded2ca;
+  --text-primary:#211b19;--text-secondary:#655954;--text-tertiary:#887a73;--text-inverse:#fbf8f5;
+  --border-subtle:#e3d9d2;--border-default:#c7b9b0;--border-strong:#302522;--focus:#8f2b35;
+  --information:#1f667e;--product-wallet:#8f2b35;--product-connect:#12647f;--product-explorer:#277a55;--product-sdk:#585399;--product-cli:#755421;--product-devkit:#7d4778;--product-api:#157079;--product-docs:#706b31;--product-trade:#934319;
+  --warm-canvas:#fbf8f5;--warm-surface:#f3eeea;--warm-surface-strong:#e9e0da;--warm-ink:#211b19;--warm-muted:#655954;--warm-line:#d8cbc3;--warm-accent:#8f2b35;--warm-accent-soft:#f0ddd8;--warm-chocolate:#3d2824;--warm-shadow:0 8px 24px rgb(48 37 33/.12)
+}
+@media(prefers-color-scheme:light){:root:not([data-theme]){
+  color-scheme:light;
+  --canvas:#fbf8f5;--surface-1:#f3eeea;--surface-2:#e9e0da;--surface-3:#ded2ca;
+  --text-primary:#211b19;--text-secondary:#655954;--text-tertiary:#887a73;--text-inverse:#fbf8f5;
+  --border-subtle:#e3d9d2;--border-default:#c7b9b0;--border-strong:#302522;--focus:#8f2b35;
+  --information:#1f667e;--product-wallet:#8f2b35;--product-connect:#12647f;--product-explorer:#277a55;--product-sdk:#585399;--product-cli:#755421;--product-devkit:#7d4778;--product-api:#157079;--product-docs:#706b31;--product-trade:#934319;
+  --warm-canvas:#fbf8f5;--warm-surface:#f3eeea;--warm-surface-strong:#e9e0da;--warm-ink:#211b19;--warm-muted:#655954;--warm-line:#d8cbc3;--warm-accent:#8f2b35;--warm-accent-soft:#f0ddd8;--warm-chocolate:#3d2824;--warm-shadow:0 8px 24px rgb(48 37 33/.12)
+}}
+
+.wordmark{display:inline-flex;align-items:center;gap:.42rem}.brand-mark{width:1.55rem;height:1.55rem;display:inline-grid;flex:0 0 auto;place-items:center}.brand-mark img{grid-area:1/1;width:100%;height:100%;object-fit:cover}.brand-mark-light{mix-blend-mode:multiply}.brand-mark-dark{display:none;mix-blend-mode:screen}
+@media(prefers-color-scheme:dark){:root:not([data-theme]) .brand-mark-light{display:none}:root:not([data-theme]) .brand-mark-dark{display:block}}
+:root[data-theme="dark"] .brand-mark-light{display:none}:root[data-theme="dark"] .brand-mark-dark{display:block}:root[data-theme="light"] .brand-mark-light{display:block}:root[data-theme="light"] .brand-mark-dark{display:none}
+.theme-toggle{display:inline-flex;min-width:40px;min-height:40px;align-items:center;justify-content:center;padding:.5rem;border:0;border-radius:var(--radius-sm);background:transparent;color:var(--warm-muted);cursor:pointer}.theme-toggle:hover{background:var(--warm-surface-strong);color:var(--warm-ink)}.theme-toggle svg{width:1.15rem;height:1.15rem}.mobile-menu-theme{display:flex;justify-content:flex-end;border-top:1px solid var(--warm-line);padding-top:.8rem}.mobile-menu-theme .theme-toggle{min-height:44px}.menu-head .wordmark{display:inline-flex}
+
+/* Explicit dark mode remains dark even when the operating system is light. */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --canvas:#000;--surface-1:#070707;--surface-2:#0e0e0e;--surface-3:#181818;
+  --text-primary:#f7f7f7;--text-secondary:#b9b9b9;--text-tertiary:#8c8c8c;--text-inverse:#050505;
+  --border-subtle:#171717;--border-default:#343434;--border-strong:#f2f2f2;--focus:#fff;
+  --information:#d7d7d7;--product-wallet:#fff;--product-connect:#e8e8e8;--product-explorer:#d8d8d8;--product-sdk:#c8c8c8;--product-cli:#ededed;--product-devkit:#bdbdbd;--product-api:#dedede;--product-docs:#f4f4f4;--product-trade:#b3b3b3;
+  --warm-canvas:#000;--warm-surface:#070707;--warm-surface-strong:#121212;--warm-ink:#f7f7f7;--warm-muted:#adadad;--warm-line:#252525;--warm-accent:#fff;--warm-accent-soft:#161616;--warm-chocolate:#030303;--warm-shadow:0 12px 32px rgb(0 0 0/.42)
+}
+:root[data-theme="light"] .nav-popover{background:var(--warm-canvas);box-shadow:var(--warm-shadow)}
+@media(prefers-color-scheme:light){:root:not([data-theme]) .nav-popover{background:var(--warm-canvas);box-shadow:var(--warm-shadow)}}
