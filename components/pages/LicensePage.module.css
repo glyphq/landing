@@ -1,0 +1,23 @@
+.summary.summary article {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  border-radius: 0;
+  background: transparent;
+  grid-template-columns: 120px 1fr;
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  display: grid;
+}
+
+.summary.summary article > span {
+  display: block;
+}
+
+.summary.summary article > div {
+  max-width: 760px;
+}
+
+@media (max-width: 560px) {
+  .summary.summary article {
+    grid-template-columns: 45px 1fr;
+  }
+}
