@@ -36,10 +36,10 @@ export function LicensePage() {
         <article>
           <span aria-hidden="true">02</span>
           <div>
-            <p className="kicker">Source available</p>
+            <p className="kicker">Open source · MIT License</p>
             <h2>{wallet.name}</h2>
             <p>
-              The {wallet.name} repository is public, but it does not publish an OSI-approved license. It must not be described as open source; use the repository terms instead.
+              {wallet.name} is released under the MIT License. Its repository is public, and its source and terms are available there.
             </p>
             <nav className="actions" aria-label={`${wallet.name} links`}>
               <ExternalLink className="button button-secondary" href={wallet.repositoryUrl!}>Repository</ExternalLink>
