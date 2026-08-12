@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BranchingPathsUp, Code2, Download, Shield } from "@solar-icons/react";
+import { ArrowRight, BranchingPathsUp, Code2, Download, Shield } from "@solar-icons/react";
+import { ProductIcon } from "@/components/products/ProductIcon";
 import { ConnectFlow, StackDiagram } from "@/components/Diagrams";
 import { ActionGroup, SectionHeading } from "@/components/layout/PageElements";
 import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
@@ -29,9 +30,12 @@ function CurrentProducts() {
       <div className="current-products" data-reveal-group="current-products">
         {products.slice(0, 2).map((product) => (
           <article key={product.id} className={`current-product accent-${product.accent}`}>
+            <ProductIcon productId={product.id} className="current-product-mask" aria-hidden="true" />
             <div><h3>{product.name}</h3><p>{product.summary}</p></div>
             <ul>{product.capabilities.slice(0, 3).map((capability) => <li key={capability}>{capability}</li>)}</ul>
-            <Link href={`/${product.id}`}>Explore {product.name}</Link>
+            <Link className="button current-product-action" href={`/${product.id}`}>
+              Explore {product.name}<ArrowRight aria-hidden="true" />
+            </Link>
           </article>
         ))}
       </div>

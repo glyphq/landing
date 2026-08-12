@@ -82,6 +82,18 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 .footer-links a{color:#aaa}
 .downloads a:hover{background:#141414;color:var(--warm-ink)}
 .downloads a:hover:after{background:var(--warm-accent)}
+
+/* Current products use the same compact, tactile action language as the Wallet. */
+.current-product{position:relative;isolation:isolate;gap:1.5rem;padding:clamp(1.5rem,3vw,2.5rem)}
+.current-product+.current-product{padding-left:clamp(1.5rem,3vw,2.5rem)}
+.current-product>*:not(.current-product-mask){position:relative;z-index:1}
+.current-product>div:first-of-type,.current-product ul{max-width:42rem}
+.current-product ul{margin:0}
+.current-product-mask{position:absolute;right:clamp(.75rem,2vw,1.75rem);top:clamp(.75rem,2vw,1.5rem);width:clamp(5.5rem,11vw,9.5rem);height:clamp(5.5rem,11vw,9.5rem);color:var(--warm-ink);opacity:.14;stroke-width:.75;pointer-events:none;z-index:0}
+.current-product-action{width:fit-content;align-self:flex-start;margin-top:auto;white-space:nowrap}
+.current-product.accent-wallet .current-product-mask{color:#fff;opacity:.16}
+.current-product.accent-wallet .current-product-action{background:#f7f7f7;color:#111;border-color:#f7f7f7;box-shadow:0 3px 0 rgb(255 255 255/.28)}
+.current-product.accent-wallet .current-product-action:hover{background:#dedede;color:#111}
 body{font-family:"Geist",sans-serif}
 code,kbd,samp,pre,.code-block,.code-line{font-family:"Geist Mono",monospace}
 
