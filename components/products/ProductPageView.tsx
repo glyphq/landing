@@ -36,12 +36,12 @@ function ProductActions({ product }: { product: Product }) {
       {isWallet ? (
         <Link className="button" href="/download">
           <Download aria-hidden="true" />
-          Download v0.14.3
+          Download Wallet
         </Link>
       ) : product.downloadUrl && (
         <ExternalLink className="button" href={product.downloadUrl}>
           <Download aria-hidden="true" />
-          Download v0.14.3
+          Download {product.name}
         </ExternalLink>
       )}
       {product.documentationUrl && (

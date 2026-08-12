@@ -1,11 +1,34 @@
 import { describe, expect, test } from "bun:test";
 import {
+  fallbackRelease,
+  fetchLatestRelease,
+  isTrustedReleaseUrl,
+  latestReleaseApiUrl,
+  latestReleaseManifestUrl,
+  latestReleasePageUrl,
+  parseGithubLatestRelease,
+  parseLatestReleaseManifest,
   detectDownloadPlatform,
-  downloadTargets,
-  linuxPackages,
-  releasePage,
-  releaseTag,
 } from "./downloads.ts";
+
+const latestManifest = {
+  version: "0.16.5",
+  pub_date: "2026-08-10T16:18:15Z",
+  platforms: {
+    "windows-x86_64": {
+      url: "https://github.com/glyphq/wallet/releases/download/v0.16.5/Glyph_0.16.5_x64-setup.exe",
+    },
+    "darwin-x86_64": {
+      url: "https://github.com/glyphq/wallet/releases/download/v0.16.5/Glyph_0.16.5_universal.app.tar.gz",
+    },
+    "darwin-aarch64": {
+      url: "https://github.com/glyphq/wallet/releases/download/v0.16.5/Glyph_0.16.5_universal.app.tar.gz",
+    },
+    "linux-x86_64": {
+      url: "https://github.com/glyphq/wallet/releases/download/v0.16.5/Glyph_0.16.5_amd64.AppImage",
+    },
+  },
+};
 
 describe("download platform detection", () => {
   test("selects verified desktop targets from modern and legacy browser signals", () => {
@@ -22,17 +45,86 @@ describe("download platform detection", () => {
   });
 });
 
-describe("verified release asset map", () => {
-  test("keeps manual and detected links pinned to the stable release", () => {
-    expect(releaseTag).toBe("v0.14.3");
-    expect(releasePage).toBe("https://github.com/glyphq/wallet/releases/tag/v0.14.3");
-    expect(downloadTargets.windows.href).toContain("Glyph_0.14.3_x64-setup.exe");
-    expect(downloadTargets.macos.href).toContain("Glyph_0.14.3_universal.dmg");
-    expect(downloadTargets.linux.href).toContain("Glyph_0.14.3_amd64.AppImage");
-    expect(linuxPackages.deb).toContain("Glyph_0.14.3_amd64.deb");
-    expect(linuxPackages.rpm).toContain("Glyph-0.14.3-1.x86_64.rpm");
-    expect(downloadTargets.windows.checksumHref).toContain("SHA256SUMS-windows.txt");
-    expect(downloadTargets.macos.checksumHref).toContain("SHA256SUMS-macos.txt");
-    expect(downloadTargets.linux.checksumHref).toContain("SHA256SUMS-linux.txt");
+describe("authoritative latest release parsing", () => {
+  test("maps the trusted latest.json 0.16.5 response to verified assets", () => {
+    const release = parseLatestReleaseManifest(latestManifest);
+
+    expect(release?.source).toBe("latest.json");
+    expect(release?.version).toBe("0.16.5");
+    expect(release?.tag).toBe("v0.16.5");
+    expect(release?.pageUrl).toBe("https://github.com/glyphq/wallet/releases/tag/v0.16.5");
+    expect(release?.targets.windows?.href).toContain("Glyph_0.16.5_x64-setup.exe");
+    expect(release?.targets.macos?.href).toContain("Glyph_0.16.5_universal.app.tar.gz");
+    expect(release?.targets.linux?.href).toContain("Glyph_0.16.5_amd64.AppImage");
+    expect(release?.linuxPackages.deb).toContain("Glyph_0.16.5_amd64.deb");
+    expect(release?.linuxPackages.rpm).toContain("Glyph-0.16.5-1.x86_64.rpm");
+  });
+
+  test("fetches latest.json live with cache disabled", async () => {
+    const calls = [];
+    const release = await fetchLatestRelease(async (url, init) => {
+      calls.push({ url: String(url), init });
+      return new Response(JSON.stringify(latestManifest), { status: 200 });
+    });
+
+    expect(release.version).toBe("0.16.5");
+    expect(calls[0].url).toBe(latestReleaseManifestUrl);
+    expect(calls[0].init.cache).toBe("no-store");
+  });
+
+  test("uses the live GitHub API only when the release asset manifest cannot be read", async () => {
+    const apiRelease = {
+      tag_name: "v0.16.5",
+      assets: [
+        "Glyph_0.16.5_x64-setup.exe",
+        "Glyph_0.16.5_universal.dmg",
+        "Glyph_0.16.5_amd64.AppImage",
+      ].map((name) => ({
+        name,
+        browser_download_url: `https://github.com/glyphq/wallet/releases/download/v0.16.5/${name}`,
+      })),
+    };
+    const calls = [];
+    const release = await fetchLatestRelease(async (url, init) => {
+      calls.push({ url: String(url), init });
+      if (String(url) === latestReleaseManifestUrl) throw new TypeError("CORS");
+      return new Response(JSON.stringify(apiRelease), { status: 200 });
+    });
+
+    expect(release.source).toBe("github-api");
+    expect(release.version).toBe("0.16.5");
+    expect(calls.map((call) => call.url)).toEqual([latestReleaseManifestUrl, latestReleaseApiUrl]);
+  });
+
+  test("falls back to the unversioned latest release page after invalid responses", async () => {
+    const release = await fetchLatestRelease(async () => new Response("not json", { status: 503 }));
+
+    expect(release).toEqual(fallbackRelease);
+    expect(release.pageUrl).toBe(latestReleasePageUrl);
+    expect(release.version).toBeNull();
+    expect(release.targets.windows).toBeNull();
+  });
+
+  test("rejects malformed manifest asset URLs instead of constructing untrusted links", () => {
+    const invalid = structuredClone(latestManifest);
+    invalid.platforms["windows-x86_64"].url = "https://evil.example/Glyph_0.16.5_x64-setup.exe";
+
+    expect(parseLatestReleaseManifest(invalid)).toBeNull();
+    expect(parseGithubLatestRelease({ tag_name: "v0.16.5", assets: [] })).toBeNull();
+  });
+});
+
+describe("release URL validation", () => {
+  test("accepts only versioned GitHub wallet release assets", () => {
+    expect(isTrustedReleaseUrl("https://github.com/glyphq/wallet/releases/download/v0.16.5/Glyph_0.16.5_x64-setup.exe", "0.16.5")).toBe(true);
+    expect(isTrustedReleaseUrl("https://github.com/glyphq/wallet/releases/download/v0.16.5/SHA256SUMS-windows.txt", "0.16.5")).toBe(true);
+  });
+
+  test("rejects other origins, protocols, versions, query strings, and path traversal", () => {
+    expect(isTrustedReleaseUrl("http://github.com/glyphq/wallet/releases/download/v0.16.5/file.exe", "0.16.5")).toBe(false);
+    expect(isTrustedReleaseUrl("https://evil.example/glyphq/wallet/releases/download/v0.16.5/file.exe", "0.16.5")).toBe(false);
+    expect(isTrustedReleaseUrl("https://github.com/glyphq/wallet/releases/download/v0.14.3/file.exe", "0.16.5")).toBe(false);
+    expect(isTrustedReleaseUrl("https://github.com/glyphq/wallet/releases/download/v0.16.5/file.exe?download=1", "0.16.5")).toBe(false);
+    expect(isTrustedReleaseUrl("https://github.com/glyphq/wallet/releases/download/v0.16.5/../file.exe", "0.16.5")).toBe(false);
   });
 });

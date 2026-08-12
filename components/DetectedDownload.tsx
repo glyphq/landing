@@ -4,9 +4,9 @@ import { Download, RefreshCircle } from "@solar-icons/react";
 import { useEffect, useRef, useState, useSyncExternalStore, type MouseEvent } from "react";
 import {
   detectDownloadPlatform,
-  releasePage,
   targetForPlatform,
   type DownloadPlatform,
+  type DownloadRelease,
 } from "@/components/downloads";
 import styles from "./pages/DownloadPage.module.css";
 
@@ -39,7 +39,7 @@ function platformName(platform: DownloadPlatform): string {
   return "your platform";
 }
 
-export function DetectedDownload() {
+export function DetectedDownload({ release }: { release: DownloadRelease }) {
   const detectedPlatform = useSyncExternalStore(
     () => () => undefined,
     () => {
@@ -61,7 +61,7 @@ export function DetectedDownload() {
         : "detected";
   const [downloadState, setDownloadState] = useState<DownloadState>("idle");
   const resetTimer = useRef<number | null>(null);
-  const target = targetForPlatform(platform);
+  const target = targetForPlatform(platform, release);
   const isStarting = downloadState === "starting";
   const isExternalFallback = !target;
 
@@ -82,21 +82,21 @@ export function DetectedDownload() {
     resetTimer.current = window.setTimeout(() => setDownloadState("timed-out"), 4000);
   };
 
-  const actionHref = target?.href ?? releasePage;
+  const actionHref = target?.href ?? release.pageUrl;
   const actionLabel = isStarting
     ? "Starting download"
     : downloadState === "timed-out"
       ? `Try ${target?.platform ?? "the download"} again`
       : target?.label ?? "View verified release assets";
   const statusMessage = isStarting
-    ? "The v0.14.3 release asset is opening."
+      ? `The ${release.tag ?? "latest"} release asset is opening.`
     : detectionState === "checking"
       ? "You can still choose a package below while we check this device."
       : detectionState === "failed"
         ? "Automatic detection failed. Choose a package below instead."
         : detectionState === "unknown"
           ? "We do not have a verified automatic choice for this device. Choose a package below."
-          : `Detected ${platformName(platform)}. This link goes directly to the stable v0.14.3 release asset.`;
+          : `Detected ${platformName(platform)}. This link goes directly to the ${release.tag ?? "latest stable"} release asset.`;
 
   return (
     <div className={styles.detectedDownload}>
@@ -116,7 +116,7 @@ export function DetectedDownload() {
       <span id="download-status" className="sr-only" role="status" aria-live="polite">{statusMessage}</span>
       {downloadState === "timed-out" && target ? (
         <p className={styles.downloadFallback} role="alert">
-          If nothing appeared, use the release page to choose the package yourself. <a href={releasePage} target="_blank" rel="noreferrer">Open verified release page<span className="sr-only"> (opens in a new tab)</span></a>.
+          If nothing appeared, use the release page to choose the package yourself. <a href={release.pageUrl} target="_blank" rel="noreferrer">Open verified release page<span className="sr-only"> (opens in a new tab)</span></a>.
         </p>
       ) : null}
     </div>

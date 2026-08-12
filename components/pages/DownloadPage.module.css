@@ -31,19 +31,12 @@
   margin-top: 2.5rem;
 }
 
-.packageMeta,
-.sectionHeader :global(.kicker) {
-  color: var(--warm-muted);
-  font-family: "Geist Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 .detectedButton {
-  min-width: min(100%, 20rem);
-  justify-content: space-between;
-  gap: 1.5rem;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  justify-content: center;
+  column-gap: 0.55rem;
 }
 
 .detectedButton[aria-disabled="true"] {
@@ -56,14 +49,14 @@
 }
 
 .checksumLink {
-  color: var(--warm-accent);
+  color: var(--warm-ink);
   font-size: 0.86rem;
   font-weight: 500;
 }
 
 .checksumLink:hover,
 .downloadFallback a:hover {
-  color: var(--warm-ink);
+  color: var(--warm-muted);
 }
 
 .downloadFallback {
@@ -74,7 +67,7 @@
 }
 
 .downloadFallback a {
-  color: var(--warm-accent);
+  color: var(--warm-ink);
   font-weight: 500;
 }
 
@@ -95,7 +88,7 @@
 .sectionHeader h2,
 .verificationIntro h2 {
   max-width: 12ch;
-  margin-top: 0.7rem;
+  margin-top: 0;
   font-size: clamp(2.3rem, 5vw, 4.4rem);
   line-height: 0.98;
 }
@@ -126,12 +119,6 @@
 
 .packageCard:hover {
   border-color: color-mix(in oklch, var(--warm-ink) 35%, var(--warm-line));
-}
-
-.packageMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
 }
 
 .packageCard h3 {
@@ -178,7 +165,7 @@
   margin-top: 1rem;
   padding: 1.25rem 1.5rem;
   border-radius: var(--radius-md);
-  background: var(--warm-accent-soft);
+  background: var(--warm-surface-strong);
 }
 
 .releaseCta p {
@@ -227,7 +214,7 @@
   width: 1.25rem;
   height: 1.25rem;
   margin-top: 0.1rem;
-  color: var(--warm-accent);
+  color: var(--warm-ink);
 }
 
 .verificationItem h3 {
@@ -278,9 +265,12 @@
     flex-direction: column;
   }
 
-  .detectedButton,
   .releaseCta :global(.button) {
     width: 100%;
+  }
+
+  .detectedButton {
+    width: fit-content;
   }
 
   .linuxActions {

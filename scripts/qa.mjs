@@ -36,7 +36,7 @@ for (const viewport of viewports) {
       };
       if(currentRoute==='wallet') return {
         download:href('main.product-page a.button[href^="/download"]'),
-        release:href('main.product-page a[href*="github.com/glyphq/wallet/releases/tag/v0.14.3"]'),
+        release:href('main.product-page a[href="https://github.com/glyphq/wallet/releases/latest"]'),
         repository:href('main.product-page a[href="https://github.com/glyphq/wallet"]'),
         buttonStyles:buttonStyles(),
       };

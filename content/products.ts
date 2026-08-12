@@ -24,7 +24,7 @@ export const products: Product[] = [
     id: "wallet", name: "Glyph Wallet", descriptor: "Self-custodial Qubic desktop wallet",
     summary: "A desktop wallet that keeps encrypted vault data on your device and reviews every signing request before approval.",
     status: "Available", licenseStatus: "Source available", licenseName: "Custom source-available license", accent: "wallet",
-    repositoryUrl: "https://github.com/glyphq/wallet", downloadUrl: "https://github.com/glyphq/wallet/releases/tag/v0.14.3",
+    repositoryUrl: "https://github.com/glyphq/wallet", downloadUrl: "https://github.com/glyphq/wallet/releases/latest",
     capabilities: ["Send, receive, burn, and stake", "Encrypted vaults with AES-256-GCM and Argon2", "Local signing boundary in the native application", "Native glyph:// deep-link requests", "Windows, universal macOS, and Linux packages", "Signed update payload verification"],
     principles: ["Keys remain under local control", "Requests are reviewed before signing", "Release artifacts are signed and validated"], related: ["connect"],
   },
@@ -46,4 +46,3 @@ export const products: Product[] = [
 ];
 
 export const productById = Object.fromEntries(products.map((product) => [product.id, product]));
-
