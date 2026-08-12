@@ -4,6 +4,11 @@
       "source": "/developers",
       "destination": "https://docs.glyphq.org",
       "permanent": true
+    },
+    {
+      "source": "/developers/",
+      "destination": "https://docs.glyphq.org",
+      "permanent": true
     }
   ],
   "headers": [
