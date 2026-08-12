@@ -66,7 +66,7 @@ html,body{background:var(--warm-canvas)}body{color:var(--warm-ink);overflow-x:hi
 .button-secondary:active{box-shadow:0 1px 0 color-mix(in oklch,var(--warm-ink) 16%,transparent)}
 @media(prefers-reduced-motion:reduce){.button{transition:none}.button:hover,.button:active{transform:none}}
 .statement{background:var(--warm-accent-soft)}
-.current-product.accent-wallet{background:#0b0b0b;color:var(--warm-ink)}
+.current-product.accent-wallet{background:#0b0b0b;color:#f7f7f7}
 .current-product.accent-wallet p,.current-product.accent-wallet li{color:var(--warm-muted);border-color:var(--warm-line)}
 .current-product.accent-wallet li:before{color:var(--warm-accent)}
 .current-product.accent-connect{background:color-mix(in oklch,var(--product-connect) 8%,var(--warm-surface))}
