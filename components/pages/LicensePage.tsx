@@ -18,9 +18,7 @@ export function LicensePage() {
 
       <section className={`section prose-sections ${styles.summary}`} aria-label="Glyph license summary">
         <article>
-          <span aria-hidden="true">01</span>
           <div>
-            <p className="kicker">Open source</p>
             <h2>{connect.name}</h2>
             <p>
               {connect.name} is released under the MIT License. Its source is public, and the package is available for application integrations.
@@ -33,9 +31,7 @@ export function LicensePage() {
         </article>
 
         <article>
-          <span aria-hidden="true">02</span>
           <div>
-            <p className="kicker">Open source · MIT License</p>
             <h2>{wallet.name}</h2>
             <p>
               {wallet.name} is released under the MIT License. Its repository is public, and its source and terms are available there.
@@ -47,9 +43,7 @@ export function LicensePage() {
         </article>
 
         <article>
-          <span aria-hidden="true">03</span>
           <div>
-            <p className="kicker">Website code and content</p>
             <h2>Glyph Landing</h2>
             <p>
               The landing repository does not currently include a published license file. Do not assume that this website&apos;s code or content is open source.
@@ -61,9 +55,7 @@ export function LicensePage() {
         </article>
 
         <article>
-          <span aria-hidden="true">04</span>
           <div>
-            <p className="kicker">Not yet published</p>
             <h2>Planned software</h2>
             <p>
               Unpublished products do not have a public license yet. Their terms will be stated when a repository or service is released.

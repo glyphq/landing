@@ -23,7 +23,7 @@ export const supportConfig = {
 type AggregatedSupport = { identity: string; total: bigint; since: number };
 
 const previewSupporters: Supporter[] = Array.from({ length: 50 }, (_, index) => {
-  const seed = `PREVIEW${String(index + 1).padStart(2, "0")}`;
+  const seed = `PREVIEW${index + 1}`;
   const amount = index === 47
     ? "1250000000"
     : index === 48
@@ -31,7 +31,7 @@ const previewSupporters: Supporter[] = Array.from({ length: 50 }, (_, index) => 
       : String(((index * 37) % 320 + 1) * 1_000_000 + (index % 4) * 250_000);
   const total = BigInt(amount);
   return {
-    name: `Preview identity ${String(index + 1).padStart(2, "0")}`,
+    name: "Preview identity",
     identity: `${seed}NODE`.repeat(12).slice(0, 60),
     amount,
     amountBand: bandFor(total),

@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Download, Moon, Sun2, Widget } from "@solar-icons/react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import { BrandMark } from "@/components/BrandMark";
 import { ProductIcon } from "@/components/products/ProductIcon";
 import { products } from "@/content/products";
 
@@ -48,15 +48,6 @@ function applyTheme(theme: ThemeMode) {
   const root = document.documentElement;
   if (theme === "system") root.removeAttribute("data-theme");
   else root.dataset.theme = theme;
-}
-
-function BrandMark() {
-  return (
-    <span className="brand-mark" aria-hidden="true">
-      <Image className="brand-mark-light" src="/brand/glyph-on-light.png" alt="" width={32} height={32} unoptimized />
-      <Image className="brand-mark-dark" src="/brand/glyph-on-dark.png" alt="" width={32} height={32} unoptimized />
-    </span>
-  );
 }
 
 export function Header() {

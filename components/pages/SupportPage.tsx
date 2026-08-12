@@ -26,9 +26,9 @@ export async function SupportPage() {
           <p>Transfers support the project. They do not purchase governance rights, product priority, or affiliation with Qubic.</p>
         </SectionHeading>
         <div className="support-principle-grid" data-reveal-group="support-principles">
-          <article><span>01</span><h3>Direct</h3><p>Support moves as a standard Qubic transfer to the published Glyph identity.</p></article>
-          <article><span>02</span><h3>Voluntary</h3><p>No account, subscription, or public recognition is required.</p></article>
-          <article><span>03</span><h3>Verifiable</h3><p>The complete recipient identity is presented for review before you sign.</p></article>
+          <article><h3>Direct</h3><p>Support moves as a standard Qubic transfer to the published Glyph identity.</p></article>
+          <article><h3>Voluntary</h3><p>No account, subscription, or public recognition is required.</p></article>
+          <article><h3>Verifiable</h3><p>The complete recipient identity is presented for review before you sign.</p></article>
         </div>
       </section>
 

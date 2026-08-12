@@ -18,9 +18,8 @@ export function InfoPage({ slug, page }: { slug: string; page: InfoPageContent }
         <InfoAction slug={slug} />
       </PageHero>
       {page.sections.length > 0 && <section className="section prose-sections" data-reveal-group="prose">
-        {page.sections.map((section, index) => (
+        {page.sections.map((section) => (
           <article key={section.title}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
             <div><h2>{section.title}</h2><p>{section.body}</p>{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</div>
           </article>
         ))}

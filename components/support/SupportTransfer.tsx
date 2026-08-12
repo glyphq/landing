@@ -125,7 +125,6 @@ export function SupportTransfer({ identity }: { identity: string }) {
 
       <div className="transfer-console">
         <div className="transfer-step">
-          <span>01</span>
           <div>
             <div className="amount-converter">
               <div>
@@ -165,7 +164,6 @@ export function SupportTransfer({ identity }: { identity: string }) {
         </div>
 
         <div className="transfer-step">
-          <span>02</span>
           <div>
             <p className="transfer-label">Recipient identity</p>
             {configured ? (
@@ -187,7 +185,6 @@ export function SupportTransfer({ identity }: { identity: string }) {
         </div>
 
         <div className="transfer-step transfer-final">
-          <span>03</span>
           <div>
             <p className="transfer-label">Optional wallet shortcut</p>
             <p>Use a connector to prefill the recipient and amount, or send directly from your wallet using the identity above. Always compare the details before signing.</p>

@@ -29,7 +29,7 @@ function CurrentProducts() {
       <div className="current-products" data-reveal-group="current-products">
         {products.slice(0, 2).map((product) => (
           <article key={product.id} className={`current-product accent-${product.accent}`}>
-            <div><span>{product.status}</span><h3>{product.name}</h3><p>{product.summary}</p></div>
+            <div><h3>{product.name}</h3><p>{product.summary}</p></div>
             <ul>{product.capabilities.slice(0, 3).map((capability) => <li key={capability}>{capability}</li>)}</ul>
             <Link href={`/${product.id}`}>Explore {product.name}</Link>
           </article>
