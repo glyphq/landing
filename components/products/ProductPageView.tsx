@@ -4,7 +4,7 @@ import type { Product } from "@/content/products";
 import { productById } from "@/content/products";
 import { ConnectFlow } from "@/components/Diagrams";
 import { ActionGroup, PageHero, SectionHeading } from "@/components/layout/PageElements";
-import { ExternalLink, IndependenceNotice, ProductRow, Status } from "@/components/UI";
+import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
 
 const connectExample = `import {
   GLYPH_MAINNET,
@@ -140,7 +140,6 @@ export function ProductPageView({ product }: { product: Product }) {
   return (
     <main id="main" className={`product-page accent-${product.accent}`}>
       <PageHero>
-        <Status value={product.status} />
         <h1>{product.name}</h1>
         <p className="lead">{product.summary}</p>
         <ProductActions product={product} />
