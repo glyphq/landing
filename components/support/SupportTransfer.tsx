@@ -7,6 +7,8 @@ import { amountValidationMessage, formatUsdAmount, formatUsdPrice, normalizeQubi
 import { WalletDonation } from "@/components/support/WalletDonation";
 
 const PRICE_FETCH_TIMEOUT_MS = 8_000;
+const PRICE_REQUEST_CANCELLED = new DOMException("Price request cancelled", "AbortError");
+const PRICE_REQUEST_TIMED_OUT = new DOMException("Price request timed out", "TimeoutError");
 
 type PriceStatus = "loading" | "ready" | "unavailable";
 
@@ -27,7 +29,7 @@ export function SupportTransfer({ identity }: { identity: string }) {
   useEffect(() => {
     const controller = new AbortController();
     let active = true;
-    const timeoutId = window.setTimeout(() => controller.abort(), PRICE_FETCH_TIMEOUT_MS);
+    const timeoutId = window.setTimeout(() => controller.abort(PRICE_REQUEST_TIMED_OUT), PRICE_FETCH_TIMEOUT_MS);
 
     fetch("https://api.coingecko.com/api/v3/simple/price?ids=qubic-network&vs_currencies=usd", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject(new Error("Price unavailable")))
@@ -40,7 +42,8 @@ export function SupportTransfer({ identity }: { identity: string }) {
         const currentAmount = normalizeQubicAmount(amountRef.current);
         setUsdAmount(currentAmount ? formatUsdAmount(Number(currentAmount) * price) : "");
       })
-      .catch(() => {
+      .catch((error: unknown) => {
+        if (controller.signal.aborted && (error === controller.signal.reason || error instanceof DOMException && error.name === "AbortError")) return;
         if (!active) return;
         setUsdPrice(null);
         setUsdAmount("");
@@ -52,7 +55,7 @@ export function SupportTransfer({ identity }: { identity: string }) {
     return () => {
       active = false;
       window.clearTimeout(timeoutId);
-      controller.abort();
+      controller.abort(PRICE_REQUEST_CANCELLED);
     };
   }, [priceAttempt]);
 

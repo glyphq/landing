@@ -1,5 +1,38 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/BrandMark";
-import { products } from "@/content/products";
+import { ProductIcon } from "@/components/products/ProductIcon";
+import { availableProducts } from "@/content/products";
 
-export function Footer() { return <footer className="site-footer"><div className="footer-top"><div><Link className="wordmark footer-mark" href="/"><BrandMark /><span>glyph</span><b>.</b></Link><p>Independent software built for Qubic.<br/>Glyph is not an official Qubic organization.</p></div><div className="footer-links"><div><h2>Products</h2>{products.map(p => <Link key={p.id} href={`/${p.id}`}>{p.name.replace("Glyph ", "")}</Link>)}</div><div><h2>Project</h2><Link href="/roadmap">Roadmap</Link><Link href="/security">Security</Link><Link href="/community">Community</Link><Link href="/support">Support</Link><a href="https://github.com/glyphq" target="_blank" rel="noreferrer">GitHub<span className="sr-only"> (opens in a new tab)</span></a></div><div><h2>Organization</h2><Link href="/about">About</Link><Link href="/brand">Brand</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/trademark">Trademark</Link></div></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Glyph</span><span>Make complexity legible.</span></div></footer> }
+export function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-top">
+        <div>
+          <Link className="wordmark footer-mark" href="/"><BrandMark /><span>glyph</span><b>.</b></Link>
+          <p>Independent software built for Qubic.<br />Glyph is not an official Qubic organization.</p>
+        </div>
+        <div className="footer-links">
+          <div>
+            <h2>Products</h2>
+            {availableProducts.map((product) => (
+              <Link className="footer-product-link" key={product.id} href={`/${product.id}`}>
+                <ProductIcon productId={product.id} aria-hidden="true" />
+                {product.name.replace("Glyph ", "")}
+              </Link>
+            ))}
+          </div>
+          <div>
+            <h2>Project</h2>
+            <Link href="/roadmap">Roadmap</Link><Link href="/security">Security</Link><Link href="/community">Community</Link><Link href="/support">Support</Link>
+            <a href="https://github.com/glyphq" target="_blank" rel="noreferrer">GitHub<span className="sr-only"> (opens in a new tab)</span></a>
+          </div>
+          <div>
+            <h2>Organization</h2>
+            <Link href="/about">About</Link><Link href="/brand">Brand</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/trademark">Trademark</Link>
+          </div>
+        </div>
+      </div>
+      <div className="footer-bottom"><span>© {new Date().getFullYear()} Glyph</span><span>Make complexity legible.</span></div>
+    </footer>
+  );
+}

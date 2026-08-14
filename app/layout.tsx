@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import "@fontsource/geist/400.css";
 import "@fontsource/geist/500.css";
@@ -38,5 +39,5 @@ export const metadata: Metadata = {
 const organization = { "@context": "https://schema.org", "@type": "Organization", name: "Glyph", url: siteOrigin, logo: `${siteOrigin}/favicon/icon.png`, sameAs: ["https://github.com/glyphq"], description: "An independent community project building software for the Qubic network." };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" suppressHydrationWarning><body suppressHydrationWarning><script dangerouslySetInnerHTML={{ __html: themeBootstrap }} /><a className="skip-link" href="#main">Skip to content</a><Header /><MotionLoader />{children}<Footer /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} /></body></html>;
+  return <html lang="en" suppressHydrationWarning><body suppressHydrationWarning><Script id="glyph-theme-bootstrap" strategy="beforeInteractive">{themeBootstrap}</Script><a className="skip-link" href="#main">Skip to content</a><Header /><MotionLoader />{children}<Footer /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} /></body></html>;
 }

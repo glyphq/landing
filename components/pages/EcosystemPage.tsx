@@ -1,7 +1,7 @@
 import { ConnectFlow, StackDiagram } from "@/components/Diagrams";
 import { PageHero, SectionHeading } from "@/components/layout/PageElements";
 import { IndependenceNotice, ProductRow } from "@/components/UI";
-import { products } from "@/content/products";
+import { productsByAvailability } from "@/content/products";
 
 export function EcosystemPage() {
   return (
@@ -19,7 +19,7 @@ export function EcosystemPage() {
         <SectionHeading title="Current and future architecture">
           <p>Available products work today. In-development and planned products describe the intended system without implying availability.</p>
         </SectionHeading>
-        <div className="product-list" data-reveal-group="products">{products.map((product) => <ProductRow key={product.id} product={product} />)}</div>
+        <div className="product-list" data-reveal-group="products">{productsByAvailability.map((product) => <ProductRow key={product.id} product={product} />)}</div>
       </section>
       <IndependenceNotice />
     </main>

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { BrandMark } from "@/components/BrandMark";
 import { ProductIcon } from "@/components/products/ProductIcon";
-import { products } from "@/content/products";
+import { productsByAvailability } from "@/content/products";
 
 type ThemeMode = "system" | "light" | "dark";
 
@@ -135,14 +135,13 @@ export function Header() {
           <div className="mobile-menu-group">
             <p>Products</p>
             <Link className="mobile-menu-featured" href="/ecosystem" onClick={() => setOpen(false)}>Ecosystem overview<span>All products</span></Link>
-            {products.map((product) => <Link key={product.id} href={`/${product.id}`} onClick={() => setOpen(false)}>{product.name}<span>{product.status}</span></Link>)}
+            {productsByAvailability.map((product) => product.status === "Available" ? <Link key={product.id} href={`/${product.id}`} onClick={() => setOpen(false)}>{product.name}<span>{product.status}</span></Link> : <span className="mobile-menu-product-disabled" key={product.id} aria-disabled="true">{product.name}<span>{product.status}</span></span>)}
           </div>
           <div className="mobile-menu-group">
             <p>Organization</p>
             <a href="https://docs.glyphq.org" target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Docs<span>Documentation site</span><span className="sr-only"> (opens in a new tab)</span></a>
             <Link href="/roadmap" onClick={() => setOpen(false)}>Roadmap</Link>
             <Link href="/community" onClick={() => setOpen(false)}>Community</Link>
-            <Link href="/open-source" onClick={() => setOpen(false)}>Open source</Link>
             <Link href="/security" onClick={() => setOpen(false)}>Security</Link>
             <Link href="/support" onClick={() => setOpen(false)}>Support Glyph</Link>
             <Link href="/about" onClick={() => setOpen(false)}>About</Link>
@@ -161,10 +160,9 @@ export function Header() {
         <nav className="desktop-nav" aria-label="Primary">
           <div className="nav-dropdown">
             <button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} aria-controls="products-menu"><Widget aria-hidden="true" />Products</button>
-            {productsOpen && <div id="products-menu" className="nav-popover"><Link className="nav-entry nav-entry-featured" href="/ecosystem" onClick={() => setProductsOpen(false)}><Widget className="nav-entry-icon" aria-hidden="true" /><span>Ecosystem overview</span><small>See how every Glyph product fits together</small></Link>{products.map((product) => <Link className="nav-entry" key={product.id} href={`/${product.id}`} onClick={() => setProductsOpen(false)}><ProductIcon productId={product.id} className="nav-entry-icon" aria-hidden="true" /><span>{product.name}</span><small>{product.status}</small></Link>)}</div>}
+            {productsOpen && <div id="products-menu" className="nav-popover"><Link className="nav-entry nav-entry-featured" href="/ecosystem" onClick={() => setProductsOpen(false)}><Widget className="nav-entry-icon" aria-hidden="true" /><span>Ecosystem overview</span><small>See how every Glyph product fits together</small></Link>{productsByAvailability.map((product) => product.status === "Available" ? <Link className="nav-entry" key={product.id} href={`/${product.id}`} onClick={() => setProductsOpen(false)}><ProductIcon productId={product.id} className="nav-entry-icon" aria-hidden="true" /><span>{product.name}</span><small>{product.status}</small></Link> : <span className="nav-entry nav-entry-disabled" key={product.id} aria-disabled="true"><ProductIcon productId={product.id} className="nav-entry-icon" aria-hidden="true" /><span>{product.name}</span><small>{product.status}</small></span>)}</div>}
           </div>
           <a href="https://docs.glyphq.org" target="_blank" rel="noreferrer">Docs<span className="sr-only"> (opens in a new tab)</span></a>
-          <Link href="/open-source">Open source</Link>
           <Link href="/support">Support</Link>
           <Link href="/about">About</Link>
         </nav>

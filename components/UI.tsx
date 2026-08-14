@@ -12,12 +12,21 @@ export function ExternalLink({ href, children, className = "" }: { href: string;
 }
 
 export function ProductRow({ product }: { product: Product }) {
+  const unavailable = product.status !== "Available";
+  const content = <>
+    <ProductIcon productId={product.id} className="product-mask" aria-hidden="true" />
+    <div><h3>{product.name}</h3></div>
+    <p>{product.descriptor}</p>
+    <Status value={product.status} />
+  </>;
+
+  if (unavailable) {
+    return <div className="product-row product-row-disabled" style={{ "--accent": `var(--product-${product.accent})` } as React.CSSProperties} aria-disabled="true">{content}</div>;
+  }
+
   return (
     <Link href={`/${product.id}`} className="product-row" style={{ "--accent": `var(--product-${product.accent})` } as React.CSSProperties}>
-      <ProductIcon productId={product.id} className="product-mask" aria-hidden="true" />
-      <div><h3>{product.name}</h3></div>
-      <p>{product.descriptor}</p>
-      <Status value={product.status} />
+      {content}
     </Link>
   );
 }

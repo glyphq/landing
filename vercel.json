@@ -1,6 +1,16 @@
 {
   "redirects": [
     {
+      "source": "/open-source",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/open-source/",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
       "source": "/developers",
       "destination": "https://docs.glyphq.org",
       "permanent": true

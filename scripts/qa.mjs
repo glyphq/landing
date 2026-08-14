@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs/promises';
 
-const routes = ['','ecosystem','community','open-source','roadmap','security','about','wallet','connect','explorer','sdk','cli','devkit','api','docs','trade','download','support','brand','privacy','terms','trademark','404'];
+const routes = ['','ecosystem','community','roadmap','security','about','wallet','connect','explorer','sdk','cli','devkit','api','docs','trade','download','support','brand','privacy','terms','trademark','404'];
 const viewports = [{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}];
 const browser = await chromium.launch({headless:true});
 const report = { routes: {}, violations: [] };
@@ -10,7 +10,9 @@ const journeyFailures = [];
 const redirectFailures = [];
 const expectedArchitectureLinks = ['/wallet','/explorer','/trade','/connect','/sdk','/cli','/devkit','/docs','/api'];
 const redirects=await fs.readFile('out/_redirects','utf8').catch(()=>"");
+const vercelConfig=JSON.parse(await fs.readFile('vercel.json','utf8'));
 if(!/^\/developers\/?\s+https:\/\/docs\.glyphq\.org\s+301!?$/m.test(redirects)) redirectFailures.push({check:'/developers has a permanent external redirect to Docs'});
+if(!vercelConfig.redirects?.some((redirect)=>redirect.source==='/open-source'&&redirect.destination==='/about'&&redirect.permanent)) redirectFailures.push({check:'/open-source has a permanent redirect to About'});
 if(await fs.stat('out/developers/index.html').then(()=>true).catch(()=>false)) redirectFailures.push({check:'/developers is not emitted as a duplicate Landing page'});
 for (const viewport of viewports) {
   const context = await browser.newContext({ viewport: {width:viewport.width,height:viewport.height}, colorScheme:'light', reducedMotion:'reduce' });
@@ -46,7 +48,9 @@ for (const viewport of viewports) {
         download:href('.hero .actions a[href^="/download"]'),
       };
       if(currentRoute==='ecosystem') return { architecture:links('.architecture-product-link'), boundary:href('.architecture-boundary a') };
-      if(currentRoute==='connect' || currentRoute==='docs') return { documentation:href('main.product-page a[href="https://github.com/glyphq/connect#readme"]') };
+      if(currentRoute==='connect') return { documentation:href('main.product-page a[href="https://github.com/glyphq/connect#readme"]') };
+      if(currentRoute==='docs') return { documentation:href('main.product-page a[href="https://docs.glyphq.org"]') };
+      if(currentRoute==='explorer') return { explorer:href('main.product-page a[href="https://explorer.glyphq.org"]') };
       return null;
     },route);
     if(viewport.name==='desktop' && route==='wallet') {
@@ -87,7 +91,9 @@ for (const viewport of viewports) {
         if(architecture.length!==expectedArchitectureLinks.length || architecture.some((link,index)=>link!==[...expectedArchitectureLinks].sort()[index])) journeyFailures.push({route:'/ecosystem',check:'architecture product entries link to internal product pages'});
         if(journey?.boundary) journeyFailures.push({route:'/ecosystem',check:'Qubic integration boundary remains non-product content'});
       }
-      if((route==='connect' || route==='docs') && journey?.documentation!=='https://github.com/glyphq/connect#readme') journeyFailures.push({route:`/${route}`,check:'model-provided documentation link renders'});
+      if(route==='connect' && journey?.documentation!=='https://github.com/glyphq/connect#readme') journeyFailures.push({route:'/connect',check:'Connect documentation link renders'});
+      if(route==='docs' && journey?.documentation!=='https://docs.glyphq.org') journeyFailures.push({route:'/docs',check:'Docs action opens the published documentation site'});
+      if(route==='explorer' && journey?.explorer!=='https://explorer.glyphq.org') journeyFailures.push({route:'/explorer',check:'Explorer action opens the published Explorer'});
     }
     await page.close();
   }

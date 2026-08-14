@@ -3,8 +3,9 @@ import { ArrowRight, BranchingPathsUp, Code2, Download, Shield } from "@solar-ic
 import { ProductIcon } from "@/components/products/ProductIcon";
 import { ConnectFlow, StackDiagram } from "@/components/Diagrams";
 import { ActionGroup, SectionHeading } from "@/components/layout/PageElements";
+import { SponsorTicker } from "@/components/SponsorTicker";
 import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
-import { products } from "@/content/products";
+import { availableProducts, unavailableProducts } from "@/content/products";
 
 function HomeHero() {
   return (
@@ -25,10 +26,10 @@ function CurrentProducts() {
   return (
     <section className="section">
       <SectionHeading title="Available now">
-        <p>Two current products establish the working path between Qubic applications and local user approval.</p>
+        <p>Wallet, Connect, and Explorer cover local approval, application integration, and readable Qubic network data.</p>
       </SectionHeading>
       <div className="current-products" data-reveal-group="current-products">
-        {products.slice(0, 2).map((product) => (
+        {availableProducts.map((product) => (
           <article key={product.id} className={`current-product accent-${product.accent}`}>
             <ProductIcon productId={product.id} className="current-product-mask" aria-hidden="true" />
             <div><h3>{product.name}</h3><p>{product.summary}</p></div>
@@ -63,17 +64,18 @@ export function HomePage() {
         <div><p>Vault data is encrypted before disk storage. Signing requests pass through the desktop application for review. Glyph Connect never receives private keys.</p><Link className="quiet-link quiet-link-icon" href="/security"><Shield aria-hidden="true" />Read the security model</Link></div>
       </section>
       <section className="section">
-        <SectionHeading title="The planned system"><p>Future products are included to show direction. Their status is not hidden behind promotional language.</p></SectionHeading>
-        <div className="product-list" data-reveal-group="products">{products.slice(2).map((product) => <ProductRow key={product.id} product={product} />)}</div>
+        <SectionHeading title="What comes next"><p>In-development and planned products are kept separate from the tools that are ready to use today.</p></SectionHeading>
+        <div className="product-list" data-reveal-group="products">{unavailableProducts.map((product) => <ProductRow key={product.id} product={product} />)}</div>
       </section>
       <section className="section maintenance" data-reveal="statement">
-        <h2>Maintained in public,<br />licensed product by product.</h2>
-        <div><p>Connect is open source under MIT. Wallet is source available. Planned products will publish a license when their implementation is released.</p><Link className="quiet-link quiet-link-icon" href="/open-source"><BranchingPathsUp aria-hidden="true" />Review repositories and licenses</Link></div>
+        <h2>Built in public,<br />ready to use.</h2>
+        <div><p>Glyph Wallet, Connect, Docs, and Explorer are public today. Use the product that fits your work, or follow development in the organization repositories.</p><ExternalLink className="quiet-link quiet-link-icon" href="https://github.com/glyphq"><BranchingPathsUp aria-hidden="true" />Visit Glyph on GitHub</ExternalLink></div>
       </section>
       <section className="section final-cta" data-reveal="cta">
         <h2>Choose the path you need.</h2>
         <ActionGroup><ExternalLink className="button" href="https://docs.glyphq.org"><Code2 aria-hidden="true" />Start building</ExternalLink><Link className="button button-secondary" href="/download"><Download aria-hidden="true" />Get Glyph Wallet</Link></ActionGroup>
       </section>
+      <SponsorTicker />
       <IndependenceNotice />
     </main>
   );

@@ -5,6 +5,7 @@ import { productById } from "@/content/products";
 import { ConnectFlow } from "@/components/Diagrams";
 import { ActionGroup, PageHero, SectionHeading } from "@/components/layout/PageElements";
 import { ExternalLink, IndependenceNotice, ProductRow } from "@/components/UI";
+import { ProductIcon } from "@/components/products/ProductIcon";
 
 const connectExample = `import {
   GLYPH_MAINNET,
@@ -42,6 +43,12 @@ function ProductActions({ product }: { product: Product }) {
         <ExternalLink className="button" href={product.downloadUrl}>
           <Download aria-hidden="true" />
           Download {product.name}
+        </ExternalLink>
+      )}
+      {product.websiteUrl && (
+        <ExternalLink className="button" href={product.websiteUrl}>
+          <ProductIcon productId={product.id} aria-hidden="true" />
+          Open {product.name}
         </ExternalLink>
       )}
       {product.documentationUrl && (

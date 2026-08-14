@@ -6,14 +6,9 @@ export const infoPages: InfoPage[] = [
     { title: "Maintainer-led today", body: "Public input informs the work, but not every architectural decision is put to a vote. Maintainers remain responsible for coherence, releases, and security boundaries." },
     { title: "Community channel", body: "The Wallet repository currently publishes a Glyph Discord invitation. Repository discussions and issues remain the durable record for technical work." },
   ]},
-  { slug: "open-source", title: "Licenses, stated precisely", description: "Repository, license, and maintenance status across Glyph software.", intro: "Glyph does not apply one license label to every product. Each repository is described according to the license it actually publishes.", sections: [
-    { title: "Glyph Connect", body: "Open source under the MIT License. The package is published on npm and developed in public." },
-    { title: "Glyph Wallet", body: "Source available. Its repository is public, but it does not publish an OSI-approved license and must not be described as open source." },
-    { title: "Planned software", body: "Unpublished products have no public license yet. Their future license will be stated when a repository or service is released." },
-  ]},
   { slug: "roadmap", title: "Direction without invented dates", description: "A status-based roadmap for the Glyph software suite.", intro: "This roadmap describes current direction, not guaranteed delivery dates. Status changes when public work or a release supports the change.", sections: [
-    { title: "Available", body: "Software with a public release or package.", items: ["Glyph Wallet", "Glyph Connect"] },
-    { title: "In development", body: "Product direction is defined, but the public experience is incomplete.", items: ["Glyph Explorer", "Glyph SDK", "Glyph Docs"] },
+    { title: "Available", body: "Software with a public release, package, or hosted product.", items: ["Glyph Wallet", "Glyph Connect", "Glyph Explorer", "Glyph Docs"] },
+    { title: "In development", body: "Product direction is defined, but the public experience is incomplete.", items: ["Glyph SDK"] },
     { title: "Planned", body: "Part of the intended product system, with no available product today.", items: ["Glyph CLI", "Glyph Devkit", "Glyph API", "Glyph Trade"] },
   ]},
   { slug: "security", title: "Security claims require evidence", description: "Glyph security boundaries, release practices, and responsible reporting.", intro: "Report potential Wallet vulnerabilities privately. Do not disclose security issues in a public issue before maintainers can investigate.", sections: [

@@ -1,6 +1,7 @@
 import { HandHeart, ShieldCheck } from "@solar-icons/react";
 import { ActionGroup, PageHero, SectionHeading } from "@/components/layout/PageElements";
 import { IndependenceNotice } from "@/components/UI";
+import { SponsorTicker } from "@/components/SponsorTicker";
 import { SupporterField } from "@/components/support/SupporterField";
 import { SupportTransfer } from "@/components/support/SupportTransfer";
 import { getSupporters, supportConfig } from "@/content/supporters";
@@ -20,6 +21,7 @@ export async function SupportPage() {
       </PageHero>
 
       <div id="transfer"><SupportTransfer identity={supportConfig.identity} /></div>
+      <SponsorTicker />
 
       <section className="section support-principles">
         <SectionHeading title="Support with clear boundaries.">

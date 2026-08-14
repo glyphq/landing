@@ -32,22 +32,22 @@ Glyph is an independent community project building software for the Qubic networ
 
 - Mission, principles, maintenance model, and relationship to Qubic
 - Product ecosystem and architecture
-- Community, open-source, roadmap, and security information
+- Community, roadmap, and security information
 - Brand and legal guidance
 
 **Available products**
 
 - Glyph Wallet
 - Glyph Connect
+- Glyph Explorer
+- Glyph Docs
 
 **Planned or in-development products**
 
-- Glyph Explorer
 - Glyph SDK
 - Glyph CLI
 - Glyph Devkit
 - Glyph API
-- Glyph Docs
 - Glyph Trade
 
 **Implementation**
@@ -93,7 +93,7 @@ See [`docs/site-architecture.md`](./docs/site-architecture.md) for the current c
 
 | Group | Routes |
 | --- | --- |
-| Core | `/`, `/ecosystem`, `/community`, `/open-source`, `/roadmap`, `/security`, `/about` |
+| Core | `/`, `/ecosystem`, `/community`, `/roadmap`, `/security`, `/about` |
 | Products | `/wallet`, `/connect`, `/explorer`, `/sdk`, `/cli`, `/devkit`, `/api`, `/docs`, `/trade` |
 | Supporting | `/download`, `/support`, `/brand`, `/license`, `/privacy`, `/terms`, `/trademark`, `/404` |
 
