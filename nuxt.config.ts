@@ -1,0 +1,25 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  modules: [
+    '@nuxt/content',
+    '@nuxt/a11y',
+    '@nuxt/eslint',
+    '@nuxt/hints',
+    '@nuxt/image',
+    '@nuxt/ui',
+    '@arkenv/nuxt',
+    '@dargmuesli/nuxt-cookie-control',
+    '@formkit/nuxt',
+    '@hebilicious/form-actions-nuxt',
+    '@hypernym/nuxt-anime',
+    '@morev/vue-transitions',
+    '@nuxtjs/device',
+    '@nuxtjs/google-adsense',
+    '@nuxtjs/i18n',
+    '@nuxtjs/seo',
+    '@nuxtjs/tailwindcss',
+    '@peterbud/nuxt-query',
+  ],
+  devtools: { enabled: true },
+  compatibilityDate: '2024-04-03',
+})
